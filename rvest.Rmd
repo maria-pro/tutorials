@@ -1,0 +1,20 @@
+---
+title: "WebScraping for Yahoo Finance"
+subtitile: "`rvest` in action"
+author: "Maria Prokofieva"
+date: "20/12/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Yahoo Finance
+
+And once my library decided that I am not priviledge enough to have access to the `Datastream` subscription... 
+
+i still needed to get my data for the project....
+
+my eyes turned to open source and public resources (don't you just love open source? :) )
+
