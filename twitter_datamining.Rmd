@@ -1,0 +1,84 @@
+---
+title: 'Twitter: data mining'
+author: "Maria Prokofieva"
+date: "03/02/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Twitter
+Academic access application 
+
+
+```{r}
+#install.packages("usethis")
+library(tidyverse)
+library(jsonlite)
+library(httr)
+
+#set your environment - there should be a line with TWITTER_BEARER=ENTER_YOUR_TOKEN
+#usethis::edit_r_environ()
+
+#get token from the environment var
+bearer_token<-Sys.getenv('TWITTER_BEARER')
+
+#authorization header will be added automatically
+headers = c(
+  `Authorization` = sprintf('Bearer %s', bearer_token)
+)
+```
+
+```{r}
+
+next_token <- ""
+df.all <- data.frame()
+toknum <- 0
+ntweets <- 0
+
+params<- list(
+  'page_token_name' = "next_token",
+  'query'= '#chocolate lang:en',
+  'start_time'= "2019-08-14T00:00:00.000Z",
+  'expansions'= 'author_id,in_reply_to_user_id,geo.place_id',
+  'tweet.fields'= 'author_id,conversation_id,created_at,geo,id,in_reply_to_user_id,lang,public_metrics,referenced_tweets,source,text',
+  'user.fields'='id,name,username,created_at,description,public_metrics,verified',
+  'place.fields'= 'full_name,id,country,country_code,geo,name,place_type',
+  'next_token'=NULL
+)
+
+endpoint_url <- "https://api.twitter.com/2/tweets/search/all"
+
+#due to pagination - use loop
+
+
+while (!is.null(next_token)) {
+
+response <- httr::GET(endpoint_url, 
+                      httr::add_headers(Authorization = bearer_token), 
+                      query = params)
+
+df <-jsonlite::fromJSON(httr::content(response, "text"))
+
+    next_token <- df$meta$next_token #this is NULL if there are no pages left
+    if (!is.null(next_token)) {
+      params[[page_token_name]] <- next_token
+    }
+    toknum <- toknum + 1
+    if (is.null(df$data)) {
+      n_newtweets <- 0
+    } else {
+      n_newtweets <- nrow(df$data)
+    }
+    ntweets <- ntweets + n_newtweets
+   
+    if (is.null(next_token)) {
+      
+      break
+    }
+  }
+
+```
+
