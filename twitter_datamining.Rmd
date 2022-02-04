@@ -32,7 +32,7 @@ headers = c(
 ```
 
 
-```{r}
+```{r eval=FALSE}
 
 next_token <- ""
 df.all <- data.frame()
@@ -91,6 +91,80 @@ This is working:
 next_token <- ""
 df.all <- data.frame()
 ntweets <- 0
+
+
+params <- list(
+  'query' = '"i love chocolate" lang:en',
+  'start_time' = "2020-08-14T00:00:00.000Z",
+  'expansions' = 'author_id,in_reply_to_user_id,geo.place_id',
+  'tweet.fields' = 'author_id,conversation_id,created_at,geo,id,in_reply_to_user_id,lang,public_metrics,referenced_tweets,source,text',
+  'user.fields' = 'id,name,username,created_at,description,public_metrics,verified',
+  'place.fields' = 'full_name,id,country,country_code,geo,name,place_type',
+  'next_token' = NULL
+)
+endpoint_url <- "https://api.twitter.com/2/tweets/search/all"
+
+# due to pagination - use loop
+
+i <- 0
+MAX_REQUESTS <- 500
+
+while (i < MAX_REQUESTS) {
+  i <- i + 1
+  cat("\nIteration number", i, "\n")
+
+  # send request and parse response
+  response <- httr::GET(endpoint_url, httr::add_headers(headers), query = params)
+  df <-jsonlite::fromJSON(httr::content(response, "text"))
+  df.all <- dplyr::bind_rows(df.all, df$data)
+
+  # if response status code is not 200, then we have an error
+  if (response$status_code != 200) {
+    cat("Unexpected response code:", response$status_code, "\n")
+    cat("Error:")
+    if (!is.null(df$errors$message)) {
+      cat(df$errors$message)
+    } else if (!is.null(df$title)) {
+      cat(df$title)
+    } else {
+      cat(httr::content(response, "text"))
+    }
+    break
+  }
+
+  # if no data is received, this is probably an error
+  if (is.null(df$data)) {
+    cat("No data received!")
+    break
+  }
+  
+  # count tweets
+  n_newtweets <- nrow(df$data)
+  ntweets <- ntweets + n_newtweets
+  cat("New tweets:", n_newtweets, "; Total count:", ntweets, "\n")  
+  
+  # check for next token
+  next_token <- df$meta$next_token #this is NULL if there are no pages left
+  if (is.null(next_token)) {
+    cat("next_token is empty - exiting...")
+    break;
+  }
+  cat("next token:", next_token, "\n")
+  params[["next_token"]] <- next_token
+  
+  # wait
+  cat("Waiting for 1 second before sending next request...\n")
+  Sys.sleep(1)
+}
+```
+
+```{r eval=FALSE}
+
+next_token <- ""
+df.all <- data.frame()
+ntweets <- 0
+
+
 params <- list(
   'query' = '#chocolate lang:en',
   'start_time' = "2019-08-14T00:00:00.000Z",
@@ -105,9 +179,9 @@ endpoint_url <- "https://api.twitter.com/2/tweets/search/all"
 # due to pagination - use loop
 
 i <- 0
-MAX_REQUESTS <- 20
+MAX_REQUESTS <- 50
 
-while (i < MAX_REQUESTS) {
+while (TRUE) {
   i <- i + 1
   cat("\nIteration number", i, "\n")
 
@@ -154,4 +228,3 @@ while (i < MAX_REQUESTS) {
   Sys.sleep(1)
 }
 ```
-
