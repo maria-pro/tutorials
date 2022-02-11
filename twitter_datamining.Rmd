@@ -2,66 +2,56 @@
 title: 'Twitter: data mining'
 author: "Maria Prokofieva"
 date: "03/02/2022"
-output: html_document
+output: html_notebook
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-##Twitter
+## Twitter
+
 Academic access application 
 
 
-```{r eval=FALSE}
+```{r message=FALSE}
 #install.packages("usethis")
 library(tidyverse)
 library(jsonlite)
 library(httr)
+```
 
-#set your environment - there should be a line with TWITTER_BEARER=ENTER_YOUR_TOKEN
-#usethis::edit_r_environ()
+```{r}
 
-#get token from the environment var
+##### Functions block
+
+#get twitter bearer token from .Renviron and add it to header
+
+set_headers<-function(){
+    #get token from the environment var
 bearer_token<-Sys.getenv('TWITTER_BEARER')
+
+if (identical(bearer_token, "")){
+  stop("check your Twitter bearer_token in the .Renviron file")
+}
 
 #authorization header will be added automatically
 headers = c(
   `Authorization` = sprintf('Bearer %s', bearer_token)
 )
-```
-
-```{r eval=FALSE}
-
-next_token <- ""
-df.all <- data.frame()
-ntweets <- 0
+ return (headers)
+}
 
 
-params <- list(
-  'query' = '"I have been diagnosed with depression" lang:en',
-  'start_time' = "2007-01-01T00:00:00.000Z",
-  'expansions' = 'author_id,in_reply_to_user_id,geo.place_id',
-  'tweet.fields' = 'author_id,conversation_id,created_at,geo,id,in_reply_to_user_id,lang,public_metrics,referenced_tweets,source,text',
-  'user.fields' = 'id,name,username,created_at,description,public_metrics,verified',
-  'place.fields' = 'full_name,id,country,country_code,geo,name,place_type',
-  'next_token' = NULL
-)
-endpoint_url <- "https://api.twitter.com/2/tweets/search/all"
 
-# due to pagination - use loop
-
-i <- 0
-MAX_REQUESTS <- 500
-
-while (i < MAX_REQUESTS) {
-  i <- i + 1
-  cat("\nIteration number", i, "\n")
-
-  # send request and parse response
+#building a query - generic
+build_query<-function(endpoint_url, params, headers=get_headers()){
+  
   response <- httr::GET(endpoint_url, httr::add_headers(headers), query = params)
+  
   df <-jsonlite::fromJSON(httr::content(response, "text"))
-  df.all <- dplyr::bind_rows(df.all, df$data)
+
+  #check errors
 
   # if response status code is not 200, then we have an error
   if (response$status_code != 200) {
@@ -77,17 +67,52 @@ while (i < MAX_REQUESTS) {
     break
   }
 
+}
+#----------------
+# search_all functions for historical search
+search_all<-function(params){
+ #collect data from Twitter using parameters
+endpoint_url <- "https://api.twitter.com/2/tweets/search/all"
+
+params[["next_token"]]<- list(NULL)
+
+  
+#next_token <- ""
+df.all <- data.frame()
+ntweets <- 0
+ 
+# due to pagination - use loop
+
+i <- 0
+MAX_REQUESTS <- 500
+
+while (i < MAX_REQUESTS) {
+  i <- i + 1
+  cat("\nIteration number", i, "\n")
+
+  # send request and parse response
+  
+  df<-build_query(endpoint_url, params)
+  #merge new tweets with what is there
+  df.all <- dplyr::bind_rows(df.all, df$data)
+
+
+
   # if no data is received, this is probably an error
   if (is.null(df$data)) {
     cat("No data received!")
     break
   }
   
+
   # count tweets
   n_newtweets <- nrow(df$data)
   ntweets <- ntweets + n_newtweets
   cat("New tweets:", n_newtweets, "; Total count:", ntweets, "\n")  
   
+  
+
+    
   # check for next token
   next_token <- df$meta$next_token #this is NULL if there are no pages left
   if (is.null(next_token)) {
@@ -101,9 +126,85 @@ while (i < MAX_REQUESTS) {
   cat("Waiting for 1 second before sending next request...\n")
   Sys.sleep(1)
 }
+}
+```
 
+#### Setting/checking Twitter credentials
+```{r eval=FALSE}
+#set your environment - there should be a line with TWITTER_BEARER=ENTER_YOUR_TOKEN
+#usethis::edit_r_environ()
+
+# this step is done within a function so you don't need to put it explicitly
+
+#get token from the environment var
+bearer_token<-Sys.getenv('TWITTER_BEARER')
+
+#authorization header will be added automatically
+headers = c(
+  `Authorization` = sprintf('Bearer %s', bearer_token)
+)
+
+```
+
+Your `bearer_token` is `r bearer_token` (in case you set it yourself)
+
+```{r eval=FALSE}
+#collect data from Twitter using parameters
+params <- list(
+  'query' = '"I have been diagnosed with depression" lang:en',
+  'start_time' = "2021-01-01T00:00:00.000Z",
+  'expansions' = 'author_id,in_reply_to_user_id,geo.place_id',
+  'tweet.fields' = 'author_id,conversation_id,created_at,geo,id,in_reply_to_user_id,lang,public_metrics,referenced_tweets,source,text',
+  'user.fields' = 'id,name,username,created_at,description,public_metrics,verified',
+  'place.fields' = 'full_name,id,country,country_code,geo,name,place_type'
+)
+
+data<-search_all(params)
 #saving to csv
-df.all%>%flatten()%>%write_csv( 
+data%>%flatten()%>%write_csv( 
            file = "web_scrape.csv")
+```
+Retrieve the list of unique users
+```{r}
+data<-read_csv("depression.csv")
+users<-data%>%distinct(author_id)
+
+write_csv(users, "users.csv")
+nrow(users)
+
+# users with 2+ statements
+users_with_multiple<-data%>%
+  count(author_id, sort=TRUE)%>%
+filter(n>=2)
+
+
+```
+
+```{r eval=FALSE}
+users<-read_csv("users.csv")
+users<-users%>%pull(author_id)
+length(users)
+
+
+endpoint_url <-"https://api.twitter.com/2/users"
+
+#all parameters allowed for this endpoint
+params<-list(
+  'ids'='783214,2244994945,6253282,495309159,172020392',
+  'user.fields'='created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,url,username,verified,withheld',
+  'tweet.fields'='attachments,author_id,context_annotations,conversation_id,created_at,entities,geo,id,in_reply_to_user_id,lang,non_public_metrics,organic_metrics,possibly_sensitive,promoted_metrics,public_metrics,referenced_tweets,source,text,withheld'
+)
+
+
+
+
+users_data<-build_query(endpoint_url, params)
+i<=0
+df.all.users<-data.frame()
+request_max<-seq(1, length(users), 100) #current limit is 100 users per request
+
+while (i<=)
+  
+  
 ```
 
