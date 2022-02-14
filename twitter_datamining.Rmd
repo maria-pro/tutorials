@@ -25,59 +25,76 @@ library(httr)
 
 ##### Functions block
 
+#---------
 #get twitter bearer token from .Renviron and add it to header
-
-set_headers<-function(){
+get_auth_headers<-function(){
     #get token from the environment var
 bearer_token<-Sys.getenv('TWITTER_BEARER')
 
 if (identical(bearer_token, "")){
   stop("check your Twitter bearer_token in the .Renviron file")
 }
-
-#authorization header will be added automatically
 headers = c(
   `Authorization` = sprintf('Bearer %s', bearer_token)
 )
  return (headers)
 }
+```
 
-
-
+```{r}
+#-------------
 #building a query - generic
-build_query<-function(endpoint_url, params, headers=get_headers()){
+build_query<-function(endpoint_url, params, auth_headers=get_auth_headers()){
   
-  response <- httr::GET(endpoint_url, httr::add_headers(headers), query = params)
+  #App rate limit: 300 requests per 15-minute window shared among all users of your app
+  #App rate limit: 1 request per second shared among all users of your app
+  time0<-Sys.time()
+ # print(auth_headers) # debug
+  response<- httr::GET(
+    endpoint_url,
+    httr::add_headers(auth_headers), query = params)
+  
+  #checking time rate
+  time_dif<-as.numeric(Sys.time()- time0)
+  if (time_dif<1) {(
+    Sys.sleep(1)
+    )
+    }
+  
+  #check errors
+  status_code<-httr::status_code(response)
+ # print(paste0("Status code:", status_code))
+  
+  
+  if(status_code(response)!=200) {
+    stop(paste(" error code:", status_code ))
+  }
   
   df <-jsonlite::fromJSON(httr::content(response, "text"))
-
-  #check errors
-
-  # if response status code is not 200, then we have an error
-  if (response$status_code != 200) {
-    cat("Unexpected response code:", response$status_code, "\n")
-    cat("Error:")
-    if (!is.null(df$errors$message)) {
-      cat(df$errors$message)
-    } else if (!is.null(df$title)) {
-      cat(df$title)
-    } else {
-      cat(httr::content(response, "text"))
-    }
-    break
-  }
-
+  df
 }
+
+#test<-build_query("https://api.twitter.com/2/tweets/search/recent", params = list('query'="coffee"))
+```
+
+
+```{r}
+
 #----------------
 # search_all functions for historical search
-search_all<-function(params){
+
+#test<-search_tweets(params)
+
+search_tweets<-function(
+  params
+                ){
  #collect data from Twitter using parameters
 endpoint_url <- "https://api.twitter.com/2/tweets/search/all"
 
-params[["next_token"]]<- list(NULL)
+#check query line - later
 
-  
-#next_token <- ""
+#params[["next_token"]]<- list(NULL)
+
 df.all <- data.frame()
 ntweets <- 0
  
@@ -88,15 +105,22 @@ MAX_REQUESTS <- 500
 
 while (i < MAX_REQUESTS) {
   i <- i + 1
+  
   cat("\nIteration number", i, "\n")
 
-  # send request and parse response
+  #300 requests per 15-minute window shared among all users of your app
+  if (i%%300==0){
+    cat("Waiting for 15 minutes before sending next request...\n")
+    Sys.sleep(15*60+1)
+    cat("Done waiting and back to collecting...\n")
+  }
   
+  
+  # send request and parse response
   df<-build_query(endpoint_url, params)
+
   #merge new tweets with what is there
-  df.all <- dplyr::bind_rows(df.all, df$data)
-
-
+ df.all <- dplyr::bind_rows(df.all, df$data)
 
   # if no data is received, this is probably an error
   if (is.null(df$data)) {
@@ -104,15 +128,11 @@ while (i < MAX_REQUESTS) {
     break
   }
   
-
   # count tweets
   n_newtweets <- nrow(df$data)
   ntweets <- ntweets + n_newtweets
   cat("New tweets:", n_newtweets, "; Total count:", ntweets, "\n")  
   
-  
-
-    
   # check for next token
   next_token <- df$meta$next_token #this is NULL if there are no pages left
   if (is.null(next_token)) {
@@ -121,13 +141,56 @@ while (i < MAX_REQUESTS) {
   }
   cat("next token:", next_token, "\n")
   params[["next_token"]] <- next_token
-  
-  # wait
-  cat("Waiting for 1 second before sending next request...\n")
-  Sys.sleep(1)
 }
+  
+  return(df.all)
 }
 ```
+
+```{r}
+usernames<-df.all%>%
+  distinct(author_id)
+
+#collect user profiles from Twitter using parameters
+search_users<-function(usernames){
+  
+  if(!inherits(usernames, "list")){
+  usernames<-as.list(usernames$author_id)
+  }
+  #endpoint returns details about up to 100 users by ID.
+endpoint_url <- "https://api.twitter.com/2/users"
+
+#check query line - later
+
+#if (length(usernames)>100){
+  #chunks<-split(usernames,ceiling(seq_along(usernames)/100))
+  #length(chunks)
+  chunks<-seq(1, length(usernames), 100)
+#} else{
+#  chunks<-1
+#}
+  
+
+for (i in chunks){
+  print(i)
+}
+
+
+df.all <- data.frame()
+ntweets <- 0
+ 
+}
+
+```
+
+
+
+```{r}
+
+```
+
+
+
 
 #### Setting/checking Twitter credentials
 ```{r eval=FALSE}
@@ -176,8 +239,6 @@ nrow(users)
 users_with_multiple<-data%>%
   count(author_id, sort=TRUE)%>%
 filter(n>=2)
-
-
 ```
 
 ```{r eval=FALSE}
@@ -199,12 +260,7 @@ params<-list(
 
 
 users_data<-build_query(endpoint_url, params)
-i<=0
-df.all.users<-data.frame()
-request_max<-seq(1, length(users), 100) #current limit is 100 users per request
 
-while (i<=)
-  
   
 ```
 
