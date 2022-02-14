@@ -9,7 +9,7 @@ output: html_notebook
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Twitter
+## Twitter -1
 
 Academic access application 
 
@@ -151,34 +151,55 @@ while (i < MAX_REQUESTS) {
 usernames<-df.all%>%
   distinct(author_id)
 
+usernames$author_id<-usernames
+
+
+search_users(usernames)
+
+
 #collect user profiles from Twitter using parameters
 search_users<-function(usernames){
   
   if(!inherits(usernames, "list")){
-  usernames<-as.list(usernames$author_id)
+  usernames<-as.vector(usernames$author_id)
   }
+ cat("Total users:", length(usernames))
   #endpoint returns details about up to 100 users by ID.
 endpoint_url <- "https://api.twitter.com/2/users"
 
 #check query line - later
 
-#if (length(usernames)>100){
-  #chunks<-split(usernames,ceiling(seq_along(usernames)/100))
-  #length(chunks)
-  chunks<-seq(1, length(usernames), 100)
-#} else{
-#  chunks<-1
-#}
-  
+#usernames<-usernames[1:200]
 
-for (i in chunks){
-  print(i)
-}
-
+chunks<-split(usernames,ceiling(seq_along(usernames)/100))
 
 df.all <- data.frame()
-ntweets <- 0
- 
+n_users <- 0
+
+for (i in chunks){
+  n_users=n_users+length(i)
+  cat("Collecting ", n_users, "users \n")
+
+#up to 100 comma-separated user IDs.
+  ids=paste0(i, collapse=",")
+
+  params=list(
+    'ids'=ids,
+    'user.fields'='created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,public_metrics,url,username,verified,withheld',
+    'expansions'='pinned_tweet_id',
+    'tweet.fields'='attachments,author_id,context_annotations,conversation_id,created_at,entities,geo,id,in_reply_to_user_id,lang,non_public_metrics,organic_metrics,possibly_sensitive,promoted_metrics,public_metrics,referenced_tweets,reply_settings,source,text,withheld'
+    )
+  
+
+  
+  # send request and parse response
+  df<-build_query(endpoint_url, params)
+
+  #merge new tweets with what is there
+ df.all <- dplyr::bind_rows(df.all, df$data)
+}
+
+return(df.all)
 }
 
 ```
@@ -225,17 +246,22 @@ params <- list(
 data<-search_all(params)
 #saving to csv
 data%>%flatten()%>%write_csv( 
-           file = "web_scrape.csv")
+           file = "depression.csv")
 ```
 Retrieve the list of unique users
 ```{r}
 data<-read_csv("depression.csv")
-users<-data%>%distinct(author_id)
 
-write_csv(users, "users.csv")
-nrow(users)
+#list of unique users
+usernames<-data%>%distinct(author_id)
 
-# users with 2+ statements
+#recoding - id_code is the "new code" instead of author_id
+usernames$id_code<-seq(1, nrow(usernames),1)
+#adding id_code variable to the data - you can later remove author_id column to "anonymise" 
+data_coded<-left_join(data, usernames)
+
+#list of users who "complained" more than once
+
 users_with_multiple<-data%>%
   count(author_id, sort=TRUE)%>%
 filter(n>=2)
