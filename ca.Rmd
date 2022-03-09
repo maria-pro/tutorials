@@ -1,0 +1,95 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r echo=FALSE, message=FALSE}
+
+library(tidyverse)
+data<-read_csv("~/Downloads/New Compressed (zipped) Folder/A.csv")
+
+data_clean<-data%>%janitor::clean_names()
+```
+
+## 1.3. Task
+Summary stats
+
+```{r echo=FALSE}
+data_clean%>% skimr::skim()
+```
+
+Refund times:
+
+```{r echo=FALSE}
+max(data_clean$refund_time, na.rm=TRUE)
+
+data_clean%>%group_by(satisfaction_rating)%>%
+                      summarise(average_refund_time=mean(refund_time, na.rm=TRUE))
+
+data_clean%>%count(refund_time, sort=TRUE)
+
+
+data_clean$time_between
+
+data_clean%>%
+  group_by(refund_time)%>%
+  summarise(average_satisfaction=mean(satisfaction_rating, na.rm=TRUE))%>%
+  arrange(refund_time)
+
+data_clean%>%
+  group_by(booking_channel)%>%
+  summarise(average_satisfaction=mean(satisfaction_rating, na.rm=TRUE),
+            average_refund_time=mean(refund_time, na.rm=TRUE))
+
+data_clean%>%
+  group_by(traveling_for_work)%>%
+  summarise(average_satisfaction=mean(satisfaction_rating, na.rm=TRUE),
+            average_refund_time=mean(refund_time, na.rm=TRUE))
+  
+data_clean%>%
+  group_by(card_type)%>%
+  summarise(average_refund_time=mean(refund_time, na.rm=TRUE))%>%
+  arrange(desc(average_refund_time))
+
+```
+
+10 days in refund time is a clear outlier with only two cases
+
+These are some boxplots if you want to include them
+
+```{r echo=FALSE}
+boxplot(data_clean$refund_time, ylab="Refund time", col="bisque")
+
+boxplot(satisfaction_rating~refund_time, data=data_clean, col="bisque", xlab="Refund time", ylab="Satisfaction rating")
+```
+
+To explore relationship you can also use regression (=linear regression)
+
+Correlation
+
+```{r echo=FALSE}
+data_corr<-data_clean%>%
+  select(satisfaction_rating, refund_time, data_privacy_concerns, brand_loyalty)
+  
+data_corr<-data_corr[rowSums(is.na(data_corr)) != 1, ]
+
+
+
+cormat <- round(cor(data_corr),2)
+cormat
+ggcorrplot::ggcorrplot(cormat)
+```
+
+If it is closer to 1 - it is a strong relationship, e.g. there is a strong negative relationship between satisfaction ratings and refund time. The relationship between data privacy and satisfaction rating is negative but much weaker (not a serious issue...). Data privacy does have positive relationship with refund time, but not really strong (less than 0.5)
+
+Brand loyalty and satisfaction are highly correlated, such customers do not have data privacy concerns
+
+```{r echo=FALSE} 
+ggplot(data_clean, aes(x = refund_time, y = satisfaction_rating)) + 
+  geom_point() + stat_smooth(method = "lm", col="red")
+
+```
+
+
