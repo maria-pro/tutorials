@@ -77,7 +77,11 @@ endpoint_url<-"https://api.twitter.com/2/users/"
 users<-tweets$author_id
 chunks <-  unname(split(users, (seq_along(users) - 1) %/% 100))
 
+df.all <- data.frame()
+users_not_found<-""
+
 for (i in chunks){
+  
   params <- list(
     "ids" = paste(unlist(chunks[1]), collapse=","),
     "user.fields" = "created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,public_metrics,url,username,verified,withheld"
@@ -88,15 +92,19 @@ for (i in chunks){
     endpoint_url,
     httr::add_headers(headers), query = params)
   
-  
-  df<-build_query(endpoint_url, params)
-  
   # send request and parse response
   df<-build_query(endpoint_url, params)
-  
+  users_not_found<-c(users_not_found, df[["errors"]][["resource_id"]])
+
   #merge new tweets with what is there
   df.all <- dplyr::bind_rows(df.all, df$data)
 }
+
+df.all%>%count(id)
+users_not_found
+
+df.all
+
 
   
  
