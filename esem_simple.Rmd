@@ -1,0 +1,337 @@
+---
+title: "Tutorial for ESEM-EFA and ESEM-with-CFA"
+author: "Dr Maria Prokofieva"
+date: "27/04/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r eval=FALSE}
+#install.packages("remotes")
+```
+
+## Setup
+
+Start
+```{r message=FALSE}
+library(tidyverse)
+library(psych)
+library(lavaan)
+library(lavaanPlot)
+
+#the package with the dataset to be used
+remotes::install_github("maria-pro/esem", build_vignettes = FALSE)
+library(esem)
+```
+
+Load the data into the R: `sdq_lsac` is in-built dataset that is also available at .......
+
+```{r}
+sdq_lsac<-sdq_lsac
+```
+
+To review the dimensions of the data (i.e. observations and variables), use `dim()` function
+
+```{r}
+dim(sdq_lsac)
+```
+
+`describe()` function provides the statistics about the dataset. Other functions are available to explore the variables and relationships between them which is not part of this tutorial.
+
+```{r eval=FALSE}
+describe(sdq_lsac)
+```
+
+```{r echo=FALSE}
+psych::describe(sdq_lsac)%>%knitr::kable()
+```
+
+The current tutorial skips the preprocessing and data exploration steps and goes straight to the steps to complete the ESEM.
+
+We follow the classical approach in treating SDQ data which is a 5-factor model. The allocation of variables to factors are set up using the named list data structure using `list()` function where factors are specified using the left-hand side of `=` and the constituent sdq_lsac items are provided as a vector using `c()`. Five factors are specified below: `pp`, `cp`, `es`, `ha` and `ps`.
+
+```{r eval=FALSE}
+main_loadings_list <- list(
+                          pp = c("s6_1", "s11_1R", "s14_1R", "s19_1", "s23_1"),
+                          cp = c("s5_1", "s7_1R", "s12_1", "s18_1", "s22_1"),
+                          es = c("s3_1", "s8_1", "s13_1", "s16_1", "s24_1"),
+                          ha = c("s2_1","s10_1","s15_1","s21_1R","s25_1R"),
+                          ps = c("s1_1","s4_1","s9_1","s17_1","s20_1")
+                          ) 
+```
+
+
+We demonstrate two approaches: set-ESEM (which is EFA followed by SEM) and ESEM-with-CFA (which restricts EFA solution to CFA for SEM phase).
+
+#### Set-ESEM
+
+1. Conduct EFA
+
+To fit the EFA model the `fa()` is used where we specify:
+
+- the dataset to be used `r`=sdq_lsac`, alteratively a correlation or covariance matrix can be provided
+
+- the number of factors `nfactors=5`
+
+- the evaluation is done using the ML algorith, `fm = 'ml'`. The alternative algorithms are available, including minimum residual (minres, i.e. ols or uls), principal axes, alpha factoring, weighted least squares and minimum rank. The full list of algorithms is provided at [here](https://www.rdocumentation.org/packages/psych/versions/2.2.3/topics/fa)
+
+- the rotation method `rotate = "geominT"`
+
+scores="regression"
+
+- request the residual matrix to be shown `residuals=TRUE`
+
+- the used dataset has no missing values, but for demonstration purposes we set `missing=TRUE` which requests to impute missing values. To specify the method to impute, the argument `impute=` should be used with either `"median"` or `"mean"` value (the default value is `impute="median"`)
+
+- the default value for `alpha` (confidence intervals for RMSEA) is used,`alpha=.1,` 
+
+- in case we require to change the probability values for confidence intervals, `p` can be specified, rather than it is default value of  are used, `p=.05`	
+
+
+```{r}
+esem_efa <- psych::fa(r=sdq_lsac, 
+                      nfactors =5,
+                      fm = 'ML',
+                      rotate="geominT", 
+                      scores="regression", 
+                      residuals=TRUE, 
+                      missing=TRUE)
+```
+
+The `esem_efa`object provides indepth information about the model where each estimated parameter can be viewed. To view the calculated loadings we can use the following 
+```{r}
+esem_efa$loadings
+```
+
+We can also view a diagram with factor loadings, using `fa.diagram()` function:
+
+```{r}
+fa.diagram(esem_efa)
+```
+
+We can adjust the diagram by specifying variable arguments
+
+#### ESEM-with-CFA
+
+1. Conduct EFA
+
+We perform EFA for ESEM-with-CFA to estimate cross loadings that are used further in a CFA-like model. 
+
+```{r}
+esem_cfa <- psych::fa(r=sdq_lsac, 
+                      nfactors =5,
+                      fm = 'ML',
+                      rotate="geominT", 
+                      scores="regression", 
+                      residuals=TRUE, 
+                      missing=TRUE)
+```
+
+
+2. Set the model syntax
+
+To set the model syntax we need to review loadings of indicators for each variable and select an **anchor**.
+
+**Anchor** is the item that show  high loading on one factor and low loading on all others. 
+
+All cross-loadings in that factor are fixed to be equal to the loading of the anchor in that factor.
+
+```{r}
+
+names(esem_efa$complexity)
+
+esem_loadings <- as_tibble(matrix(round(esem_efa$loadings, esem_efa$factors),
+                                   nrow = ncol(sdq_lsac), ncol = esem_efa$factors), 
+                           name_repair="minimal")
+
+names(esem_loadings) <- paste0("F", as.character(seq(1, esem_efa$factors, by=1)))
+
+esem_loadings$item<-names(esem_efa$complexity)
+
+esem_loadings<-esem_loadings%>%
+  pivot_longer(!item, names_to="latent", values_to="value")%>%
+  arrange(by=latent)
+
+
+syntax<-esem_loadings%>%
+  group_by(latent)%>%
+  mutate(max_per_factor = `item`[value == max(value)],
+         is_anchor=case_when(
+           max_per_factor==item ~ TRUE,
+           TRUE ~ FALSE
+         ),
+         syntax=case_when(
+           is_anchor ~ paste0(value,"*", item),
+           TRUE ~ paste0("start(",value,")*", item)
+         )
+  )%>%
+  select(latent, syntax)
+
+esem_model<-syntax%>%
+  group_by(latent)%>%
+  mutate(syntax=paste0(latent, "=~", paste0(syntax, collapse="+")))%>%
+  distinct(latent, .keep_all = TRUE)%>%
+  ungroup()%>%
+  select(-latent)
+  
+esem_model<-paste0(esem_model$syntax, "\n", collapse="")
+
+
+```
+
+
+```{r}
+
+esem_cfa_syntax<-function(esem_efa){
+  esem_loadings <- as_tibble(matrix(round(esem_efa$loadings, esem_efa$factors),
+                                   nrow = length(esem_efa$complexity), ncol = esem_efa$factors), 
+                           name_repair="minimal")
+
+names(esem_loadings) <- paste0("F", as.character(seq(1, esem_efa$factors, by=1)))
+
+esem_loadings$item<-names(esem_efa$complexity)
+
+esem_loadings<-esem_loadings%>%
+  pivot_longer(!item, names_to="latent", values_to="value")%>%
+  arrange(by=latent)
+
+
+syntax<-esem_loadings%>%
+  group_by(latent)%>%
+  mutate(max_per_factor = `item`[value == max(value)],
+         is_anchor=case_when(
+           max_per_factor==item ~ TRUE,
+           TRUE ~ FALSE
+         ),
+         syntax=case_when(
+           is_anchor ~ paste0(value,"*", item),
+           TRUE ~ paste0("start(",value,")*", item)
+         )
+  )%>%
+  select(latent, syntax)
+
+esem_model<-syntax%>%
+  group_by(latent)%>%
+  mutate(syntax=paste0(latent, "=~", paste0(syntax, collapse="+")))%>%
+  distinct(latent, .keep_all = TRUE)%>%
+  ungroup()%>%
+  select(-latent)
+  
+esem_model<-paste0(esem_model$syntax, "\n", collapse="")
+return (esem_model)
+}
+
+
+esem_cfa_code<-esem_cfa_syntax(esem_efa)
+```
+
+
+To review the model syntax generated by the function we use
+```{r}
+writeLines(esem_cfa_code)
+
+```
+
+test 
+```{r}
+library(esemComp)
+
+hw_data <- lavaan::HolzingerSwineford1939
+hw_data <- hw_data[,c(7:15)]
+
+geomin_efa <- esem_efa(hw_data,3)
+#> Loading required namespace: GPArotation
+referents_list <- list(textual = "x5", visual = "x3", speed = "x7")
+model_syntax1 <- syntax_composer(geomin_efa, referents_list)
+writeLines(model_syntax1)
+
+
+
+model_syntax2<-esem_cfa_syntax(geomin_efa)
+writeLines(model_syntax2)
+
+
+geomin_efa
+
+
+esem_loadings <- as_tibble(matrix(round(esem_efa$loadings, esem_efa$factors),
+                                   nrow = ncol(sdq_lsac), ncol = esem_efa$factors), 
+                           name_repair="minimal")
+
+names(esem_loadings) <- paste0("F", as.character(seq(1, esem_efa$factors, by=1)))
+
+esem_loadings$item<-names(esem_efa$complexity)
+
+esem_loadings<-esem_loadings%>%
+  pivot_longer(!item, names_to="latent", values_to="value")%>%
+  arrange(by=latent)
+
+
+syntax<-esem_loadings%>%
+  group_by(latent)%>%
+  mutate(max_per_factor = `item`[value == max(value)],
+         is_anchor=case_when(
+           max_per_factor==item ~ TRUE,
+           TRUE ~ FALSE
+         ),
+         syntax=case_when(
+           is_anchor ~ paste0(value,"*", item),
+           TRUE ~ paste0("start(",value,")*", item)
+         )
+  )%>%
+  select(latent, syntax)
+
+esem_model<-syntax%>%
+  group_by(latent)%>%
+  mutate(syntax=paste0(latent, "=~", paste0(syntax, collapse="+")))%>%
+  distinct(latent, .keep_all = TRUE)%>%
+  ungroup()%>%
+  select(-latent)
+  
+esem_model<-paste0(esem_model$syntax, "\n", collapse="")
+
+```
+
+
+esem_cfa_syntax<-esem_cfa_syntax(esem_efa)
+
+
+```
+
+```{r}
+library(lavaan)
+library(lavaanPlot)
+esem_fit <- cfa(esem_model, esem_data, std.lv=T)
+summary(esem_fit, fit.measures = T, standardized = T)
+```
+
+
+To conduct CFA we use `cfa()` function from the `lavaan` package and visualise the results using `lavaanPlot` package
+
+- we specify the model syntax as `esem_model`
+
+- specify the dataset, `data=sdq_lsac`
+
+- request the CFA procedure to follow the same approah as in MPlus `mimic =c("MPlus")`
+
+- request to generate a list of model matrices where values are the standardized model parameters and variances of the latent variables are set to unity, `std.lv = TRUE`
+
+- specify that instrument items are ordinal variables with `ordered = TRUE`
+
+```{r eval=FALSE}
+model_cfa<-'PP =~ s6_1+ s11_1R + s14_1R + s19_1 + s23_1
+        CP =~  s5_1 + s7_1R + s12_1+ s18_1 + s22_1
+        ES =~  s3_1 + s8_1 + s13_1 + s16_1 + s24_1
+        HA =~  s2_1 + s10_1 + s15_1 + s21_1R + s25_1R
+        PS =~  s1_1 + s4_1 + s9_1 + s17_1 + s20_1')
+
+model1.fit<- lavaan::cfa(model=model_cfa, 
+                         data=sdq_lsac, 
+                         mimic =c("MPlus"), 
+                         std.lv = TRUE, 
+                         ordered = TRUE)
+```
+
