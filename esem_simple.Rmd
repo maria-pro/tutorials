@@ -23,7 +23,7 @@ library(lavaan)
 library(lavaanPlot)
 
 #the package with the dataset to be used
-remotes::install_github("maria-pro/esem", build_vignettes = FALSE)
+remotes::install_github("maria-pro/esem", build_vignettes = TRUE)
 library(esem)
 ```
 
@@ -66,9 +66,7 @@ main_loadings_list <- list(
 
 We demonstrate two approaches: set-ESEM (which is EFA followed by SEM) and ESEM-with-CFA (which restricts EFA solution to CFA for SEM phase).
 
-#### Set-ESEM (Full ESEM) 
-
-https://www.tandfonline.com/doi/pdf/10.1080/00273171.2019.1602503?casa_token=w-BGo5QEEbAAAAAA:NxC_91D9B_3RBoiSZY3UW6bqUk2XD75yHW-hoSaG0xRqzqmK4oOoX8A0diWg8kTIw5_h3xvrkrNcyh0
+#### ESEM based on EFA derived loading thresholds
 
 1. Conduct EFA
 
@@ -103,6 +101,8 @@ esem_efa <- psych::fa(r=sdq_lsac,
                       missing=TRUE)
 ```
 
+2.Review the estimated factor loadings
+
 The `esem_efa`object provides indepth information about the model where each estimated parameter can be viewed. To view the calculated loadings we can use the following 
 ```{r}
 esem_efa$loadings
@@ -116,7 +116,7 @@ fa.diagram(esem_efa)
 
 We can adjust the diagram by specifying variable arguments
 
-2. Set the model syntax
+3. Set the model syntax
 
 To set the model syntax we need to review loadings of indicators for each variable and select an **anchor** (or **referent item**).
 
@@ -182,60 +182,162 @@ We can review the model syntax using `writeLines()` function.
 writeLines(esem_model)
 ```
 
+On the next step we conduct the CFA evaluation using `cfa()` function:
 
+- we specify the model syntax as `esem_model`
 
-On the next step we conduct the CFA evaluation using `cfa()` function
+- specify the dataset, `data=sdq_lsac`
+
+- request the CFA procedure to follow the same approach as in MPlus `mimic =c("MPlus")`
+
+- request to generate a list of model matrices where values are the standardized model parameters and variances of the latent variables are set to unity, `std.lv = TRUE`
+
+- specify that instrument items are ordinal variables with `ordered = TRUE`
 
 ```{r}
 library(lavaan)
 library(lavaanPlot)
 esem_fit <- cfa(model=esem_model, 
                 data=sdq_lsac, 
-                std.lv=T)
-summary(esem_fit, fit.measures = T, standardized = T)
+                mimic =c("MPlus"),
+                std.lv=TRUE,
+                ordered = TRUE)
+summary(esem_fit, fit.measures = TRUE, standardized = TRUE)
+
+fitMeasures(esem_fit, fit.measures= c("chisq.scaled", "df", "pvalue.scaled", "rmsea.scaled", "rmsea.ci.lower.scaled", "rmsea.ci.upper.scaled", "rmsea.pvalue.scaled"))
+
+fitMeasures(esem_fit, fit.measures="all")
+```
+To examine various item parameter estimates we use `parameterEstimates()` function which provides parameter estimates of a latent variable model.
+
+The `parameterEstimates()` function returns a dataframe with estimated parameters, parameters, standard errors and z-values, p-values, and the lower and upper values of the confidence intervals. We use `standardized=TRUE` to add standardized versions of the parameter estimates to the output. We filter the results to view factor loadings using `filter(op == "=~")` and select parameters of interest.
+
+```{r}
+lavaan::parameterEstimates(esem_fit, standardized=TRUE) %>% 
+  filter(op == "=~") %>% 
+  select(Item=rhs, Standardized=est, ci.lower, ci.upper, SE=se, Z=z, 'p-value'=pvalue)
+```
+
+To visualise the model we use `lavaanPlot()` function
+
+```{r}
+lavaanPlot(name = "SDQ factors plot", model = esem_fit, coefs = TRUE)
+```
+
+### ESEM based on fixed loading thresholds approximating 0
 
 
-model_syntax <- esem_cfa_syntax(geomin_efa)
+This variation of the procedure still requires the setup that includes installation and loading of packages, loading and exploration of the dataset. These steps are omitted due to the limitations of the paper and should be taken from the above.
 
-referents_list<- list(textual = "x5", visual = "x3", speed = "x7")
+The difference between approaches is in the model syntax generation step where loadings of the primary factors are fixed at the predefined value.
 
+1. Set up a vector mapping items to latent factors 
 
-referents_list<-list(F1 = "s13_1", F2 = "s7_1R", F3 = "s9_1", F4="s2_1", F5="s8_1")
-model_syntax <- syntax_composer(esem_efa, referents_list)
-model_syntax <- syntax_composer(geomin_efa, referents_list)
+We assume the traditional five factor structure with five latent factors, `pp`, `cp`, `es`, `ha`, `ps`, and mapping of the items produced in earlier literature.
 
-esem_w_cfa <- lavaan::cfa(model_syntax, data = sdq_lsac, std.lv = TRUE)
-esem_w_cfa <- lavaan::cfa(model_syntax, data = hw_data, std.lv = TRUE)
+```{r}
+main_loadings_list <- list(
+                          pp = c("s6_1", "s11_1R", "s14_1R", "s19_1", "s23_1"),
+                          cp = c("s5_1", "s7_1R", "s12_1", "s18_1", "s22_1"),
+                          es = c("s3_1", "s8_1", "s13_1", "s16_1", "s24_1"),
+                          ha = c("s2_1","s10_1","s15_1","s21_1R","s25_1R"),
+                          ps = c("s1_1","s4_1","s9_1","s17_1","s20_1")
+                          ) 
+```
 
-summary(esem_w_cfa, fit.measures = T, standardized = T)
+As we skip the EFA step `make-keys()` is used to cvreate a keys matrix for the data using the list of scoring keys `main_loadings_list`
 
-writeLines(model_syntax)
+```{r}
+key_matrix <- make.keys(sdq_lsac, main_loadings_list)
+key_matrix 
+
 ```
 
 
-To conduct CFA we use `cfa()` function from the `lavaan` package and visualise the results using `lavaanPlot` package
 
-- we specify the model syntax as `esem_model`
+```{r}
+fixed<-0.4
 
-- specify the dataset, `data=sdq_lsac`
+syntax<-esem_loadings%>%
+  pivot_longer(-item, names_to="latent", values_to="value" )%>%
+  mutate(is_anchor=case_when(
+           value==1 ~ TRUE,
+           TRUE ~ FALSE 
+           ),
+         syntax=case_when(
+           is_anchor ~ item,
+           TRUE ~ paste0("start(",fixed,")*", item)
+         )
+  )%>%
+  select(latent, syntax)
 
-- request the CFA procedure to follow the same approah as in MPlus `mimic =c("MPlus")`
+esem_model<-syntax%>%
+  group_by(latent)%>%
+  mutate(syntax=paste0(latent, "=~", paste0(syntax, collapse="+\n")))%>%
+  distinct(latent, .keep_all = TRUE)%>%
+  ungroup()%>%
+  select(-latent)
+  
+esem_model<-paste0(esem_model$syntax, "\n", collapse="\n")
 
-- request to generate a list of model matrices where values are the standardized model parameters and variances of the latent variables are set to unity, `std.lv = TRUE`
+writeLines(esem_model)
 
-- specify that instrument items are ordinal variables with `ordered = TRUE`
-
-```{r eval=FALSE}
-model_cfa<-'PP =~ s6_1+ s11_1R + s14_1R + s19_1 + s23_1
-        CP =~  s5_1 + s7_1R + s12_1+ s18_1 + s22_1
-        ES =~  s3_1 + s8_1 + s13_1 + s16_1 + s24_1
-        HA =~  s2_1 + s10_1 + s15_1 + s21_1R + s25_1R
-        PS =~  s1_1 + s4_1 + s9_1 + s17_1 + s20_1')
-
-model1.fit<- lavaan::cfa(model=model_cfa, 
-                         data=sdq_lsac, 
-                         mimic =c("MPlus"), 
-                         std.lv = TRUE, 
-                         ordered = TRUE)
 ```
+
+```{r}
+esem_syntax_fixed<-esem_syntax_keys(esem_loadings, 0.4)
+
+writeLines(esem_syntax_fixed)
+
+```
+
+
+```{r}
+esem_syntax_keys<-function(key_matrix, fixed){
+
+syntax<-key_matrix%>%
+  pivot_longer(-item, names_to="latent", values_to="value" )%>%
+  mutate(is_anchor=case_when(
+           value==1 ~ TRUE,
+           TRUE ~ FALSE 
+           ),
+         syntax=case_when(
+           is_anchor ~ item,
+           TRUE ~ paste0("start(",fixed,")*", item)
+         )
+  )%>%
+  select(latent, syntax)
+
+esem_model<-syntax%>%
+  group_by(latent)%>%
+  mutate(syntax=paste0(latent, "=~", paste0(syntax, collapse="+\n")))%>%
+  distinct(latent, .keep_all = TRUE)%>%
+  ungroup()%>%
+  select(-latent)
+  
+esem_model<-paste0(esem_model$syntax, "\n", collapse="\n")
+
+return (esem_model)
+}
+```
+
+
+```{r}
+
+esem_syntax_fixed
+```
+           
+```{r}
+esem_fit_fixed <- cfa(model=esem_syntax_fixed, 
+                data=sdq_lsac, 
+                mimic =c("MPlus"),
+                std.lv=TRUE,
+                ordered = TRUE)
+summary(esem_fit_fixed, fit.measures = TRUE, standardized = TRUE)
+
+fitMeasures(esem_fit_fixed, fit.measures= c("chisq.scaled", "df", "pvalue.scaled", "rmsea.scaled", "rmsea.ci.lower.scaled", "rmsea.ci.upper.scaled", "rmsea.pvalue.scaled"))
+
+fitMeasures(esem_fit_fixed, fit.measures="all")
+```
+           
 
