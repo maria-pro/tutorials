@@ -1,6 +1,6 @@
 ---
 title: "Intro ESEM"
-author: "Dr Maria Prokofieva"
+author: " "
 date: "28/06/2022"
 output: html_document
 ---
