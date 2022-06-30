@@ -1,0 +1,88 @@
+---
+title: "R is for actuaRies"
+author: "Dr Maria Prokofieva"
+date: "29/06/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### R is for actua**R**ies
+
+introduction
+
+#### What is actuarial science 
+
+Actuarial data science lies at the intersection of math and business studies, combining statistical knowledge and methods to insurance and finance areas. Compared to data scientists, actuaries focus more on finance and business knowledge, while still collecting and analysing data. 
+
+The profession is in high demand and it is expected that according to the Bureau of Labor Statistics (BLS)  actuary jobs will enjoy 24% increase from 2020-30 which is much faster than the average for all occupations and the median salary for an actuary is estimated over $100,00.
+
+The focus of the field is on assessing the likelihood of future events, particularly in business settings (especially finance and insurance) to plan for outcomes and mitigate the risks. With this in mind probability analysis and statistics are applied to very many areas, such as predicting number of children for a health insurance or the payout of the life insurance policy. Some common tasks for actuaries include calculating premium rates for mortality and morbidity products, assessing likelihood of financial loss or return, business risk consulting, pension and retirement planning and many more. Basically, they are in any tasks that include risk modeling, be that in insurance, financial planning or energy and environment. Later in this post, we will go through some examples of those!
+
+Reviewing particular applications across areas, we can mention:
+
+- Insurance in such areas as life insurance, credit and morgage insurance, key person insurance for small business, long term care insurance, health savings accounts. The focus here is on analysis of mortality, production of life tables, calculation of compound interest for life insurance, annuities and endowment contigencies
+
+- Life insurance and social insurance. Main tasks in this area include analysis of rates of disability, mordibity, mortality, fertility, etc., analysis of factors (such as georgaphy and consumer characteristics) on usage of medical services and procedures.
+
+- Pension:  design, funding, accounting, administration, and maintenance or redesign of pension plans with valuation and modelling for various factors that may influence the calculation and payout
+
+and many more!
+
+Historically, actuarial science comes from the mathematical area (no surpise here!) and stems back to 17th century when developments in mathematics in Europe coincided with the growth in demands to have more precise estimation in risks in burial, life insurance and annuities calculations.  This was the start of developing techniques for life tables (hail to John Graunt, the father of demography) and discounting values for present value calculation which is one of the keystone concepts in todays finance and accounting. The field was developing very quickly but computational side became more and more complex: without computers, this was a tedious task. But...
+
+### Why acturial science needs R
+
+Long gone those days when all calculations were done by hand, table and god blessing... What is in use currently in the field?
+
+Aparently... Excel still has its dominance (if not reign?) ...
+
+In March 2022 the Casualty Actuarial Society (CAS) released [results and analysis](https://www.casact.org/article/cas-releases-results-actuarial-technology-survey) from its first survey on technology used by actuaries. With responses from over 1,200 participants, the results suggest that more than 94.3% of respondents use Excel, and at least once a day, but! it is more than just one tool! With this in mind there is a strong demand for new skills-  in R (47.2%), Python (39.1%) and SQL (30.8%).
+
+To support this, the recent results (2020) of the "wasted time" [survey](https://slopesoftware.com/2021/01/15/wasted-time-survey-2020-results/) show a striking outcome that actuaries waste most of their time... 
+
+- waiting for excel to process the results
+
+- copying data from a model
+
+- recreating prior model values
+
+- waiting for vendor support
+
+and quite a few of other tasks that could be easily resolved with open source and replicable modeling approach..
+
+What are the barriers? TIME! (80.5% of actuaries indicated so).. but what else is missing?
+
+### Learning resources 
+
+Learning resources is always a problem to move people to use available tools. Actuarial (data) science is not the exception. Good news is that there are some to start using R for actuarial data as well as there are some materials available to build further resources.
+
+The available learning resources start with Introduction to R. This is a general categorie that includes the resources to get familiar with R, RStudio and main R packages (e.g. `tidyverse`)
+
+ [R for Data Science](https://r4ds.had.co.nz/)
+ 
+ [RStudio.cloud Primers](https://rstudio.cloud/learn/primers)
+
+A well known list built by the enthusiastic and supportive R community: RStudio Education [education.rstudio.com](https://education.rstudio.com/)
+
+In the meantime, there is a growing treasure trove of R resources developed by enthusiastic R Acturies that address specific issues.
+
+The work of the ["Data Science" group](https://www.actuarialdatascience.org/) of the Swiss Association of Actuaries (SAA) is amazing  - lots of resources has been prepared, including [lectures](https://www.actuarialdatascience.org/ADS-Lectures/Courses/) and [hands-on tutorials in R](https://www.actuarialdatascience.org/ADS-Tutorials/)
+
+### Common and specific R packages used
+
+Apart from educational resources, specialised packages are available to the community, including 
+
+- [raw: R Actuarial Workshops](https://cran.r-project.org/web/packages/raw/)
+
+- [actuar: Actuarial Functions and Heavy Tailed Distributions](https://cran.r-project.org/web/packages/actuar/index.html)
+
+- [chainLadder: Statistical Methods and Models for Claims Reserving in General Insurance](https://cran.r-project.org/web/packages/ChainLadder/index.html)
+
+- [finCal: Time Value of Money, Time Series Analysis and Computational Finance](https://cran.r-project.org/web/packages/FinCal/)
+
+Such packages are scattered  across CRAN and github as there is not currently a task view for actuarial data science at CRAN (hint!)...
+
+There is a great potential in the actuarial data science and RBusiness would love to invite R passionate community to start a dialogue on promoting and developing R resources in this area!
