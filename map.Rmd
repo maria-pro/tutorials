@@ -1,0 +1,46 @@
+---
+title: "map - example"
+author: "Dr Maria Prokofieva"
+date: "03/07/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## interactive map example
+
+need a file with: 
+
+- names of people
+
+- their location (rough location - google their city): as 
+
+  - latitude 
+
+  - longitude
+
+- description  
+
+Will look great!
+
+```{r echo=FALSE, message=FALSE}
+
+library(leaflet)
+
+library(tidyverse)
+
+data<-read_csv("data/museum2.csv")
+
+data%>%
+  leaflet() %>%
+ addProviderTiles(providers$Esri.WorldImagery, group = "World Imagery") %>%
+  addProviderTiles(providers$Stamen.TonerLite, group = "Toner Lite")%>%
+  addLayersControl(baseGroups = c("Toner Lite", "World Imagery"))%>%
+  addMarkers(label = data$museum, 
+             lng=data$lng,
+             lat=data$lat,
+           popup = data$description)
+```
+
