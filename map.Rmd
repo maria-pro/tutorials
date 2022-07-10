@@ -11,19 +11,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## interactive map example
 
-need a file with: 
-
-- names of people
-
-- their location (rough location - google their city): as 
-
-  - latitude 
-
-  - longitude
-
-- description  
-
-Will look great!
 
 ```{r echo=FALSE, message=FALSE}
 
@@ -31,16 +18,33 @@ library(leaflet)
 
 library(tidyverse)
 
-data<-read_csv("data/museum2.csv")
+data<-read_csv("data/map_research.csv")
 
-data%>%
-  leaflet() %>%
- addProviderTiles(providers$Esri.WorldImagery, group = "World Imagery") %>%
+academic<-data%>%filter(type=="Academic Collaborators")
+industry<-data%>%filter(type=="National Industry Collaborators")
+national_academic<-data%>%filter(type=="Australian/ National Academic Collaborators")
+
+
+leaflet() %>%
   addProviderTiles(providers$Stamen.TonerLite, group = "Toner Lite")%>%
-  addLayersControl(baseGroups = c("Toner Lite", "World Imagery"))%>%
-  addMarkers(label = data$museum, 
-             lng=data$lng,
-             lat=data$lat,
-           popup = data$description)
+
+# addLayersControl(overlayGroups = c("type"))%>%
+  
+   addMarkers(data = academic, group = "Academic Collaborators", label = academic$name, 
+             lng=academic$lng,
+             lat=academic$lat,
+           popup = academic$description) %>%
+  addMarkers(data = industry, group = "National Industry Collaborators", label = industry$name, 
+             lng=industry$lng,
+             lat=industry$lat,
+           popup = industry$description) %>%
+  addMarkers(data = national_academic, group = "Australian/ National Academic Collaborators",
+             label = national_academic$name, 
+             lng=national_academic$lng,
+             lat=national_academic$lat,
+           popup = national_academic$description)%>%
+  addLayersControl(overlayGroups = c("Academic Collaborators", "National Industry Collaborators", "Australian/ National Academic Collaborators"),
+    options = layersControlOptions(collapsed = FALSE))
+
 ```
 
