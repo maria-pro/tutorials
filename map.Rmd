@@ -20,6 +20,10 @@ library(tidyverse)
 
 data<-read_csv("data/map_research.csv")
 
+data<-data %>% 
+    mutate(popup = paste0('<a href =', description, '>', "Link", '</a>'))
+
+
 academic<-data%>%filter(type=="Academic Collaborators")
 industry<-data%>%filter(type=="National Industry Collaborators")
 national_academic<-data%>%filter(type=="Australian/ National Academic Collaborators")
@@ -33,16 +37,16 @@ leaflet() %>%
    addMarkers(data = academic, group = "Academic Collaborators", label = academic$name, 
              lng=academic$lng,
              lat=academic$lat,
-           popup = academic$description) %>%
+           popup = academic$popup) %>%
   addMarkers(data = industry, group = "National Industry Collaborators", label = industry$name, 
              lng=industry$lng,
              lat=industry$lat,
-           popup = industry$description) %>%
+           popup = industry$popup) %>%
   addMarkers(data = national_academic, group = "Australian/ National Academic Collaborators",
              label = national_academic$name, 
              lng=national_academic$lng,
              lat=national_academic$lat,
-           popup = national_academic$description)%>%
+           popup = national_academic$popup)%>%
   addLayersControl(overlayGroups = c("Academic Collaborators", "National Industry Collaborators", "Australian/ National Academic Collaborators"),
     options = layersControlOptions(collapsed = FALSE))
 
