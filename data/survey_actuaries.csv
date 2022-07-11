@@ -1,0 +1,17 @@
+﻿Tasks,last week,last month,last quarter,last year
+Copying data,29,13,8,6
+Updating documentation,26,17,12,9
+Waiting for excel to process,37,9,7,5
+Copying data from a model,25,14,9,9
+Copying a model,30,9,13,4
+Recreating prior model values,17,13,15,13
+Tracing individual values,34,8,6,10
+Converting data format,21,11,10,11
+Waiting for actuarial software,31,7,10,7
+Backing up model results,23,9,10,8
+Converting output data,17,16,8,9
+Troubleshooting ETL issues,15,9,6,15
+Copy results to a storage database,17,11,7,9
+Waiting for a results database to process,22,9,10,9
+Validating tables used in a projection,19,10,13,9
+Waiting for vendor support,6,7,8,19

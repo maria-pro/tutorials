@@ -28,7 +28,7 @@ Reviewing particular applications across areas, we can mention:
 
 - Insurance in such areas as life insurance, credit and morgage insurance, key person insurance for small business, long term care insurance, health savings accounts. The focus here is on analysis of mortality, production of life tables, calculation of compound interest for life insurance, annuities and endowment contigencies
 
-```{r message=FALSE}
+```{r message=FALSE, echo=FALSE}
 # Using imaginator package for individual claim simulation
 library(imaginator)
 
@@ -55,7 +55,7 @@ kableExtra::kbl(tbl_claim_transaction[1:8,],
 ```
 
 
-```{r}
+```{r echo=FALSE}
 # Using MortalityTables package - Mortality tables
 library(MortalityTables)
 
@@ -71,7 +71,7 @@ plotMortalityTables(
 
 - Life insurance and social insurance. Main tasks in this area include analysis of rates of disability, mordibity, mortality, fertility, etc., analysis of factors (such as georgaphy and consumer characteristics) on usage of medical services and procedures.
 
-```{r}
+```{r echo=FALSE}
 
 # Using MortalityTables package
 library(MortalityTables)
@@ -98,7 +98,7 @@ plot(table.coh1977, table.per2020, title = "Comparison of cohort 1977 with perio
 
 
 - Pension:  design, funding, accounting, administration, and maintenance or redesign of pension plans with valuation and modelling for various factors that may influence the calculation and payout
-```{r message=FALSE}
+```{r message=FALSE, echo=FALSE}
 
 # Using lifecontingencies package
 library(lifecontingencies)
@@ -158,17 +158,21 @@ To support this, the recent results (2020) of the "wasted time" [survey](https:/
 and quite a few of other tasks that could be easily resolved with open source and replicable modeling approach..
 
 
-```{r message=FALSE}
+```{r message=FALSE, echo=FALSE}
 survey<-read_csv("data/survey_actuaries.csv")
 
 survey%>%pivot_longer(-Tasks, names_to="Time", values_to="Score")%>%
-  ggplot(aes(Tasks, Score, fill=Time))+
+   group_by(Tasks) %>% 
+   mutate(sum_response = sum(Score))%>%
+  ungroup()%>%
+  ggplot(aes(x=fct_reorder(Tasks, sum_response), Score, fill=Time))+
   geom_col(show.legend = TRUE)+
   coord_flip()+
   scale_fill_brewer(palette="PiYG")+
-  labs(y = "Time Frame", x = "Tasks",
+  labs(y = "Responses", x = "Tasks",
 title ="Data and model management tasks - wasted time")
-  
+
+
 ```
 
 
