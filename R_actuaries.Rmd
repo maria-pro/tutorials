@@ -7,8 +7,9 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-
 library(tidyverse)
+theme_set(theme_light())
+
 ```
 
 ### R is for actua**R**ies
@@ -46,13 +47,10 @@ tbl_claim_transaction <- claims_by_wait_time(
   pay_severity = 50)
 
 
-kableExtra::kable(
-   tbl_claim_transaction[1:8,], 
-    caption = "<center><strong>Wait-time modelling with policies simulation</strong></center>",
-    escape = FALSE,
-    format = "html"
-) %>%
-    kableExtra::kable_styling(bootstrap_options = "striped")
+
+kableExtra::kbl(tbl_claim_transaction[1:8,], 
+      caption = "Wait-time modelling with policies simulation") %>%
+  kableExtra::kable_classic(full_width = F, html_font = "Cambria")
 
 ```
 
@@ -67,7 +65,8 @@ mortalityTables.load("Austria_Census")
 plotMortalityTables(
   title="Using dimensional information for mortality tables",
   mort.AT.census[c("m", "w"), c("1951", "1991", "2001", "2011")]) + 
-  aes(color = as.factor(year), linetype = sex) + labs(color = "Period", linetype = "Sex")
+  aes(color = as.factor(year), linetype = sex) + labs(color = "Period", linetype = "Sex")+
+  scale_fill_brewer(palette="PiYG")
 ```
 
 - Life insurance and social insurance. Main tasks in this area include analysis of rates of disability, mordibity, mortality, fertility, etc., analysis of factors (such as georgaphy and consumer characteristics) on usage of medical services and procedures.
@@ -92,7 +91,9 @@ table.coh1977 = getCohortTable(AVOe2005R.male, YOB = 1977)
 table.per2020 = getPeriodTable(AVOe2005R.male, Period = 2020)
 
 # Compare those two in a plot:
-plot(table.coh1977, table.per2020, title = "Comparison of cohort 1977 with period 2020", legend.position = c(1,0))
+plot(table.coh1977, table.per2020, title = "Comparison of cohort 1977 with period 2020", legend.position = c(1,0))+
+  scale_fill_brewer(palette="PiYG")
+
 ```
 
 
@@ -126,10 +127,10 @@ for(i in years) annuityRes[i+1] <- annuityReserve(i)
 
 dataAnnuityRes <- data.frame(years=years, reserve=annuityRes)
 
-
-plot(y=dataAnnuityRes$reserve, x=dataAnnuityRes$years, 
-     col="steelblue", main="Deferred annuity benefit reserve",
-     ylab="amount",xlab="years",type="l")
+dataAnnuityRes%>%ggplot(aes(years, reserve))+
+  geom_line(color="blue")+
+  labs(x = "Years", y = "Amount",
+       title ="Deferred annuity benefit reserve")
 ```
 
 and many more! Just look at those examples!
@@ -155,6 +156,21 @@ To support this, the recent results (2020) of the "wasted time" [survey](https:/
 - waiting for vendor support
 
 and quite a few of other tasks that could be easily resolved with open source and replicable modeling approach..
+
+
+```{r message=FALSE}
+survey<-read_csv("data/survey_actuaries.csv")
+
+survey%>%pivot_longer(-Tasks, names_to="Time", values_to="Score")%>%
+  ggplot(aes(Tasks, Score, fill=Time))+
+  geom_col(show.legend = TRUE)+
+  coord_flip()+
+  scale_fill_brewer(palette="PiYG")+
+  labs(y = "Time Frame", x = "Tasks",
+title ="Data and model management tasks - wasted time")
+  
+```
+
 
 What are the barriers? TIME! (80.5% of actuaries indicated so).. but what else is missing?
 
