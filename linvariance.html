@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.3">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>invariance</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="linvariance_files/libs/clipboard/clipboard.min.js"></script>
+<script src="linvariance_files/libs/quarto-html/quarto.js"></script>
+<script src="linvariance_files/libs/quarto-html/popper.min.js"></script>
+<script src="linvariance_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="linvariance_files/libs/quarto-html/anchor.min.js"></script>
+<link href="linvariance_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="linvariance_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="linvariance_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="linvariance_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="linvariance_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">invariance</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+<p>So far - fitting factor by factor</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semTools)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: lavaan</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is lavaan 0.6-11
+lavaan is FREE software! Please report any bugs.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>###############################################################################</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is semTools 0.5-6</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>All users of R (or SEM) are invited to submit functions or ideas for functions.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>###############################################################################</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semPlot)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span> (psych)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'psych'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:semTools':
+
+    reliability, skew</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:lavaan':
+
+    cor2cov</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span> (psychTools)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+✓ tibble  3.1.6     ✓ dplyr   1.0.7
+✓ tidyr   1.1.4     ✓ stringr 1.4.0
+✓ readr   2.1.1     ✓ forcats 0.5.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+x ggplot2::%+%()     masks psych::%+%()
+x ggplot2::alpha()   masks psych::alpha()
+x readr::clipboard() masks semTools::clipboard()
+x dplyr::filter()    masks stats::filter()
+x dplyr::lag()       masks stats::lag()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span> (esem)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span><span class="fu">read_sav</span>(<span class="st">"data.sav"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span>data<span class="sc">%&gt;%</span><span class="fu">select</span>(<span class="sc">-</span>hicid)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span>data[,<span class="dv">1</span><span class="sc">:</span><span class="dv">75</span>]</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>data1<span class="ot">&lt;-</span>data<span class="sc">%&gt;%</span><span class="fu">select</span>(<span class="fu">ends_with</span>(<span class="st">"_1"</span>))</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>data2<span class="ot">&lt;-</span>data<span class="sc">%&gt;%</span><span class="fu">select</span>(<span class="fu">ends_with</span>(<span class="st">"_2"</span>))</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>data3<span class="ot">&lt;-</span>data<span class="sc">%&gt;%</span><span class="fu">select</span>(<span class="fu">ends_with</span>(<span class="st">"_3"</span>))</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>main_loadings_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">pp =</span> <span class="fu">c</span>(<span class="st">"s6_1"</span>, <span class="st">"s11_1"</span>, <span class="st">"s14_1"</span>, <span class="st">"s19_1"</span>, <span class="st">"s23_1"</span>),</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">cp =</span> <span class="fu">c</span>(<span class="st">"s5_1"</span>, <span class="st">"s7_1"</span>, <span class="st">"s12_1"</span>, <span class="st">"s18_1"</span>, <span class="st">"s22_1"</span>),</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">es =</span> <span class="fu">c</span>(<span class="st">"s3_1"</span>, <span class="st">"s8_1"</span>, <span class="st">"s13_1"</span>, <span class="st">"s16_1"</span>, <span class="st">"s24_1"</span>),</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">ha =</span> <span class="fu">c</span>(<span class="st">"s2_1"</span>,<span class="st">"s10_1"</span>,<span class="st">"s15_1"</span>,<span class="st">"s21_1"</span>,<span class="st">"s25_1"</span>),</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">ps =</span> <span class="fu">c</span>(<span class="st">"s1_1"</span>,<span class="st">"s4_1"</span>,<span class="st">"s9_1"</span>,<span class="st">"s17_1"</span>,<span class="st">"s20_1"</span>)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>target<span class="ot">&lt;-</span><span class="fu">make_target</span>(</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>data1, </span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">keys=</span>main_loadings_list)</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>esem_efa_results<span class="ot">&lt;-</span><span class="fu">esem_efa</span>(</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>data1,</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">nfactors =</span> <span class="dv">5</span>,</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">rotate=</span><span class="st">"TargetQ"</span>,</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">Target=</span> target)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required namespace: GPArotation</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>esem_model <span class="ot">&lt;-</span> <span class="fu">esem_syntax</span>(esem_efa_results, referent_list)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(esem_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ML1=~start(-0.174195666007533)*s1_1+
+0.025110782830636*s2_1+
+start(0.106245357556806)*s3_1+
+start(-0.15035544197568)*s4_1+
+start(0.122808762585099)*s5_1+
+start(0.34287218581696)*s6_1+
+start(0.149665029023839)*s7_1+
+0.0880354879066222*s8_1+
+-0.113052524602244*s9_1+
+start(0.0954169599898345)*s10_1+
+start(-0.246939708370384)*s11_1+
+start(0.0914732958772084)*s12_1+
+start(0.248853221306053)*s13_1+
+start(-0.30843586373549)*s14_1+
+start(-0.0910262186142285)*s15_1+
+start(-0.0749984262153892)*s16_1+
+start(-0.118037188303758)*s17_1+
+0.166260834444395*s18_1+
+0.395192788373519*s19_1+
+start(0.193955050479491)*s20_1+
+start(0.145741117817563)*s21_1+
+start(0.0940337030111788)*s22_1+
+start(0.384145877109785)*s23_1+
+start(0.0538233323943059)*s24_1+
+start(0.227073759643618)*s25_1
+
+ML2=~start(-0.183349956617241)*s1_1+
+-0.118315802898034*s2_1+
+start(0.100894988047103)*s3_1+
+start(0.070217083797778)*s4_1+
+start(0.313232903745138)*s5_1+
+start(-0.0114023603572498)*s6_1+
+start(-0.392251482442326)*s7_1+
+-0.134079620585185*s8_1+
+-0.0389905518235672*s9_1+
+start(-0.0918213102329153)*s10_1+
+start(0.0085773841139036)*s11_1+
+start(0.321257313076999)*s12_1+
+start(0.268545252739654)*s13_1+
+start(0.0372189382140491)*s14_1+
+start(0.24529422785603)*s15_1+
+start(-0.0513696569246273)*s16_1+
+start(-0.0252640235083858)*s17_1+
+0.472238733128036*s18_1+
+0.258245061395282*s19_1+
+start(0.013228287915888)*s20_1+
+start(-0.228429045294978)*s21_1+
+start(0.301031298951649)*s22_1+
+start(0.058549093107926)*s23_1+
+start(-0.0704322655724194)*s24_1+
+start(-0.261720775717646)*s25_1
+
+ML3=~start(0.109092974345426)*s1_1+
+-0.0819039172297916*s2_1+
+start(0.320153734639186)*s3_1+
+start(0.0372619052070755)*s4_1+
+start(0.194143967071625)*s5_1+
+start(0.17825103289711)*s6_1+
+start(0.012968601236686)*s7_1+
+0.660088055294363*s8_1+
+0.0684880732112629*s9_1+
+start(-0.0365198297176655)*s10_1+
+start(-0.0680598026931142)*s11_1+
+start(-0.0179968507668913)*s12_1+
+start(0.386412799736979)*s13_1+
+start(-0.162921944395011)*s14_1+
+start(0.161430607144913)*s15_1+
+start(0.610197501121393)*s16_1+
+start(0.0752280818229807)*s17_1+
+0.0561353763043098*s18_1+
+0.14631042631308*s19_1+
+start(-0.0801430552824562)*s20_1+
+start(-0.0262729377563544)*s21_1+
+start(-0.0799601237013777)*s22_1+
+start(0.106539912067452)*s23_1+
+start(0.537096099392991)*s24_1+
+start(-0.143235642791943)*s25_1
+
+ML4=~start(-0.0289319874863544)*s1_1+
+0.821312041659485*s2_1+
+start(0.117063102909669)*s3_1+
+start(0.0489978231023393)*s4_1+
+start(0.160098084761706)*s5_1+
+start(0.0551964753171907)*s6_1+
+start(-0.103107729414546)*s7_1+
+0.0357122151205328*s8_1+
+-0.00729827079986406*s9_1+
+start(0.819748890091342)*s10_1+
+start(0.0589365083494511)*s11_1+
+start(0.0900832105967743)*s12_1+
+start(-0.0357006765820595)*s13_1+
+start(-0.0140448803989468)*s14_1+
+start(0.456590937690881)*s15_1+
+start(0.0326792073083012)*s16_1+
+start(-0.0864986274263217)*s17_1+
+0.128506078700705*s18_1+
+0.00267060252416015*s19_1+
+start(-0.0782652458038065)*s20_1+
+start(-0.209877142166034)*s21_1+
+start(0.0612228132385622)*s22_1+
+start(0.011898497512026)*s23_1+
+start(0.0122286150198923)*s24_1+
+start(-0.22075223090183)*s25_1
+
+ML5=~start(0.516630961277238)*s1_1+
+0.0254324663802854*s2_1+
+start(0.0707541567372703)*s3_1+
+start(0.389422913794661)*s4_1+
+start(0.0180501485199975)*s5_1+
+start(-0.12374200464201)*s6_1+
+start(0.263105141044351)*s7_1+
+0.0578307384797328*s8_1+
+0.624057011291762*s9_1+
+start(0.0896824117322424)*s10_1+
+start(0.29746137218178)*s11_1+
+start(-0.0101623798701616)*s12_1+
+start(0.0714068317644881)*s13_1+
+start(0.365758765341088)*s14_1+
+start(0.0217125708128053)*s15_1+
+start(-0.0138635119248167)*s16_1+
+start(0.496134641916563)*s17_1+
+0.0489697120852825*s18_1+
+0.0887929363980936*s19_1+
+start(0.5066126404322)*s20_1+
+start(0.295994946309856)*s21_1+
+start(0.0294351592630043)*s22_1+
+start(0.0261821005050783)*s23_1+
+start(0.0720130931374961)*s24_1+
+start(0.260614477008415)*s25_1</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model - factor by factor </span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>Model_ML1<span class="ot">&lt;-</span><span class="st">"</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="st">#Time1</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="st">ML11=~start(-0.10181813334364)*s1_1+</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="st">  0.341021830091293*s2_1+</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.475689597452262)*s3_1+</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0448498091001827)*s4_1+</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.532706326072059)*s5_1+</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.380270886458239)*s6_1+</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.17677526014272*s7_1+</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="st">  0.557302560480769*s8_1+</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0154555580721658*s9_1+</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.445591230767454)*s10_1+</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.14715624332716)*s11_1+</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.295375297579211)*s12_1+</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="st">  0.640790531584111*s13_1+</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.283662392937637)*s14_1+</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.496315161517282)*s15_1+</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.456119066758138)*s16_1+</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0300724138783131)*s17_1+</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.52803060716866)*s18_1+</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.545878451941098)*s19_1+</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0643676895943769)*s20_1+</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.166911003348391)*s21_1+</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.218792089074707)*s22_1+</span></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.378607161220922)*s23_1+</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.45936304785388)*s24_1+</span></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.245500790144707)*s25_1</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a><span class="st">#Time2</span></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a><span class="st">ML12=~start(-0.10181813334364)*s1_2+</span></span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a><span class="st">  0.341021830091293*s2_2+</span></span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.475689597452262)*s3_2+</span></span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0448498091001827)*s4_2+</span></span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.532706326072059)*s5_2+</span></span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.380270886458239)*s6_2+</span></span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.17677526014272*s7_2+</span></span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a><span class="st">  0.557302560480769*s8_2+</span></span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0154555580721658*s9_2+</span></span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.445591230767454)*s10_2+</span></span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.14715624332716)*s11_2+</span></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.295375297579211)*s12_2+</span></span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a><span class="st">  0.640790531584111*s13_2+</span></span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.283662392937637)*s14_2+</span></span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.496315161517282)*s15_2+</span></span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.456119066758138)*s16_2+</span></span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0300724138783131)*s17_2+</span></span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.52803060716866)*s18_2+</span></span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.545878451941098)*s19_2+</span></span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0643676895943769)*s20_2+</span></span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.166911003348391)*s21_2+</span></span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.218792089074707)*s22_2+</span></span>
+<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.378607161220922)*s23_2+</span></span>
+<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.45936304785388)*s24_2+</span></span>
+<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.245500790144707)*s25_2</span></span>
+<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-59"><a href="#cb21-59" aria-hidden="true" tabindex="-1"></a><span class="st">## Time3</span></span>
+<span id="cb21-60"><a href="#cb21-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a><span class="st">ML13=~start(-0.10181813334364)*s1_3+</span></span>
+<span id="cb21-62"><a href="#cb21-62" aria-hidden="true" tabindex="-1"></a><span class="st">  0.341021830091293*s2_3+</span></span>
+<span id="cb21-63"><a href="#cb21-63" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.475689597452262)*s3_3+</span></span>
+<span id="cb21-64"><a href="#cb21-64" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0448498091001827)*s4_3+</span></span>
+<span id="cb21-65"><a href="#cb21-65" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.532706326072059)*s5_3+</span></span>
+<span id="cb21-66"><a href="#cb21-66" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.380270886458239)*s6_3+</span></span>
+<span id="cb21-67"><a href="#cb21-67" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.17677526014272*s7_3+</span></span>
+<span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a><span class="st">  0.557302560480769*s8_3+</span></span>
+<span id="cb21-69"><a href="#cb21-69" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0154555580721658*s9_3+</span></span>
+<span id="cb21-70"><a href="#cb21-70" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.445591230767454)*s10_3+</span></span>
+<span id="cb21-71"><a href="#cb21-71" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.14715624332716)*s11_3+</span></span>
+<span id="cb21-72"><a href="#cb21-72" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.295375297579211)*s12_3+</span></span>
+<span id="cb21-73"><a href="#cb21-73" aria-hidden="true" tabindex="-1"></a><span class="st">  0.640790531584111*s13_3+</span></span>
+<span id="cb21-74"><a href="#cb21-74" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.283662392937637)*s14_3+</span></span>
+<span id="cb21-75"><a href="#cb21-75" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.496315161517282)*s15_3+</span></span>
+<span id="cb21-76"><a href="#cb21-76" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.456119066758138)*s16_3+</span></span>
+<span id="cb21-77"><a href="#cb21-77" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0300724138783131)*s17_3+</span></span>
+<span id="cb21-78"><a href="#cb21-78" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.52803060716866)*s18_3+</span></span>
+<span id="cb21-79"><a href="#cb21-79" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.545878451941098)*s19_3+</span></span>
+<span id="cb21-80"><a href="#cb21-80" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0643676895943769)*s20_3+</span></span>
+<span id="cb21-81"><a href="#cb21-81" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.166911003348391)*s21_3+</span></span>
+<span id="cb21-82"><a href="#cb21-82" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.218792089074707)*s22_3+</span></span>
+<span id="cb21-83"><a href="#cb21-83" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.378607161220922)*s23_3+</span></span>
+<span id="cb21-84"><a href="#cb21-84" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.45936304785388)*s24_3+</span></span>
+<span id="cb21-85"><a href="#cb21-85" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.245500790144707)*s25_3</span></span>
+<span id="cb21-86"><a href="#cb21-86" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb21-87"><a href="#cb21-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-88"><a href="#cb21-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-89"><a href="#cb21-89" aria-hidden="true" tabindex="-1"></a>Model_ML2<span class="ot">&lt;-</span><span class="st">"</span></span>
+<span id="cb21-90"><a href="#cb21-90" aria-hidden="true" tabindex="-1"></a><span class="st">#Time1</span></span>
+<span id="cb21-91"><a href="#cb21-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-92"><a href="#cb21-92" aria-hidden="true" tabindex="-1"></a><span class="st">ML21=~start(0.46952646970973)*s1_1+</span></span>
+<span id="cb21-93"><a href="#cb21-93" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.168321479151942*s2_1+</span></span>
+<span id="cb21-94"><a href="#cb21-94" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0305336785896823)*s3_1+</span></span>
+<span id="cb21-95"><a href="#cb21-95" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.191527842910332)*s4_1+</span></span>
+<span id="cb21-96"><a href="#cb21-96" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.208955192240166)*s5_1+</span></span>
+<span id="cb21-97"><a href="#cb21-97" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.00683175598992413)*s6_1+</span></span>
+<span id="cb21-98"><a href="#cb21-98" aria-hidden="true" tabindex="-1"></a><span class="st">  0.555747675045059*s7_1+</span></span>
+<span id="cb21-99"><a href="#cb21-99" aria-hidden="true" tabindex="-1"></a><span class="st">  0.106642278912651*s8_1+</span></span>
+<span id="cb21-100"><a href="#cb21-100" aria-hidden="true" tabindex="-1"></a><span class="st">  0.481947375866067*s9_1+</span></span>
+<span id="cb21-101"><a href="#cb21-101" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.109566114954949)*s10_1+</span></span>
+<span id="cb21-102"><a href="#cb21-102" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.124527511539424)*s11_1+</span></span>
+<span id="cb21-103"><a href="#cb21-103" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.209573540829713)*s12_1+</span></span>
+<span id="cb21-104"><a href="#cb21-104" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.0361459663233181*s13_1+</span></span>
+<span id="cb21-105"><a href="#cb21-105" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.169377089517239)*s14_1+</span></span>
+<span id="cb21-106"><a href="#cb21-106" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.342744908740705)*s15_1+</span></span>
+<span id="cb21-107"><a href="#cb21-107" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0619016727264182)*s16_1+</span></span>
+<span id="cb21-108"><a href="#cb21-108" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.394776044259853)*s17_1+</span></span>
+<span id="cb21-109"><a href="#cb21-109" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.249105043255145)*s18_1+</span></span>
+<span id="cb21-110"><a href="#cb21-110" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0445460428700227)*s19_1+</span></span>
+<span id="cb21-111"><a href="#cb21-111" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.505876999620719)*s20_1+</span></span>
+<span id="cb21-112"><a href="#cb21-112" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.514549905298726)*s21_1+</span></span>
+<span id="cb21-113"><a href="#cb21-113" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.14936737709603)*s22_1+</span></span>
+<span id="cb21-114"><a href="#cb21-114" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.118209802834279)*s23_1+</span></span>
+<span id="cb21-115"><a href="#cb21-115" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0809241962896773)*s24_1+</span></span>
+<span id="cb21-116"><a href="#cb21-116" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.550687205664788)*s25_1</span></span>
+<span id="cb21-117"><a href="#cb21-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-118"><a href="#cb21-118" aria-hidden="true" tabindex="-1"></a><span class="st">#Time2</span></span>
+<span id="cb21-119"><a href="#cb21-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-120"><a href="#cb21-120" aria-hidden="true" tabindex="-1"></a><span class="st">ML22=~start(0.46952646970973)*s1_2+</span></span>
+<span id="cb21-121"><a href="#cb21-121" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.168321479151942*s2_2+</span></span>
+<span id="cb21-122"><a href="#cb21-122" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0305336785896823)*s3_2+</span></span>
+<span id="cb21-123"><a href="#cb21-123" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.191527842910332)*s4_2+</span></span>
+<span id="cb21-124"><a href="#cb21-124" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.208955192240166)*s5_2+</span></span>
+<span id="cb21-125"><a href="#cb21-125" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.00683175598992413)*s6_2+</span></span>
+<span id="cb21-126"><a href="#cb21-126" aria-hidden="true" tabindex="-1"></a><span class="st">  0.555747675045059*s7_2+</span></span>
+<span id="cb21-127"><a href="#cb21-127" aria-hidden="true" tabindex="-1"></a><span class="st">  0.106642278912651*s8_2+</span></span>
+<span id="cb21-128"><a href="#cb21-128" aria-hidden="true" tabindex="-1"></a><span class="st">  0.481947375866067*s9_2+</span></span>
+<span id="cb21-129"><a href="#cb21-129" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.109566114954949)*s10_2+</span></span>
+<span id="cb21-130"><a href="#cb21-130" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.124527511539424)*s11_2+</span></span>
+<span id="cb21-131"><a href="#cb21-131" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.209573540829713)*s12_2+</span></span>
+<span id="cb21-132"><a href="#cb21-132" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.0361459663233181*s13_2+</span></span>
+<span id="cb21-133"><a href="#cb21-133" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.169377089517239)*s14_2+</span></span>
+<span id="cb21-134"><a href="#cb21-134" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.342744908740705)*s15_2+</span></span>
+<span id="cb21-135"><a href="#cb21-135" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0619016727264182)*s16_2+</span></span>
+<span id="cb21-136"><a href="#cb21-136" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.394776044259853)*s17_2+</span></span>
+<span id="cb21-137"><a href="#cb21-137" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.249105043255145)*s18_2+</span></span>
+<span id="cb21-138"><a href="#cb21-138" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0445460428700227)*s19_2+</span></span>
+<span id="cb21-139"><a href="#cb21-139" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.505876999620719)*s20_2+</span></span>
+<span id="cb21-140"><a href="#cb21-140" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.514549905298726)*s21_2+</span></span>
+<span id="cb21-141"><a href="#cb21-141" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.14936737709603)*s22_2+</span></span>
+<span id="cb21-142"><a href="#cb21-142" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.118209802834279)*s23_2+</span></span>
+<span id="cb21-143"><a href="#cb21-143" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0809241962896773)*s24_2+</span></span>
+<span id="cb21-144"><a href="#cb21-144" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.550687205664788)*s25_2</span></span>
+<span id="cb21-145"><a href="#cb21-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-146"><a href="#cb21-146" aria-hidden="true" tabindex="-1"></a><span class="st">## Time3</span></span>
+<span id="cb21-147"><a href="#cb21-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-148"><a href="#cb21-148" aria-hidden="true" tabindex="-1"></a><span class="st">ML23=~start(0.46952646970973)*s1_3+</span></span>
+<span id="cb21-149"><a href="#cb21-149" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.168321479151942*s2_3+</span></span>
+<span id="cb21-150"><a href="#cb21-150" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0305336785896823)*s3_3+</span></span>
+<span id="cb21-151"><a href="#cb21-151" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.191527842910332)*s4_3+</span></span>
+<span id="cb21-152"><a href="#cb21-152" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.208955192240166)*s5_3+</span></span>
+<span id="cb21-153"><a href="#cb21-153" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.00683175598992413)*s6_3+</span></span>
+<span id="cb21-154"><a href="#cb21-154" aria-hidden="true" tabindex="-1"></a><span class="st">  0.555747675045059*s7_3+</span></span>
+<span id="cb21-155"><a href="#cb21-155" aria-hidden="true" tabindex="-1"></a><span class="st">  0.106642278912651*s8_3+</span></span>
+<span id="cb21-156"><a href="#cb21-156" aria-hidden="true" tabindex="-1"></a><span class="st">  0.481947375866067*s9_3+</span></span>
+<span id="cb21-157"><a href="#cb21-157" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.109566114954949)*s10_3+</span></span>
+<span id="cb21-158"><a href="#cb21-158" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.124527511539424)*s11_3+</span></span>
+<span id="cb21-159"><a href="#cb21-159" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.209573540829713)*s12_3+</span></span>
+<span id="cb21-160"><a href="#cb21-160" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.0361459663233181*s13_3+</span></span>
+<span id="cb21-161"><a href="#cb21-161" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.169377089517239)*s14_3+</span></span>
+<span id="cb21-162"><a href="#cb21-162" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.342744908740705)*s15_3+</span></span>
+<span id="cb21-163"><a href="#cb21-163" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0619016727264182)*s16_3+</span></span>
+<span id="cb21-164"><a href="#cb21-164" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.394776044259853)*s17_3+</span></span>
+<span id="cb21-165"><a href="#cb21-165" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.249105043255145)*s18_3+</span></span>
+<span id="cb21-166"><a href="#cb21-166" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0445460428700227)*s19_3+</span></span>
+<span id="cb21-167"><a href="#cb21-167" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.505876999620719)*s20_3+</span></span>
+<span id="cb21-168"><a href="#cb21-168" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.514549905298726)*s21_3+</span></span>
+<span id="cb21-169"><a href="#cb21-169" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.14936737709603)*s22_3+</span></span>
+<span id="cb21-170"><a href="#cb21-170" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.118209802834279)*s23_3+</span></span>
+<span id="cb21-171"><a href="#cb21-171" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0809241962896773)*s24_3+</span></span>
+<span id="cb21-172"><a href="#cb21-172" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.550687205664788)*s25_3</span></span>
+<span id="cb21-173"><a href="#cb21-173" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb21-174"><a href="#cb21-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-175"><a href="#cb21-175" aria-hidden="true" tabindex="-1"></a>Model_ML3<span class="ot">&lt;-</span><span class="st">"</span></span>
+<span id="cb21-176"><a href="#cb21-176" aria-hidden="true" tabindex="-1"></a><span class="st">#Time1</span></span>
+<span id="cb21-177"><a href="#cb21-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-178"><a href="#cb21-178" aria-hidden="true" tabindex="-1"></a><span class="st">ML31=~start(0.0318685617912012)*s1_1+</span></span>
+<span id="cb21-179"><a href="#cb21-179" aria-hidden="true" tabindex="-1"></a><span class="st">  0.630374964766479*s2_1+</span></span>
+<span id="cb21-180"><a href="#cb21-180" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0571887154094396)*s3_1+</span></span>
+<span id="cb21-181"><a href="#cb21-181" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0538030402265071)*s4_1+</span></span>
+<span id="cb21-182"><a href="#cb21-182" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0637918865107856)*s5_1+</span></span>
+<span id="cb21-183"><a href="#cb21-183" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0037595073842555)*s6_1+</span></span>
+<span id="cb21-184"><a href="#cb21-184" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.0295740847687255*s7_1+</span></span>
+<span id="cb21-185"><a href="#cb21-185" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0144582068998616*s8_1+</span></span>
+<span id="cb21-186"><a href="#cb21-186" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0306795597767665*s9_1+</span></span>
+<span id="cb21-187"><a href="#cb21-187" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.621109426134197)*s10_1+</span></span>
+<span id="cb21-188"><a href="#cb21-188" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0769751334597619)*s11_1+</span></span>
+<span id="cb21-189"><a href="#cb21-189" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0197092215986661)*s12_1+</span></span>
+<span id="cb21-190"><a href="#cb21-190" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.0918814679617119*s13_1+</span></span>
+<span id="cb21-191"><a href="#cb21-191" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.029978222084595)*s14_1+</span></span>
+<span id="cb21-192"><a href="#cb21-192" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.312265122107737)*s15_1+</span></span>
+<span id="cb21-193"><a href="#cb21-193" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0138061871093199)*s16_1+</span></span>
+<span id="cb21-194"><a href="#cb21-194" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0351187831077965)*s17_1+</span></span>
+<span id="cb21-195"><a href="#cb21-195" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.022985389287828)*s18_1+</span></span>
+<span id="cb21-196"><a href="#cb21-196" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0640748105499755)*s19_1+</span></span>
+<span id="cb21-197"><a href="#cb21-197" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0526278002086372)*s20_1+</span></span>
+<span id="cb21-198"><a href="#cb21-198" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.126916795352038)*s21_1+</span></span>
+<span id="cb21-199"><a href="#cb21-199" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.00435500098796124)*s22_1+</span></span>
+<span id="cb21-200"><a href="#cb21-200" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0321217727857697)*s23_1+</span></span>
+<span id="cb21-201"><a href="#cb21-201" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0032698720232859)*s24_1+</span></span>
+<span id="cb21-202"><a href="#cb21-202" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.134427464376022)*s25_1</span></span>
+<span id="cb21-203"><a href="#cb21-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-204"><a href="#cb21-204" aria-hidden="true" tabindex="-1"></a><span class="st">#Time2</span></span>
+<span id="cb21-205"><a href="#cb21-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-206"><a href="#cb21-206" aria-hidden="true" tabindex="-1"></a><span class="st">ML32=~start(0.0318685617912012)*s1_2+</span></span>
+<span id="cb21-207"><a href="#cb21-207" aria-hidden="true" tabindex="-1"></a><span class="st">  0.630374964766479*s2_2+</span></span>
+<span id="cb21-208"><a href="#cb21-208" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0571887154094396)*s3_2+</span></span>
+<span id="cb21-209"><a href="#cb21-209" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0538030402265071)*s4_2+</span></span>
+<span id="cb21-210"><a href="#cb21-210" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0637918865107856)*s5_2+</span></span>
+<span id="cb21-211"><a href="#cb21-211" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0037595073842555)*s6_2+</span></span>
+<span id="cb21-212"><a href="#cb21-212" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.0295740847687255*s7_2+</span></span>
+<span id="cb21-213"><a href="#cb21-213" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0144582068998616*s8_2+</span></span>
+<span id="cb21-214"><a href="#cb21-214" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0306795597767665*s9_2+</span></span>
+<span id="cb21-215"><a href="#cb21-215" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.621109426134197)*s10_2+</span></span>
+<span id="cb21-216"><a href="#cb21-216" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0769751334597619)*s11_2+</span></span>
+<span id="cb21-217"><a href="#cb21-217" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0197092215986661)*s12_2+</span></span>
+<span id="cb21-218"><a href="#cb21-218" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.0918814679617119*s13_2+</span></span>
+<span id="cb21-219"><a href="#cb21-219" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.029978222084595)*s14_2+</span></span>
+<span id="cb21-220"><a href="#cb21-220" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.312265122107737)*s15_2+</span></span>
+<span id="cb21-221"><a href="#cb21-221" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0138061871093199)*s16_2+</span></span>
+<span id="cb21-222"><a href="#cb21-222" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0351187831077965)*s17_2+</span></span>
+<span id="cb21-223"><a href="#cb21-223" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.022985389287828)*s18_2+</span></span>
+<span id="cb21-224"><a href="#cb21-224" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0640748105499755)*s19_2+</span></span>
+<span id="cb21-225"><a href="#cb21-225" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0526278002086372)*s20_2+</span></span>
+<span id="cb21-226"><a href="#cb21-226" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.126916795352038)*s21_2+</span></span>
+<span id="cb21-227"><a href="#cb21-227" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.00435500098796124)*s22_2+</span></span>
+<span id="cb21-228"><a href="#cb21-228" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0321217727857697)*s23_2+</span></span>
+<span id="cb21-229"><a href="#cb21-229" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0032698720232859)*s24_2+</span></span>
+<span id="cb21-230"><a href="#cb21-230" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.134427464376022)*s25_2</span></span>
+<span id="cb21-231"><a href="#cb21-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-232"><a href="#cb21-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-233"><a href="#cb21-233" aria-hidden="true" tabindex="-1"></a><span class="st">## Time3</span></span>
+<span id="cb21-234"><a href="#cb21-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-235"><a href="#cb21-235" aria-hidden="true" tabindex="-1"></a><span class="st">ML33=~start(0.0318685617912012)*s1_3+</span></span>
+<span id="cb21-236"><a href="#cb21-236" aria-hidden="true" tabindex="-1"></a><span class="st">  0.630374964766479*s2_3+</span></span>
+<span id="cb21-237"><a href="#cb21-237" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0571887154094396)*s3_3+</span></span>
+<span id="cb21-238"><a href="#cb21-238" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0538030402265071)*s4_3+</span></span>
+<span id="cb21-239"><a href="#cb21-239" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0637918865107856)*s5_3+</span></span>
+<span id="cb21-240"><a href="#cb21-240" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0037595073842555)*s6_3+</span></span>
+<span id="cb21-241"><a href="#cb21-241" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.0295740847687255*s7_3+</span></span>
+<span id="cb21-242"><a href="#cb21-242" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0144582068998616*s8_3+</span></span>
+<span id="cb21-243"><a href="#cb21-243" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0306795597767665*s9_3+</span></span>
+<span id="cb21-244"><a href="#cb21-244" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.621109426134197)*s10_3+</span></span>
+<span id="cb21-245"><a href="#cb21-245" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0769751334597619)*s11_3+</span></span>
+<span id="cb21-246"><a href="#cb21-246" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0197092215986661)*s12_3+</span></span>
+<span id="cb21-247"><a href="#cb21-247" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.0918814679617119*s13_3+</span></span>
+<span id="cb21-248"><a href="#cb21-248" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.029978222084595)*s14_3+</span></span>
+<span id="cb21-249"><a href="#cb21-249" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.312265122107737)*s15_3+</span></span>
+<span id="cb21-250"><a href="#cb21-250" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0138061871093199)*s16_3+</span></span>
+<span id="cb21-251"><a href="#cb21-251" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0351187831077965)*s17_3+</span></span>
+<span id="cb21-252"><a href="#cb21-252" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.022985389287828)*s18_3+</span></span>
+<span id="cb21-253"><a href="#cb21-253" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0640748105499755)*s19_3+</span></span>
+<span id="cb21-254"><a href="#cb21-254" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0526278002086372)*s20_3+</span></span>
+<span id="cb21-255"><a href="#cb21-255" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.126916795352038)*s21_3+</span></span>
+<span id="cb21-256"><a href="#cb21-256" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.00435500098796124)*s22_3+</span></span>
+<span id="cb21-257"><a href="#cb21-257" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0321217727857697)*s23_3+</span></span>
+<span id="cb21-258"><a href="#cb21-258" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0032698720232859)*s24_3+</span></span>
+<span id="cb21-259"><a href="#cb21-259" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.134427464376022)*s25_3</span></span>
+<span id="cb21-260"><a href="#cb21-260" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb21-261"><a href="#cb21-261" aria-hidden="true" tabindex="-1"></a>Model_ML4<span class="ot">&lt;-</span><span class="st">"</span></span>
+<span id="cb21-262"><a href="#cb21-262" aria-hidden="true" tabindex="-1"></a><span class="st">#Time1</span></span>
+<span id="cb21-263"><a href="#cb21-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-264"><a href="#cb21-264" aria-hidden="true" tabindex="-1"></a><span class="st">ML41=~start(0.117843205299031)*s1_1+</span></span>
+<span id="cb21-265"><a href="#cb21-265" aria-hidden="true" tabindex="-1"></a><span class="st">  0.00848371228260159*s2_1+</span></span>
+<span id="cb21-266"><a href="#cb21-266" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0929136307518985)*s3_1+</span></span>
+<span id="cb21-267"><a href="#cb21-267" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0123382758875751)*s4_1+</span></span>
+<span id="cb21-268"><a href="#cb21-268" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0558123167628648)*s5_1+</span></span>
+<span id="cb21-269"><a href="#cb21-269" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.023775361078292)*s6_1+</span></span>
+<span id="cb21-270"><a href="#cb21-270" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0952557898945923*s7_1+</span></span>
+<span id="cb21-271"><a href="#cb21-271" aria-hidden="true" tabindex="-1"></a><span class="st">  0.369217144239234*s8_1+</span></span>
+<span id="cb21-272"><a href="#cb21-272" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0114539033227634*s9_1+</span></span>
+<span id="cb21-273"><a href="#cb21-273" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.00371410479131914)*s10_1+</span></span>
+<span id="cb21-274"><a href="#cb21-274" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.00729073815554198)*s11_1+</span></span>
+<span id="cb21-275"><a href="#cb21-275" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.15945379876267)*s12_1+</span></span>
+<span id="cb21-276"><a href="#cb21-276" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0209243770588006*s13_1+</span></span>
+<span id="cb21-277"><a href="#cb21-277" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0610717599897765)*s14_1+</span></span>
+<span id="cb21-278"><a href="#cb21-278" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.013669520843305)*s15_1+</span></span>
+<span id="cb21-279"><a href="#cb21-279" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.359777064992566)*s16_1+</span></span>
+<span id="cb21-280"><a href="#cb21-280" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0236008838623919)*s17_1+</span></span>
+<span id="cb21-281"><a href="#cb21-281" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.206663442278027)*s18_1+</span></span>
+<span id="cb21-282"><a href="#cb21-282" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.138933495767261)*s19_1+</span></span>
+<span id="cb21-283"><a href="#cb21-283" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.154035310918099)*s20_1+</span></span>
+<span id="cb21-284"><a href="#cb21-284" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.00469705937706368)*s21_1+</span></span>
+<span id="cb21-285"><a href="#cb21-285" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.189076897903099)*s22_1+</span></span>
+<span id="cb21-286"><a href="#cb21-286" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0695111074225318)*s23_1+</span></span>
+<span id="cb21-287"><a href="#cb21-287" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.286447769550499)*s24_1+</span></span>
+<span id="cb21-288"><a href="#cb21-288" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0600228848907743)*s25_1</span></span>
+<span id="cb21-289"><a href="#cb21-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-290"><a href="#cb21-290" aria-hidden="true" tabindex="-1"></a><span class="st">#Time2</span></span>
+<span id="cb21-291"><a href="#cb21-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-292"><a href="#cb21-292" aria-hidden="true" tabindex="-1"></a><span class="st">ML42=~start(0.117843205299031)*s1_2+</span></span>
+<span id="cb21-293"><a href="#cb21-293" aria-hidden="true" tabindex="-1"></a><span class="st">  0.00848371228260159*s2_2+</span></span>
+<span id="cb21-294"><a href="#cb21-294" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0929136307518985)*s3_2+</span></span>
+<span id="cb21-295"><a href="#cb21-295" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0123382758875751)*s4_2+</span></span>
+<span id="cb21-296"><a href="#cb21-296" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0558123167628648)*s5_2+</span></span>
+<span id="cb21-297"><a href="#cb21-297" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.023775361078292)*s6_2+</span></span>
+<span id="cb21-298"><a href="#cb21-298" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0952557898945923*s7_2+</span></span>
+<span id="cb21-299"><a href="#cb21-299" aria-hidden="true" tabindex="-1"></a><span class="st">  0.369217144239234*s8_2+</span></span>
+<span id="cb21-300"><a href="#cb21-300" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0114539033227634*s9_2+</span></span>
+<span id="cb21-301"><a href="#cb21-301" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.00371410479131914)*s10_2+</span></span>
+<span id="cb21-302"><a href="#cb21-302" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.00729073815554198)*s11_2+</span></span>
+<span id="cb21-303"><a href="#cb21-303" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.15945379876267)*s12_2+</span></span>
+<span id="cb21-304"><a href="#cb21-304" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0209243770588006*s13_2+</span></span>
+<span id="cb21-305"><a href="#cb21-305" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0610717599897765)*s14_2+</span></span>
+<span id="cb21-306"><a href="#cb21-306" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.013669520843305)*s15_2+</span></span>
+<span id="cb21-307"><a href="#cb21-307" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.359777064992566)*s16_2+</span></span>
+<span id="cb21-308"><a href="#cb21-308" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0236008838623919)*s17_2+</span></span>
+<span id="cb21-309"><a href="#cb21-309" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.206663442278027)*s18_2+</span></span>
+<span id="cb21-310"><a href="#cb21-310" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.138933495767261)*s19_2+</span></span>
+<span id="cb21-311"><a href="#cb21-311" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.154035310918099)*s20_2+</span></span>
+<span id="cb21-312"><a href="#cb21-312" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.00469705937706368)*s21_2+</span></span>
+<span id="cb21-313"><a href="#cb21-313" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.189076897903099)*s22_2+</span></span>
+<span id="cb21-314"><a href="#cb21-314" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0695111074225318)*s23_2+</span></span>
+<span id="cb21-315"><a href="#cb21-315" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.286447769550499)*s24_2+</span></span>
+<span id="cb21-316"><a href="#cb21-316" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0600228848907743)*s25_2</span></span>
+<span id="cb21-317"><a href="#cb21-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-318"><a href="#cb21-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-319"><a href="#cb21-319" aria-hidden="true" tabindex="-1"></a><span class="st">## Time3</span></span>
+<span id="cb21-320"><a href="#cb21-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-321"><a href="#cb21-321" aria-hidden="true" tabindex="-1"></a><span class="st">ML43=~start(0.117843205299031)*s1_3+</span></span>
+<span id="cb21-322"><a href="#cb21-322" aria-hidden="true" tabindex="-1"></a><span class="st">  0.00848371228260159*s2_3+</span></span>
+<span id="cb21-323"><a href="#cb21-323" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0929136307518985)*s3_3+</span></span>
+<span id="cb21-324"><a href="#cb21-324" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0123382758875751)*s4_3+</span></span>
+<span id="cb21-325"><a href="#cb21-325" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0558123167628648)*s5_3+</span></span>
+<span id="cb21-326"><a href="#cb21-326" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.023775361078292)*s6_3+</span></span>
+<span id="cb21-327"><a href="#cb21-327" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0952557898945923*s7_3+</span></span>
+<span id="cb21-328"><a href="#cb21-328" aria-hidden="true" tabindex="-1"></a><span class="st">  0.369217144239234*s8_3+</span></span>
+<span id="cb21-329"><a href="#cb21-329" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0114539033227634*s9_3+</span></span>
+<span id="cb21-330"><a href="#cb21-330" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.00371410479131914)*s10_3+</span></span>
+<span id="cb21-331"><a href="#cb21-331" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.00729073815554198)*s11_3+</span></span>
+<span id="cb21-332"><a href="#cb21-332" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.15945379876267)*s12_3+</span></span>
+<span id="cb21-333"><a href="#cb21-333" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0209243770588006*s13_3+</span></span>
+<span id="cb21-334"><a href="#cb21-334" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0610717599897765)*s14_3+</span></span>
+<span id="cb21-335"><a href="#cb21-335" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.013669520843305)*s15_3+</span></span>
+<span id="cb21-336"><a href="#cb21-336" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.359777064992566)*s16_3+</span></span>
+<span id="cb21-337"><a href="#cb21-337" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0236008838623919)*s17_3+</span></span>
+<span id="cb21-338"><a href="#cb21-338" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.206663442278027)*s18_3+</span></span>
+<span id="cb21-339"><a href="#cb21-339" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.138933495767261)*s19_3+</span></span>
+<span id="cb21-340"><a href="#cb21-340" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.154035310918099)*s20_3+</span></span>
+<span id="cb21-341"><a href="#cb21-341" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.00469705937706368)*s21_3+</span></span>
+<span id="cb21-342"><a href="#cb21-342" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.189076897903099)*s22_3+</span></span>
+<span id="cb21-343"><a href="#cb21-343" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0695111074225318)*s23_3+</span></span>
+<span id="cb21-344"><a href="#cb21-344" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.286447769550499)*s24_3+</span></span>
+<span id="cb21-345"><a href="#cb21-345" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0600228848907743)*s25_3</span></span>
+<span id="cb21-346"><a href="#cb21-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-347"><a href="#cb21-347" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb21-348"><a href="#cb21-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-349"><a href="#cb21-349" aria-hidden="true" tabindex="-1"></a>Model_ML5<span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb21-350"><a href="#cb21-350" aria-hidden="true" tabindex="-1"></a><span class="st">#Time1</span></span>
+<span id="cb21-351"><a href="#cb21-351" aria-hidden="true" tabindex="-1"></a><span class="st">ML51=~start(0.386993546331018)*s1_1+</span></span>
+<span id="cb21-352"><a href="#cb21-352" aria-hidden="true" tabindex="-1"></a><span class="st"> 0.0209490404099033*s2_1+</span></span>
+<span id="cb21-353"><a href="#cb21-353" aria-hidden="true" tabindex="-1"></a><span class="st"> start(-0.0054433991686893)*s3_1+</span></span>
+<span id="cb21-354"><a href="#cb21-354" aria-hidden="true" tabindex="-1"></a><span class="st"> start(0.326516136546854)*s4_1+</span></span>
+<span id="cb21-355"><a href="#cb21-355" aria-hidden="true" tabindex="-1"></a><span class="st"> start(-0.0250259504849937)*s5_1+</span></span>
+<span id="cb21-356"><a href="#cb21-356" aria-hidden="true" tabindex="-1"></a><span class="st"> start(-0.27989807565512)*s6_1+</span></span>
+<span id="cb21-357"><a href="#cb21-357" aria-hidden="true" tabindex="-1"></a><span class="st"> 0.0151065500711747*s7_1+</span></span>
+<span id="cb21-358"><a href="#cb21-358" aria-hidden="true" tabindex="-1"></a><span class="st"> -0.0231256595924317*s8_1+</span></span>
+<span id="cb21-359"><a href="#cb21-359" aria-hidden="true" tabindex="-1"></a><span class="st"> 0.425339658015609*s9_1+</span></span>
+<span id="cb21-360"><a href="#cb21-360" aria-hidden="true" tabindex="-1"></a><span class="st"> start(0.0174598806360039)*s10_1+</span></span>
+<span id="cb21-361"><a href="#cb21-361" aria-hidden="true" tabindex="-1"></a><span class="st"> start(0.32635887160996)*s11_1+</span></span>
+<span id="cb21-362"><a href="#cb21-362" aria-hidden="true" tabindex="-1"></a><span class="st"> start(-0.0271979194024951)*s12_1+</span></span>
+<span id="cb21-363"><a href="#cb21-363" aria-hidden="true" tabindex="-1"></a><span class="st"> -0.082431747549817*s13_1+</span></span>
+<span id="cb21-364"><a href="#cb21-364" aria-hidden="true" tabindex="-1"></a><span class="st"> start(0.402026051871148)*s14_1+</span></span>
+<span id="cb21-365"><a href="#cb21-365" aria-hidden="true" tabindex="-1"></a><span class="st"> start(0.115151805310133)*s15_1+</span></span>
+<span id="cb21-366"><a href="#cb21-366" aria-hidden="true" tabindex="-1"></a><span class="st"> start(0.0441996218569334)*s16_1+</span></span>
+<span id="cb21-367"><a href="#cb21-367" aria-hidden="true" tabindex="-1"></a><span class="st"> start(0.353082490590944)*s17_1+</span></span>
+<span id="cb21-368"><a href="#cb21-368" aria-hidden="true" tabindex="-1"></a><span class="st"> start(-0.0219255651364234)*s18_1+</span></span>
+<span id="cb21-369"><a href="#cb21-369" aria-hidden="true" tabindex="-1"></a><span class="st"> start(-0.166325529041567)*s19_1+</span></span>
+<span id="cb21-370"><a href="#cb21-370" aria-hidden="true" tabindex="-1"></a><span class="st"> start(0.167267894714794)*s20_1+</span></span>
+<span id="cb21-371"><a href="#cb21-371" aria-hidden="true" tabindex="-1"></a><span class="st"> start(0.0475302921193128)*s21_1+</span></span>
+<span id="cb21-372"><a href="#cb21-372" aria-hidden="true" tabindex="-1"></a><span class="st"> start(-0.0102300226444448)*s22_1+</span></span>
+<span id="cb21-373"><a href="#cb21-373" aria-hidden="true" tabindex="-1"></a><span class="st"> start(-0.215432585452835)*s23_1+</span></span>
+<span id="cb21-374"><a href="#cb21-374" aria-hidden="true" tabindex="-1"></a><span class="st"> start(0.00968333520180835)*s24_1+</span></span>
+<span id="cb21-375"><a href="#cb21-375" aria-hidden="true" tabindex="-1"></a><span class="st"> start(-0.0288085462659386)*s25_1</span></span>
+<span id="cb21-376"><a href="#cb21-376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-377"><a href="#cb21-377" aria-hidden="true" tabindex="-1"></a><span class="st">#Time2</span></span>
+<span id="cb21-378"><a href="#cb21-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-379"><a href="#cb21-379" aria-hidden="true" tabindex="-1"></a><span class="st">ML52=~start(0.386993546331018)*s1_2+</span></span>
+<span id="cb21-380"><a href="#cb21-380" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0209490404099033*s2_2+</span></span>
+<span id="cb21-381"><a href="#cb21-381" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0054433991686893)*s3_2+</span></span>
+<span id="cb21-382"><a href="#cb21-382" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.326516136546854)*s4_2+</span></span>
+<span id="cb21-383"><a href="#cb21-383" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0250259504849937)*s5_2+</span></span>
+<span id="cb21-384"><a href="#cb21-384" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.27989807565512)*s6_2+</span></span>
+<span id="cb21-385"><a href="#cb21-385" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0151065500711747*s7_2+</span></span>
+<span id="cb21-386"><a href="#cb21-386" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.0231256595924317*s8_2+</span></span>
+<span id="cb21-387"><a href="#cb21-387" aria-hidden="true" tabindex="-1"></a><span class="st">  0.425339658015609*s9_2+</span></span>
+<span id="cb21-388"><a href="#cb21-388" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0174598806360039)*s10_2+</span></span>
+<span id="cb21-389"><a href="#cb21-389" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.32635887160996)*s11_2+</span></span>
+<span id="cb21-390"><a href="#cb21-390" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0271979194024951)*s12_2+</span></span>
+<span id="cb21-391"><a href="#cb21-391" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.082431747549817*s13_2+</span></span>
+<span id="cb21-392"><a href="#cb21-392" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.402026051871148)*s14_2+</span></span>
+<span id="cb21-393"><a href="#cb21-393" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.115151805310133)*s15_2+</span></span>
+<span id="cb21-394"><a href="#cb21-394" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0441996218569334)*s16_2+</span></span>
+<span id="cb21-395"><a href="#cb21-395" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.353082490590944)*s17_2+</span></span>
+<span id="cb21-396"><a href="#cb21-396" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0219255651364234)*s18_2+</span></span>
+<span id="cb21-397"><a href="#cb21-397" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.166325529041567)*s19_2+</span></span>
+<span id="cb21-398"><a href="#cb21-398" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.167267894714794)*s20_2+</span></span>
+<span id="cb21-399"><a href="#cb21-399" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0475302921193128)*s21_2+</span></span>
+<span id="cb21-400"><a href="#cb21-400" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0102300226444448)*s22_2+</span></span>
+<span id="cb21-401"><a href="#cb21-401" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.215432585452835)*s23_2+</span></span>
+<span id="cb21-402"><a href="#cb21-402" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.00968333520180835)*s24_2+</span></span>
+<span id="cb21-403"><a href="#cb21-403" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0288085462659386)*s25_2</span></span>
+<span id="cb21-404"><a href="#cb21-404" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-405"><a href="#cb21-405" aria-hidden="true" tabindex="-1"></a><span class="st">## Time3</span></span>
+<span id="cb21-406"><a href="#cb21-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-407"><a href="#cb21-407" aria-hidden="true" tabindex="-1"></a><span class="st">ML53=~start(0.386993546331018)*s1_3+</span></span>
+<span id="cb21-408"><a href="#cb21-408" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0209490404099033*s2_3+</span></span>
+<span id="cb21-409"><a href="#cb21-409" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0054433991686893)*s3_3+</span></span>
+<span id="cb21-410"><a href="#cb21-410" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.326516136546854)*s4_3+</span></span>
+<span id="cb21-411"><a href="#cb21-411" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0250259504849937)*s5_3+</span></span>
+<span id="cb21-412"><a href="#cb21-412" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.27989807565512)*s6_3+</span></span>
+<span id="cb21-413"><a href="#cb21-413" aria-hidden="true" tabindex="-1"></a><span class="st">  0.0151065500711747*s7_3+</span></span>
+<span id="cb21-414"><a href="#cb21-414" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.0231256595924317*s8_3+</span></span>
+<span id="cb21-415"><a href="#cb21-415" aria-hidden="true" tabindex="-1"></a><span class="st">  0.425339658015609*s9_3+</span></span>
+<span id="cb21-416"><a href="#cb21-416" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0174598806360039)*s10_3+</span></span>
+<span id="cb21-417"><a href="#cb21-417" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.32635887160996)*s11_3+</span></span>
+<span id="cb21-418"><a href="#cb21-418" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0271979194024951)*s12_3+</span></span>
+<span id="cb21-419"><a href="#cb21-419" aria-hidden="true" tabindex="-1"></a><span class="st">  -0.082431747549817*s13_3+</span></span>
+<span id="cb21-420"><a href="#cb21-420" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.402026051871148)*s14_3+</span></span>
+<span id="cb21-421"><a href="#cb21-421" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.115151805310133)*s15_3+</span></span>
+<span id="cb21-422"><a href="#cb21-422" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0441996218569334)*s16_3+</span></span>
+<span id="cb21-423"><a href="#cb21-423" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.353082490590944)*s17_3+</span></span>
+<span id="cb21-424"><a href="#cb21-424" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0219255651364234)*s18_3+</span></span>
+<span id="cb21-425"><a href="#cb21-425" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.166325529041567)*s19_3+</span></span>
+<span id="cb21-426"><a href="#cb21-426" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.167267894714794)*s20_3+</span></span>
+<span id="cb21-427"><a href="#cb21-427" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.0475302921193128)*s21_3+</span></span>
+<span id="cb21-428"><a href="#cb21-428" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0102300226444448)*s22_3+</span></span>
+<span id="cb21-429"><a href="#cb21-429" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.215432585452835)*s23_3+</span></span>
+<span id="cb21-430"><a href="#cb21-430" aria-hidden="true" tabindex="-1"></a><span class="st">  start(0.00968333520180835)*s24_3+</span></span>
+<span id="cb21-431"><a href="#cb21-431" aria-hidden="true" tabindex="-1"></a><span class="st">  start(-0.0288085462659386)*s25_3</span></span>
+<span id="cb21-432"><a href="#cb21-432" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb21-433"><a href="#cb21-433" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-434"><a href="#cb21-434" aria-hidden="true" tabindex="-1"></a>var1<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">"s1_1"</span>,</span>
+<span id="cb21-435"><a href="#cb21-435" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s2_1"</span>,</span>
+<span id="cb21-436"><a href="#cb21-436" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s3_1"</span>,</span>
+<span id="cb21-437"><a href="#cb21-437" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s4_1"</span>,</span>
+<span id="cb21-438"><a href="#cb21-438" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s5_1"</span>,</span>
+<span id="cb21-439"><a href="#cb21-439" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s6_1"</span>,</span>
+<span id="cb21-440"><a href="#cb21-440" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s7_1"</span>,</span>
+<span id="cb21-441"><a href="#cb21-441" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s8_1"</span>,</span>
+<span id="cb21-442"><a href="#cb21-442" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s9_1"</span>,</span>
+<span id="cb21-443"><a href="#cb21-443" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s10_1"</span>,</span>
+<span id="cb21-444"><a href="#cb21-444" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s11_1"</span>,</span>
+<span id="cb21-445"><a href="#cb21-445" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s12_1"</span>,</span>
+<span id="cb21-446"><a href="#cb21-446" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s13_1"</span>,</span>
+<span id="cb21-447"><a href="#cb21-447" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s14_1"</span>,</span>
+<span id="cb21-448"><a href="#cb21-448" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s15_1"</span>,</span>
+<span id="cb21-449"><a href="#cb21-449" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s16_1"</span>,</span>
+<span id="cb21-450"><a href="#cb21-450" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s17_1"</span>,</span>
+<span id="cb21-451"><a href="#cb21-451" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s18_1"</span>,</span>
+<span id="cb21-452"><a href="#cb21-452" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s19_1"</span>,</span>
+<span id="cb21-453"><a href="#cb21-453" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s20_1"</span>,</span>
+<span id="cb21-454"><a href="#cb21-454" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s21_1"</span>,</span>
+<span id="cb21-455"><a href="#cb21-455" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s22_1"</span>,</span>
+<span id="cb21-456"><a href="#cb21-456" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s23_1"</span>,</span>
+<span id="cb21-457"><a href="#cb21-457" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s24_1"</span>,</span>
+<span id="cb21-458"><a href="#cb21-458" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s25_1"</span>)</span>
+<span id="cb21-459"><a href="#cb21-459" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-460"><a href="#cb21-460" aria-hidden="true" tabindex="-1"></a>var2<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">"s1_2"</span>,</span>
+<span id="cb21-461"><a href="#cb21-461" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s2_2"</span>,</span>
+<span id="cb21-462"><a href="#cb21-462" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s3_2"</span>,</span>
+<span id="cb21-463"><a href="#cb21-463" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s4_2"</span>,</span>
+<span id="cb21-464"><a href="#cb21-464" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s5_2"</span>,</span>
+<span id="cb21-465"><a href="#cb21-465" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s6_2"</span>,</span>
+<span id="cb21-466"><a href="#cb21-466" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s7_2"</span>,</span>
+<span id="cb21-467"><a href="#cb21-467" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s8_2"</span>,</span>
+<span id="cb21-468"><a href="#cb21-468" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s9_2"</span>,</span>
+<span id="cb21-469"><a href="#cb21-469" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s10_2"</span>,</span>
+<span id="cb21-470"><a href="#cb21-470" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s11_2"</span>,</span>
+<span id="cb21-471"><a href="#cb21-471" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s12_2"</span>,</span>
+<span id="cb21-472"><a href="#cb21-472" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s13_2"</span>,</span>
+<span id="cb21-473"><a href="#cb21-473" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s14_2"</span>,</span>
+<span id="cb21-474"><a href="#cb21-474" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s15_2"</span>,</span>
+<span id="cb21-475"><a href="#cb21-475" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s16_2"</span>,</span>
+<span id="cb21-476"><a href="#cb21-476" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s17_2"</span>,</span>
+<span id="cb21-477"><a href="#cb21-477" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s18_2"</span>,</span>
+<span id="cb21-478"><a href="#cb21-478" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s19_2"</span>,</span>
+<span id="cb21-479"><a href="#cb21-479" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s20_2"</span>,</span>
+<span id="cb21-480"><a href="#cb21-480" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s21_2"</span>,</span>
+<span id="cb21-481"><a href="#cb21-481" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s22_2"</span>,</span>
+<span id="cb21-482"><a href="#cb21-482" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s23_2"</span>,</span>
+<span id="cb21-483"><a href="#cb21-483" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s24_2"</span>,</span>
+<span id="cb21-484"><a href="#cb21-484" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s25_2"</span>)</span>
+<span id="cb21-485"><a href="#cb21-485" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-486"><a href="#cb21-486" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-487"><a href="#cb21-487" aria-hidden="true" tabindex="-1"></a>var3<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">"s1_3"</span>,</span>
+<span id="cb21-488"><a href="#cb21-488" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s2_3"</span>,</span>
+<span id="cb21-489"><a href="#cb21-489" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s3_3"</span>,</span>
+<span id="cb21-490"><a href="#cb21-490" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s4_3"</span>,</span>
+<span id="cb21-491"><a href="#cb21-491" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s5_3"</span>,</span>
+<span id="cb21-492"><a href="#cb21-492" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s6_3"</span>,</span>
+<span id="cb21-493"><a href="#cb21-493" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s7_3"</span>,</span>
+<span id="cb21-494"><a href="#cb21-494" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s8_3"</span>,</span>
+<span id="cb21-495"><a href="#cb21-495" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s9_3"</span>,</span>
+<span id="cb21-496"><a href="#cb21-496" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s10_3"</span>,</span>
+<span id="cb21-497"><a href="#cb21-497" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s11_3"</span>,</span>
+<span id="cb21-498"><a href="#cb21-498" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s12_3"</span>,</span>
+<span id="cb21-499"><a href="#cb21-499" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s13_3"</span>,</span>
+<span id="cb21-500"><a href="#cb21-500" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s14_3"</span>,</span>
+<span id="cb21-501"><a href="#cb21-501" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s15_3"</span>,</span>
+<span id="cb21-502"><a href="#cb21-502" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s16_3"</span>,</span>
+<span id="cb21-503"><a href="#cb21-503" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s17_3"</span>,</span>
+<span id="cb21-504"><a href="#cb21-504" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s18_3"</span>,</span>
+<span id="cb21-505"><a href="#cb21-505" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s19_3"</span>,</span>
+<span id="cb21-506"><a href="#cb21-506" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s20_3"</span>,</span>
+<span id="cb21-507"><a href="#cb21-507" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s21_3"</span>,</span>
+<span id="cb21-508"><a href="#cb21-508" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s22_3"</span>,</span>
+<span id="cb21-509"><a href="#cb21-509" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s23_3"</span>,</span>
+<span id="cb21-510"><a href="#cb21-510" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s24_3"</span>,</span>
+<span id="cb21-511"><a href="#cb21-511" aria-hidden="true" tabindex="-1"></a>        <span class="st">"s25_3"</span>)</span>
+<span id="cb21-512"><a href="#cb21-512" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-513"><a href="#cb21-513" aria-hidden="true" tabindex="-1"></a>constrainedVar <span class="ot">&lt;-</span> <span class="fu">list</span>(var1, var2, var3)</span>
+<span id="cb21-514"><a href="#cb21-514" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-515"><a href="#cb21-515" aria-hidden="true" tabindex="-1"></a>ML1_inv<span class="ot">&lt;-</span><span class="fu">longInvariance</span>(Model_ML1, <span class="at">auto=</span><span class="dv">1</span>, <span class="at">constrainAuto=</span><span class="cn">TRUE</span>, <span class="at">varList=</span>constrainedVar, <span class="at">data=</span>data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The longInvariance function is deprecated, and it will cease to be
+included in future versions of semTools. See help('semTools-deprecated) for
+details.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in lavaan::lavTestLRT(...): lavaan WARNING: method = "satorra.bentler.2001"
+     but no robust test statistics were used;
+     switching to the standard chi-square difference test</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Measurement invariance models:
+
+Model 1 : fit.configural
+Model 2 : fit.loadings
+Model 3 : fit.intercepts
+Model 4 : fit.means
+
+Chi-Squared Difference Test
+
+                 Df    AIC    BIC Chisq Chisq diff Df diff Pr(&gt;Chisq)    
+fit.configural 2687 320110 321514 22684                                  
+fit.loadings   2725 320430 321610 23080     396.19      38  &lt; 2.2e-16 ***
+fit.intercepts 2773 321667 322564 24412    1332.69      48  &lt; 2.2e-16 ***
+fit.means      2775 321844 322729 24593     180.89       2  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Fit measures:
+
+                 cfi rmsea cfi.delta rmsea.delta
+fit.configural 0.528 0.053        NA          NA
+fit.loadings   0.519 0.053     0.008       0.000
+fit.intercepts 0.489 0.054     0.030       0.001
+fit.means      0.485 0.054     0.004       0.000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ML2_inv<span class="ot">&lt;-</span><span class="fu">longInvariance</span>(Model_ML2, <span class="at">auto=</span><span class="dv">1</span>, <span class="at">constrainAuto=</span><span class="cn">TRUE</span>, <span class="at">varList=</span>constrainedVar, <span class="at">data=</span>data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The longInvariance function is deprecated, and it will cease to be included in future versions of semTools. See help('semTools-deprecated) for details.
+
+Warning: lavaan WARNING: method = "satorra.bentler.2001"
+     but no robust test statistics were used;
+     switching to the standard chi-square difference test</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Measurement invariance models:
+
+Model 1 : fit.configural
+Model 2 : fit.loadings
+Model 3 : fit.intercepts
+Model 4 : fit.means
+
+Chi-Squared Difference Test
+
+                 Df    AIC    BIC Chisq Chisq diff Df diff Pr(&gt;Chisq)    
+fit.configural 2687 324480 325884 27054                                  
+fit.loadings   2725 324754 325934 27404     350.33      38  &lt; 2.2e-16 ***
+fit.intercepts 2773 326462 327359 29207    1803.54      48  &lt; 2.2e-16 ***
+fit.means      2775 326527 327412 29277      69.21       2   9.36e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Fit measures:
+
+                 cfi rmsea cfi.delta rmsea.delta
+fit.configural 0.425 0.058        NA          NA
+fit.loadings   0.417 0.058     0.007       0.000
+fit.intercepts 0.376 0.059     0.041       0.002
+fit.means      0.374 0.060     0.002       0.000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>ML3_inv<span class="ot">&lt;-</span><span class="fu">longInvariance</span>(Model_ML3, <span class="at">auto=</span><span class="dv">1</span>, <span class="at">constrainAuto=</span><span class="cn">TRUE</span>, <span class="at">varList=</span>constrainedVar, <span class="at">data=</span>data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The longInvariance function is deprecated, and it will cease to be included in future versions of semTools. See help('semTools-deprecated) for details.
+
+Warning: lavaan WARNING: method = "satorra.bentler.2001"
+     but no robust test statistics were used;
+     switching to the standard chi-square difference test</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Measurement invariance models:
+
+Model 1 : fit.configural
+Model 2 : fit.loadings
+Model 3 : fit.intercepts
+Model 4 : fit.means
+
+Chi-Squared Difference Test
+
+                 Df    AIC    BIC Chisq Chisq diff Df diff Pr(&gt;Chisq)    
+fit.configural 2687 325716 327120 28290                                  
+fit.loadings   2725 325932 327112 28581     291.72      38  &lt; 2.2e-16 ***
+fit.intercepts 2773 327472 328368 30217    1635.68      48  &lt; 2.2e-16 ***
+fit.means      2775 327578 328463 30328     110.57       2  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Fit measures:
+
+                 cfi rmsea cfi.delta rmsea.delta
+fit.configural 0.395 0.059        NA          NA
+fit.loadings   0.389 0.059     0.006       0.000
+fit.intercepts 0.352 0.061     0.037       0.001
+fit.means      0.349 0.061     0.003       0.000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>ML4_inv<span class="ot">&lt;-</span><span class="fu">longInvariance</span>(Model_ML4, <span class="at">auto=</span><span class="dv">1</span>, <span class="at">constrainAuto=</span><span class="cn">TRUE</span>, <span class="at">varList=</span>constrainedVar, <span class="at">data=</span>data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The longInvariance function is deprecated, and it will cease to be included in future versions of semTools. See help('semTools-deprecated) for details.
+
+Warning: lavaan WARNING: method = "satorra.bentler.2001"
+     but no robust test statistics were used;
+     switching to the standard chi-square difference test</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Measurement invariance models:
+
+Model 1 : fit.configural
+Model 2 : fit.loadings
+Model 3 : fit.intercepts
+Model 4 : fit.means
+
+Chi-Squared Difference Test
+
+                 Df    AIC    BIC Chisq Chisq diff Df diff Pr(&gt;Chisq)    
+fit.configural 2687 326890 328294 29464                                  
+fit.loadings   2725 327134 328314 29783     319.49      38  &lt; 2.2e-16 ***
+fit.intercepts 2773 328608 329505 31353    1570.37      48  &lt; 2.2e-16 ***
+fit.means      2775 328749 329634 31499     145.28       2  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Fit measures:
+
+                 cfi rmsea cfi.delta rmsea.delta
+fit.configural 0.368 0.061        NA          NA
+fit.loadings   0.361 0.061     0.007       0.000
+fit.intercepts 0.325 0.062     0.036       0.001
+fit.means      0.322 0.062     0.003       0.000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>ML5_inv<span class="ot">&lt;-</span><span class="fu">longInvariance</span>(Model_ML5, <span class="at">auto=</span><span class="dv">1</span>, <span class="at">constrainAuto=</span><span class="cn">TRUE</span>, <span class="at">varList=</span>constrainedVar, <span class="at">data=</span>data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The longInvariance function is deprecated, and it will cease to be included in future versions of semTools. See help('semTools-deprecated) for details.
+
+Warning: lavaan WARNING: method = "satorra.bentler.2001"
+     but no robust test statistics were used;
+     switching to the standard chi-square difference test</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Measurement invariance models:
+
+Model 1 : fit.configural
+Model 2 : fit.loadings
+Model 3 : fit.intercepts
+Model 4 : fit.means
+
+Chi-Squared Difference Test
+
+                 Df    AIC    BIC Chisq Chisq diff Df diff Pr(&gt;Chisq)    
+fit.configural 2687 325704 327108 28277                                  
+fit.loadings   2725 325980 327160 28630     352.47      38  &lt; 2.2e-16 ***
+fit.intercepts 2773 327656 328552 30401    1771.19      48  &lt; 2.2e-16 ***
+fit.means      2775 327737 328622 30487      85.46       2  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Fit measures:
+
+                 cfi rmsea cfi.delta rmsea.delta
+fit.configural 0.396 0.059        NA          NA
+fit.loadings   0.388 0.059     0.007       0.000
+fit.intercepts 0.348 0.061     0.041       0.001
+fit.means      0.346 0.061     0.002       0.000</code></pre>
+</div>
+</div>
+<p>###ML1_inv</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>ML1_inv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$fit.configural
+lavaan 0.6-11 ended normally after 82 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       263
+  Number of equality constraints                    25
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              22683.535
+  Degrees of freedom                               2687
+  P-value (Chi-square)                            0.000
+
+$fit.loadings
+lavaan 0.6-11 ended normally after 78 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       263
+  Number of equality constraints                    73
+  Row rank of the constraints matrix                63
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              23079.729
+  Degrees of freedom                               2725
+  P-value (Chi-square)                            0.000
+
+$fit.intercepts
+lavaan 0.6-11 ended normally after 120 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       265
+  Number of equality constraints                   123
+  Row rank of the constraints matrix               113
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              24412.421
+  Degrees of freedom                               2773
+  P-value (Chi-square)                            0.000
+
+$fit.means
+lavaan 0.6-11 ended normally after 102 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       263
+  Number of equality constraints                   123
+  Row rank of the constraints matrix               113
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              24593.311
+  Degrees of freedom                               2775
+  P-value (Chi-square)                            0.000</code></pre>
+</div>
+</div>
+<p>###ML2_inv</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>ML2_inv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$fit.configural
+lavaan 0.6-11 ended normally after 121 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       263
+  Number of equality constraints                    25
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              27053.596
+  Degrees of freedom                               2687
+  P-value (Chi-square)                            0.000
+
+$fit.loadings
+lavaan 0.6-11 ended normally after 95 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       263
+  Number of equality constraints                    73
+  Row rank of the constraints matrix                63
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              27403.928
+  Degrees of freedom                               2725
+  P-value (Chi-square)                            0.000
+
+$fit.intercepts
+lavaan 0.6-11 ended normally after 133 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       265
+  Number of equality constraints                   123
+  Row rank of the constraints matrix               113
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              29207.467
+  Degrees of freedom                               2773
+  P-value (Chi-square)                            0.000
+
+$fit.means
+lavaan 0.6-11 ended normally after 132 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       263
+  Number of equality constraints                   123
+  Row rank of the constraints matrix               113
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              29276.677
+  Degrees of freedom                               2775
+  P-value (Chi-square)                            0.000</code></pre>
+</div>
+</div>
+<p>###ML3_inv</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>ML3_inv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$fit.configural
+lavaan 0.6-11 ended normally after 106 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       263
+  Number of equality constraints                    25
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              28289.588
+  Degrees of freedom                               2687
+  P-value (Chi-square)                            0.000
+
+$fit.loadings
+lavaan 0.6-11 ended normally after 83 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       263
+  Number of equality constraints                    73
+  Row rank of the constraints matrix                63
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              28581.306
+  Degrees of freedom                               2725
+  P-value (Chi-square)                            0.000
+
+$fit.intercepts
+lavaan 0.6-11 ended normally after 118 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       265
+  Number of equality constraints                   123
+  Row rank of the constraints matrix               113
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              30216.981
+  Degrees of freedom                               2773
+  P-value (Chi-square)                            0.000
+
+$fit.means
+lavaan 0.6-11 ended normally after 121 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       263
+  Number of equality constraints                   123
+  Row rank of the constraints matrix               113
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              30327.550
+  Degrees of freedom                               2775
+  P-value (Chi-square)                            0.000</code></pre>
+</div>
+</div>
+<p>###ML4_inv</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>ML4_inv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$fit.configural
+lavaan 0.6-11 ended normally after 132 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       263
+  Number of equality constraints                    25
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              29463.626
+  Degrees of freedom                               2687
+  P-value (Chi-square)                            0.000
+
+$fit.loadings
+lavaan 0.6-11 ended normally after 103 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       263
+  Number of equality constraints                    73
+  Row rank of the constraints matrix                63
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              29783.120
+  Degrees of freedom                               2725
+  P-value (Chi-square)                            0.000
+
+$fit.intercepts
+lavaan 0.6-11 ended normally after 145 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       265
+  Number of equality constraints                   123
+  Row rank of the constraints matrix               113
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              31353.488
+  Degrees of freedom                               2773
+  P-value (Chi-square)                            0.000
+
+$fit.means
+lavaan 0.6-11 ended normally after 139 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       263
+  Number of equality constraints                   123
+  Row rank of the constraints matrix               113
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              31498.766
+  Degrees of freedom                               2775
+  P-value (Chi-square)                            0.000</code></pre>
+</div>
+</div>
+<p>###ML5_inv</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>ML5_inv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$fit.configural
+lavaan 0.6-11 ended normally after 125 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       263
+  Number of equality constraints                    25
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              28277.463
+  Degrees of freedom                               2687
+  P-value (Chi-square)                            0.000
+
+$fit.loadings
+lavaan 0.6-11 ended normally after 93 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       263
+  Number of equality constraints                    73
+  Row rank of the constraints matrix                63
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              28629.936
+  Degrees of freedom                               2725
+  P-value (Chi-square)                            0.000
+
+$fit.intercepts
+lavaan 0.6-11 ended normally after 139 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       265
+  Number of equality constraints                   123
+  Row rank of the constraints matrix               113
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              30401.124
+  Degrees of freedom                               2773
+  P-value (Chi-square)                            0.000
+
+$fit.means
+lavaan 0.6-11 ended normally after 138 iterations
+
+  Estimator                                         ML
+  Optimization method                           NLMINB
+  Number of model parameters                       263
+  Number of equality constraints                   123
+  Row rank of the constraints matrix               113
+                                                      
+                                                  Used       Total
+  Number of observations                          2695        3956
+                                                                  
+Model Test User Model:
+                                                       
+  Test statistic                              30486.586
+  Degrees of freedom                               2775
+  P-value (Chi-square)                            0.000</code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
