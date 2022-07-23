@@ -43,7 +43,7 @@ esem_efa_results_all<-esem_efa(
   Target= target_all)
 
 
-esem_model_all <- esem_syntax(esem_efa_results, referent_list)
+esem_model_all <- esem_syntax(esem_efa_results_all, referent_list)
 writeLines(esem_model_all)
 
 
@@ -58,8 +58,11 @@ esem_cfa_results_all<-lavaan::cfa(model=esem_model_all,
                               std.lv=TRUE,
                               ordered = TRUE,
                               estimator = "WLSMV")
+#or
 
-
+#esem_cfa(
+#  model=esem_model_all,
+#  data=data) 
 
 summary(esem_cfa_results_all, fit.measures = TRUE, standardized = TRUE, ci = TRUE)
 
