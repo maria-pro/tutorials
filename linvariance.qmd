@@ -4,9 +4,7 @@ format: html
 editor: visual
 ---
 
-## 
-
-So far - fitting factor by factor
+## Setup 
 
 ```{r}
 library(semTools)
@@ -21,6 +19,76 @@ library (esem)
 data<-read_sav("data.sav")
 data<-data%>%select(-hicid)
 data<-data[,1:75]
+```
+
+## ESEM fitting - all data
+
+```{r}
+main_loadings_list <- list(
+  pp = c("s6_1", "s11_1", "s14_1", "s19_1", "s23_1"),
+  cp = c("s5_1", "s7_1", "s12_1", "s18_1", "s22_1"),
+  es = c("s3_1", "s8_1", "s13_1", "s16_1", "s24_1"),
+  ha = c("s2_1","s10_1","s15_1","s21_1","s25_1"),
+  ps = c("s1_1","s4_1","s9_1","s17_1","s20_1")
+)
+
+target_all<-make_target(
+  data=data, 
+  keys=main_loadings_list)
+
+esem_efa_results_all<-esem_efa(
+  data=data,
+  nfactors = 5,
+  rotate="TargetQ",
+  Target= target_all)
+
+
+esem_model_all <- esem_syntax(esem_efa_results, referent_list)
+writeLines(esem_model_all)
+
+
+```
+
+#### CFA - all
+
+```{r}
+esem_cfa_results_all<-lavaan::cfa(model=esem_model_all,
+                              data=data,
+                              mimic =c("MPlus"),
+                              std.lv=TRUE,
+                              ordered = TRUE,
+                              estimator = "WLSMV")
+
+
+
+summary(esem_cfa_results_all, fit.measures = TRUE, standardized = TRUE, ci = TRUE)
+
+fitmeasures(esem_cfa_results_all, c('cfi', 'rmsea', 'rmsea.ci.upper', 'bic'))
+
+
+```
+
+## Modification indices
+
+
+```{r}
+modificationindices(esem_cfa_results_all)%>%
+   knitr::kable(caption="MI for all 3 time frames")
+
+
+modificationindices(esem_cfa_results_all) %>%
+  as_data_frame() %>%
+  arrange(-mi) %>%
+  filter(mi > 11) %>%
+  select(lhs, op, rhs, mi, epc) %>%
+  knitr::kable(caption="Largest MI values for esem_cfa_results_all", digits=3)
+```
+
+## Longitudinal invariance
+
+### fitting factor by factor
+
+```{r}
 
 data1<-data%>%select(ends_with("_1"))
 data2<-data%>%select(ends_with("_2"))
@@ -37,6 +105,7 @@ main_loadings_list <- list(
 target<-make_target(
   data=data1, 
   keys=main_loadings_list)
+
 esem_efa_results<-esem_efa(
   data=data1,
   nfactors = 5,
