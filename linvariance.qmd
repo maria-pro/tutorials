@@ -4,7 +4,7 @@ format: html
 editor: visual
 ---
 
-## Setup 
+## Setup
 
 ```{r}
 library(semTools)
@@ -72,7 +72,6 @@ fitmeasures(esem_cfa_results_all, c('cfi', 'rmsea', 'rmsea.ci.upper', 'bic'))
 ```
 
 ## Modification indices
-
 
 ```{r}
 modificationindices(esem_cfa_results_all)%>%
@@ -675,4 +674,119 @@ ML4_inv
 
 ```{r}
 ML5_inv
+```
+
+## Longitudional invariance - all 5 factors together
+
+### Configural invariance model
+
+trying 2 factors
+
+```{r}
+
+configural <- '
+```
+
+```{r}
+data_full<-read_sav("data.sav")
+
+data_full<-data_full[,1:76]
+
+test<-data_full%>%pivot_longer(
+  cols=!hicid,
+  names_to = c("var", "wave"),
+  names_sep = "_",
+  values_to = "score"
+)%>%
+  pivot_wider(
+   # cols=!c(hicid,wave),
+    names_from=var,
+    values_from=score
+  )
+```
+
+### Longitudinal invariance
+
+Longitudinal (or multiple-group) CFAs are done using `cfa()` in `lavaan` with additional parameters (`group`, `group.equal`, and `group.partial`). These parameters specify equality constraints between the different waves (=groups).
+
+The models can also be specified manually and compared using `anova()` function.
+
+```{r}
+
+model<-"
+ML1=~start(-0.10181813334364)*s1+
+  0.341021830091293*s2+
+  start(0.475689597452262)*s3+
+  start(0.0448498091001827)*s4+
+  start(0.532706326072059)*s5+
+  start(0.380270886458239)*s6+
+  -0.17677526014272*s7+
+  0.557302560480769*s8+
+  0.0154555580721658*s9+
+  start(0.445591230767454)*s10+
+  start(-0.14715624332716)*s11+
+  start(0.295375297579211)*s12+
+  0.640790531584111*s13+
+  start(-0.283662392937637)*s14+
+  start(0.496315161517282)*s15+
+  start(0.456119066758138)*s16+
+  start(-0.0300724138783131)*s17+
+  start(0.52803060716866)*s18+
+  start(0.545878451941098)*s19+
+  start(0.0643676895943769)*s20+
+  start(-0.166911003348391)*s21+
+  start(0.218792089074707)*s22+
+  start(0.378607161220922)*s23+
+  start(0.45936304785388)*s24+
+  start(-0.245500790144707)*s25
+
+ML5=~start(0.386993546331018)*s1+
+  0.0209490404099033*s2+
+  start(-0.0054433991686893)*s3+
+  start(0.326516136546854)*s4+
+  start(-0.0250259504849937)*s5+
+  start(-0.27989807565512)*s6+
+  0.0151065500711747*s7+
+  -0.0231256595924317*s8+
+  0.425339658015609*s9+
+  start(0.0174598806360039)*s10+
+  start(0.32635887160996)*s11+
+  start(-0.0271979194024951)*s12+
+  -0.082431747549817*s13+
+  start(0.402026051871148)*s14+
+  start(0.115151805310133)*s15+
+  start(0.0441996218569334)*s16+
+  start(0.353082490590944)*s17+
+  start(-0.0219255651364234)*s18+
+  start(-0.166325529041567)*s19+
+  start(0.167267894714794)*s20+
+  start(0.0475302921193128)*s21+
+  start(-0.0102300226444448)*s22+
+  start(-0.215432585452835)*s23+
+  start(0.00968333520180835)*s24+
+  start(-0.0288085462659386)*s25
+"
+
+config <- cfa(model, 
+              data=test, 
+              group="wave") 
+
+weak <- cfa(model,
+            data=test, 
+            group="wave",
+            group.equal="loadings")
+
+strong<- cfa(model,
+             data=test, 
+             group="wave",
+             group.equal = c("loadings", "intercepts"))
+
+
+strict<- cfa(model,
+             data=test, 
+             group="wave", 
+             group.equal = c("loadings", "intercepts","residuals"))
+
+anova(config, weak, strong, strict) 
+
 ```
