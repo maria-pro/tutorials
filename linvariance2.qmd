@@ -1,0 +1,197 @@
+---
+title: "Longitudinal invariance"
+author: "Maria"
+format: html
+editor: visual
+---
+
+## Setup
+
+```{r}
+library(semTools)
+library(haven)
+library(semPlot)
+library(lavaan)
+library (psych)
+library (psychTools)
+library(tidyverse)
+library (esem)
+
+```
+
+### EFA on wave 1 
+
+Data prep - will be hidden in the package
+waves are not "hard-coded" in variable names, but included as a variable `wave`
+
+```{r}
+data_full<-read_sav("data.sav")
+
+data_full<-data_full[,1:76]
+
+
+#remove spss column names
+data_full <- zap_formats(zap_labels(data_full))
+
+data_full<-data_full%>%pivot_longer(
+  cols=!hicid,
+  names_to = c("var", "wave"),
+  names_sep = "_",
+  values_to = "score"
+)%>%
+  pivot_wider(
+    names_from=var,
+    values_from=score
+  )
+```
+
+EFA is done on wave 1 to generate the model syntax that will be tested further in the second stage which is CFA
+
+```{r}
+
+colnames(data_full)
+
+data_wave1<-data_full%>%
+  filter(wave==1)%>%
+  select(-hicid, -wave)%>%
+  drop_na()
+```
+
+
+## ESEM fitting 
+
+Making target matrix `target_wave1` with wave 1 data and 5 factors, specified in `main_loadings_list`
+
+```{r}
+main_loadings_list <- list(
+  pp = c("s6", "s11", "s14", "s19", "s23"),
+  cp = c("s5", "s7", "s12", "s18", "s22"),
+  es = c("s3", "s8", "s13", "s16", "s24"),
+  ha = c("s2","s10","s15","s21","s25"),
+  ps = c("s1","s4","s9","s17","s20")
+)
+
+target_wave1<-make_target(
+  data=data_wave1, 
+  keys=main_loadings_list)
+```
+
+EFA with for wave 1 using rotation matrix `target_wave1`
+
+```{r}
+esem_efa_results_wave1<-esem_efa(
+  data=data_wave1,
+  nfactors = 5,
+  rotate="TargetQ",
+  Target= target_wave1)
+
+
+esem_model_wave1 <- esem_syntax(esem_efa_results_wave1, referent_list)
+```
+
+Produced the following syntax to be used for testing
+
+```{r}
+writeLines(esem_model_wave1)
+```
+The model (=syntax) does not include wave number in the name of the variable, making this syntax an easy way to apply to all wave for longitudional invariance.
+
+### CFA - longitudinal invariance models
+
+Longitudinal (or multiple-group) CFAs are done using `cfa()` in `lavaan` with additional parameters (`group`, `group.equal`, and `group.partial`). These parameters specify equality constraints between the different waves (=groups).
+
+The models can also be specified manually and compared using `anova()` function.
+
+```{r}
+
+data_wave1<-data_full%>%
+  filter(wave==1)%>%
+  select(-hicid, -wave)%>%
+  drop_na()
+
+
+
+config <- cfa(esem_model_wave1, 
+              data=data_full, 
+              group="wave") 
+
+weak <- cfa(esem_model_wave1,
+            data=data_full, 
+            group="wave",
+            group.equal="loadings")
+
+strong<- cfa(esem_model_wave1,
+             data=data_full, 
+             group="wave",
+             group.equal = c("loadings", "intercepts"))
+
+
+strict<- cfa(esem_model_wave1,
+             data=data_full, 
+             group="wave", 
+             group.equal = c("loadings", "intercepts","residuals"))
+
+anova(config, weak, strong, strict) 
+
+```
+### Modification indices
+
+#### Configural model
+
+```{r}
+modificationindices(config)%>%
+   knitr::kable(caption="MI for all 3 time frames")
+
+
+modificationindices(config) %>%
+  as_data_frame() %>%
+  arrange(-mi) %>%
+  filter(mi > 11) %>%
+  select(lhs, op, rhs, mi, epc) %>%
+  knitr::kable(caption="Largest MI values for esem_cfa_results_all", digits=3)
+```
+
+#### Weak model
+
+```{r}
+modificationindices(weak)%>%
+   knitr::kable(caption="MI for all 3 time frames")
+
+
+modificationindices(weak) %>%
+  as_data_frame() %>%
+  arrange(-mi) %>%
+  filter(mi > 11) %>%
+  select(lhs, op, rhs, mi, epc) %>%
+  knitr::kable(caption="Largest MI values for esem_cfa_results_all", digits=3)
+```
+
+#### Strong model
+
+```{r}
+modificationindices(strong)%>%
+   knitr::kable(caption="MI for all 3 time frames")
+
+
+modificationindices(strong) %>%
+  as_data_frame() %>%
+  arrange(-mi) %>%
+  filter(mi > 11) %>%
+  select(lhs, op, rhs, mi, epc) %>%
+  knitr::kable(caption="Largest MI values for esem_cfa_results_all", digits=3)
+```
+
+#### Strict model
+
+```{r}
+modificationindices(strict)%>%
+   knitr::kable(caption="MI for all 3 time frames")
+
+
+modificationindices(strict) %>%
+  as_data_frame() %>%
+  arrange(-mi) %>%
+  filter(mi > 11) %>%
+  select(lhs, op, rhs, mi, epc) %>%
+  knitr::kable(caption="Largest MI values for esem_cfa_results_all", digits=3)
+```
