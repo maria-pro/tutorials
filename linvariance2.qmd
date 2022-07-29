@@ -109,32 +109,127 @@ data_wave1<-data_full%>%
   select(-hicid, -wave)%>%
   drop_na()
 
-
-
 config <- cfa(esem_model_wave1, 
               data=data_full, 
+              estimator = "WLSMV",
               group="wave") 
 
 weak <- cfa(esem_model_wave1,
             data=data_full, 
             group="wave",
+            estimator = "WLSMV",
             group.equal="loadings")
 
 strong<- cfa(esem_model_wave1,
              data=data_full, 
              group="wave",
+            estimator = "WLSMV",
              group.equal = c("loadings", "intercepts"))
 
 
 strict<- cfa(esem_model_wave1,
              data=data_full, 
              group="wave", 
+             estimator = "WLSMV",
              group.equal = c("loadings", "intercepts","residuals"))
 
 anova(config, weak, strong, strict) 
 
 ```
 ### Modification indices
+
+#### Configural model
+
+```{r}
+modificationindices(config)%>%
+   knitr::kable(caption="MI for all 3 time frames")
+
+
+modificationindices(config) %>%
+  as_data_frame() %>%
+  arrange(-mi) %>%
+  filter(mi > 11) %>%
+  select(lhs, op, rhs, mi, epc) %>%
+  knitr::kable(caption="Largest MI values for esem_cfa_results_all", digits=3)
+```
+
+#### Weak model
+
+```{r}
+modificationindices(weak)%>%
+   knitr::kable(caption="MI for all 3 time frames")
+
+
+modificationindices(weak) %>%
+  as_data_frame() %>%
+  arrange(-mi) %>%
+  filter(mi > 11) %>%
+  select(lhs, op, rhs, mi, epc) %>%
+  knitr::kable(caption="Largest MI values for esem_cfa_results_all", digits=3)
+```
+
+#### Strong model
+
+```{r}
+modificationindices(strong)%>%
+   knitr::kable(caption="MI for all 3 time frames")
+
+
+modificationindices(strong) %>%
+  as_data_frame() %>%
+  arrange(-mi) %>%
+  filter(mi > 11) %>%
+  select(lhs, op, rhs, mi, epc) %>%
+  knitr::kable(caption="Largest MI values for esem_cfa_results_all", digits=3)
+```
+
+#### Strict model
+
+```{r}
+modificationindices(strict)%>%
+   knitr::kable(caption="MI for all 3 time frames")
+
+
+modificationindices(strict) %>%
+  as_data_frame() %>%
+  arrange(-mi) %>%
+  filter(mi > 11) %>%
+  select(lhs, op, rhs, mi, epc) %>%
+  knitr::kable(caption="Largest MI values for esem_cfa_results_all", digits=3)
+```
+
+### MLR
+
+```{r}
+config <- cfa(esem_model_wave1, 
+              data=data_full, 
+              estimator = "MLR",
+              group="wave") 
+
+weak <- cfa(esem_model_wave1,
+            data=data_full, 
+            group="wave",
+            estimator = "MLR",
+            group.equal="loadings")
+
+strong<- cfa(esem_model_wave1,
+             data=data_full, 
+             group="wave",
+            estimator = "MLR",
+             group.equal = c("loadings", "intercepts"))
+
+
+strict<- cfa(esem_model_wave1,
+             data=data_full, 
+             group="wave", 
+             estimator = "MLR",
+             group.equal = c("loadings", "intercepts","residuals"))
+
+anova(config, weak, strong, strict) 
+
+```
+
+### Modification indices for MLR
 
 #### Configural model
 
