@@ -1,0 +1,50 @@
+---
+title: "It is all about cash flows"
+format: html
+editor: visual
+---
+
+## Can we not talk about.. (no, not quarto..) cash flows!
+
+We are continuing with a series of blog posts around actuarial-accounting domain where we strive to lighten up interest of the data science community in using their R skills for the actuarial/accounitng domain. We also hope to help some actuaries and accountants with their R skills.
+
+This time we cannot avoid the elephant in the cupboard - which is cash flows in times of recession.
+
+So ~~how is your cash going?~~ working through and communicating the cash flow analysis. Cash flows is one of the main business concepts and ~~disclosure~~ proper communication of your cash flows breakdown is vital for any business ~~and household!~~.
+
+While presentation of cash flows is vital at any times, the recession (can we finally say it?) make it really important to show it not only trully and fairly (in accounting terminology), but also to communicate it to the highest impact.
+
+So what is the problem with its communication? Well. Look at the image below and tell how excited you are and does it make a lot of sense if you give a flash look:
+
+It is incredibly insightful (if you do know what to look for), but for an non-accounting person (with powers to make decisions), it may not be.
+
+Now look at this!
+
+![](https://ppcexpo.com/blog/wp-content/uploads/2022/05/cash-flow-chart-16.jpg)
+
+This is another cash flow from a fellow Excel tutorial. It is a personal cash flow to be exact, but oh so insightful! Those numbers start talking to me - showing in a sec where all my money goes!
+
+We all know that a picture is worth a thousand words, but if it is a thousand millions \$, it's truly priceless.
+
+So. let's beg for automation and turn to data God's for wisdom ~~yes, open your RStudio everyone!~~
+
+Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
