@@ -1,5 +1,8 @@
 ---
 title: "It is all about cash flows"
+execute: 
+  echo: true
+  warning: false
 format: html
 editor: visual
 ---
@@ -12,9 +15,11 @@ This time we cannot avoid the elephant in the cupboard - which is cash flows in 
 
 So ~~how is your cash going?~~ working through and communicating the cash flow analysis. Cash flows is one of the main business concepts and ~~disclosure~~ proper communication of your cash flows breakdown is vital for any business ~~and household!~~.
 
-While presentation of cash flows is vital at any times, the recession (can we finally say it?) make it really important to show it not only trully and fairly (in accounting terminology), but also to communicate it to the highest impact.
+While presentation of cash flows is vital at any times, the recession (can we finally say it?) make it really important to show it not only truly and fairly (in accounting terminology), but also to communicate it to the highest impact.
 
 So what is the problem with its communication? Well. Look at the image below and tell how excited you are and does it make a lot of sense if you give a flash look:
+
+![](img/cashflows.png)
 
 It is incredibly insightful (if you do know what to look for), but for an non-accounting person (with powers to make decisions), it may not be.
 
@@ -34,6 +39,58 @@ Sankey charts are used to show **flows** and **cash flows** is a good example of
 
 Let's have a look at the example above when the cash flows are shown in Excel and Google Sheets and develop a visualization in R.
 
-There are several ways to do this and several packages available. 
+There are several ways to do this and several packages available.
 
-To name a view - 
+To name a view - `networkD3` package, `diagrammeR` package
+
+The dataset is an extremely simple one - to demonstrate the application, while we can further extend it to include more transactional data, different sources of income, types of income, etc. On the next step we can look at inflows and outflows, classify them into types of business activities by automating this usually tedious and manual task and present in a nice chart to our stakeholders.
+
+But. let's start with ... this simple one! And let's use the [`networkD3`](https://cran.r-project.org/web/packages/networkD3)
+
+```{r}
+library(tidyverse)
+library(networkD3)
+```
+
+You can view some awesome visualizations with this package [here](https://r-graph-gallery.com/sankey-diagram.html)
+
+```{r}
+data<-read_csv("data/cf.csv")
+```
+
+This type of diagram is based on visualising **flows** which are connections from one **node** to another. In our case the flows are distinct types of cash income that flows into the entity.
+
+The input can be done as a connection data with 3 columns that show:
+
+as well as incidence matrix, which is a square matrix mapping those nodes and connections between them.
+
+This example demonstrates some basic workings when a dataframe of nodes is used 
+
+
+```{r}
+# A connection data frame is a list of flows with intensity for each flow
+links <- data.frame(
+  source=c("income_1","income_2", "income_3", "group_C", "group_C", "group_E"), 
+  target=c("group_C","group_D", "group_E", "group_F", "group_G", "group_H"), 
+  value=c(2,3, 2, 3, 1, 3)
+  )
+ 
+# From these flows we need to create a node data frame: it lists every entities involved in the flow
+nodes <- data.frame(
+  name=c(as.character(links$source), 
+  as.character(links$target)) %>% unique()
+)
+ 
+# With networkD3, connection must be provided using id, not using real name like in the links dataframe.. So we need to reformat it.
+links$IDsource <- match(links$source, nodes$name)-1 
+links$IDtarget <- match(links$target, nodes$name)-1
+ 
+# Make the Network
+p <- sankeyNetwork(Links = links, Nodes = nodes,
+              Source = "IDsource", Target = "IDtarget",
+              Value = "value", NodeID = "name", 
+              sinksRight=FALSE)
+p
+
+```
+
