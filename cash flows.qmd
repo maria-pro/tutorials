@@ -28,23 +28,12 @@ We all know that a picture is worth a thousand words, but if it is a thousand mi
 
 So. let's beg for automation and turn to data God's for wisdom ~~yes, open your RStudio everyone!~~
 
-Quarto
+This type of charts is called **sankey charts**, they are NOT common at all in the actuarial/accounting world, but, honestly, it is not that common to see lots of visualisations in the financial reports, well, apart from happy customers in annual reports which, as we all know, is a marketing thing.
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+Sankey charts are used to show **flows** and **cash flows** is a good example of such usage.
 
-## Running Code
+Let's have a look at the example above when the cash flows are shown in Excel and Google Sheets and develop a visualization in R.
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+There are several ways to do this and several packages available. 
 
-```{r}
-1 + 1
-```
-
-You can add options to executable code like this
-
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
+To name a view - 
