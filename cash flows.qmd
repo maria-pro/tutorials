@@ -107,9 +107,57 @@ p <- sankeyNetwork(Links = data,
                    Target = "IDtarget",
                    Value = "value", 
                    NodeID = "name",
-                   sinksRight=TRUE)
+                   units = '$',
+                   sinksRight=TRUE,
+  #                 LinkGroup="source"
+                   fontSize = 10, 
+                   nodeWidth = 30
+                   
+                   )
 p
+```
 
+Now, let's highlight different types of receipts and payments
+
+```{r}
+
+
+
+# Add a 'group' column to the nodes data frame:
+data<-data%>%
+  mutate(group=case_when(
+      grepl("Income", target) ~ "income",
+      grepl("Expense", target) ~ "expense",
+      TRUE ~ "others")
+      )
+  
+  
+p <- sankeyNetwork(Links = data, 
+                   Nodes = nodes,
+                   Source = "IDsource", 
+                   Target = "IDtarget",
+                   Value = "value", 
+                   NodeID = "name",
+                   units = '$',
+                   sinksRight=TRUE,
+#                   LinkGroup="source"
+
+#,
+#                   NodeGroup="group"
+                   #fontSize = 10, nodeWidth = 30
+                   
+                   )
+p
+# Give a color for each group:
+my_color <- 'd3.scaleOrdinal() .domain(["a", "b"]) .range(["#69b3a2", "steelblue"])'
+```
+
+
+
+
+URL <- paste0('https://cdn.rawgit.com/christophergandrud/networkD3/',
+              'master/JSONdata/energy.json')
+energy <- jsonlite::fromJSON(URL)
 
 ```
 

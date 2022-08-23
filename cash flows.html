@@ -15,6 +15,69 @@ span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -28,6 +91,10 @@ ul.task-list{list-style: none;}
 <script src="cash flows_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="cash flows_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="cash flows_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="cash flows_files/libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="cash flows_files/libs/d3-4.5.0/d3.min.js"></script>
+<script src="cash flows_files/libs/sankey-1/sankey.js"></script>
+<script src="cash flows_files/libs/sankeyNetwork-binding-0.4/sankeyNetwork.js"></script>
 
 
 </head>
@@ -72,9 +139,99 @@ ul.task-list{list-style: none;}
 <p>Sankey charts are used to show <strong>flows</strong> and <strong>cash flows</strong> is a good example of such usage.</p>
 <p>Let’s have a look at the example above when the cash flows are shown in Excel and Google Sheets and develop a visualization in R.</p>
 <p>There are several ways to do this and several packages available.</p>
-<p>To name a view -</p>
+<p>To name a view - <code>networkD3</code> package, <code>diagrammeR</code> package</p>
 <p>The dataset is an extremely simple one - to demonstrate the application, while we can further extend it to include more transactional data, different sources of income, types of income, etc. On the next step we can look at inflows and outflows, classify them into types of business activities by automating this usually tedious and manual task and present in a nice chart to our stakeholders.</p>
-<p>But. let’s start with</p>
+<p>But. let’s start with … this simple one! And let’s use the <a href="https://cran.r-project.org/web/packages/networkD3"><code>networkD3</code></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(networkD3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can view some awesome visualizations with this package <a href="https://r-graph-gallery.com/sankey-diagram.html">here</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"data/cf_up.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This type of diagram is based on visualising <strong>flows</strong> which are connections from one <strong>node</strong> to another. In our case the flows are distinct types of cash income that flows into the entity.</p>
+<p>The input can be done as a connection data with 3 columns that show:</p>
+<p>as well as incidence matrix, which is a square matrix mapping those nodes and connections between them.</p>
+<p>This example demonstrates some basic workings when a dataframe of nodes is used</p>
+<p>The dataset shows the sources of income <code>income_source</code>, type of income <code>type_income</code>, type of cash flow which is cash receipts, <code>income</code>. It also shows the use of the money - cash payments, <code>spending_source</code>, and type of spending, <code>spending_type</code>.</p>
+<p><strong>Note</strong>:</p>
+<p>In this particular example, we use the dataset from the tutorial for Excel users. Some data transformations have already done there to suit “Excel-type” steps. For example, the amount of cash receipts were matched with a particular cash spending type. In real life, you would not expect this data matching as most likely your cash flow records just shows type of cash flow (cash receipt vs cash payment) and the amount. The matching to the type of cash receipt/cash payment is still required as to match this individual items with the <em>type of income</em> or <em>type of expense</em></p>
+<p>To create a cash flow we need two dataframes that we will use in <code>sankeyNetwork()</code> function from the <code>networkD3</code> package:</p>
+<ul>
+<li><p><em>dataframe 1</em> is a nodes dataframe with list of receipts, types of receipts, types of spending and cash payments</p></li>
+<li><p><em>dataframe 2</em> is a links dataframe which itemized each flow using a source, target and value column. For example, we received 494US part of the salary was used to pay tax: salary is the earned income and payment of tax is a deduction. In this case the source is the <code>Salary</code> item, the target is <code>Earned income</code> and the value is 494. <code>Earned income</code>is also a source node that has <code>Income</code> (i.e.&nbsp;a broader category) target. <code>Income</code> is then distributed to expenses, i.e target category <code>Deduction</code> which is the later becomes a source node for <code>Income tax</code> target.</p></li>
+</ul>
+<p>We start with setting up a list of nodes: in this case we have <em>sources</em> (the nodes that initiate the flow) and <em>targets</em> (the nodes that finish the flow). At this stage let’s create just a list of all nodes which are all cash flow elements</p>
+<p>The <em>sources</em> are <code>income_source</code>, <code>income_type</code>, <code>income</code> and <code>spending_source</code>. Our <em>targets</em> are <code>income_type</code>, <code>income</code>, <code>spending_source</code> and <code>spending_type</code></p>
+<p>As the original dataset is not a common way to represent cash flow items (i.e.&nbsp;receipts and payments), we transformed the original dataset to focus on building the chart and work with the updated dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">name=</span><span class="fu">c</span>(<span class="fu">as.character</span>(data<span class="sc">$</span>source), </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.character</span>(data<span class="sc">$</span>target)) <span class="sc">%&gt;%</span> <span class="fu">unique</span>()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We cannot use nodes names in the function and need to replace our connections with id, i.e.&nbsp;<code>IDsource</code> and <code>IDtarget</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>IDsource <span class="ot">&lt;-</span> <span class="fu">match</span>(data<span class="sc">$</span>source, nodes<span class="sc">$</span>name)<span class="sc">-</span><span class="dv">1</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>IDtarget <span class="ot">&lt;-</span> <span class="fu">match</span>(data<span class="sc">$</span>target, nodes<span class="sc">$</span>name)<span class="sc">-</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">sankeyNetwork</span>(<span class="at">Links =</span> data, </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">Nodes =</span> nodes,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">Source =</span> <span class="st">"IDsource"</span>, </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">Target =</span> <span class="st">"IDtarget"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">Value =</span> <span class="st">"value"</span>, </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">NodeID =</span> <span class="st">"name"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">units =</span> <span class="st">'$'</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">sinksRight=</span><span class="cn">TRUE</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">#                 LinkGroup="source"</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fontSize =</span> <span class="dv">10</span>, </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                   <span class="at">nodeWidth =</span> <span class="dv">30</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                   </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                   )</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-e43c39c6f0826dcf4224" style="width:100%;height:464px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e43c39c6f0826dcf4224">{"x":{"links":{"source":[0,0,0,0,0,0,0,0,1,2,3,4,4,4,4,4,4,4,4,5,6,6,7,7,7,7,7,7,7,7,7,7,7,8,8,9,9,9,9,10,10,10,11,11],"target":[4,4,4,4,4,4,4,4,5,6,6,7,7,7,7,7,7,7,7,7,7,7,8,8,9,9,9,9,10,10,10,11,11,12,13,14,15,16,17,18,19,20,21,22],"value":[494,677,758,933,649,825,536,392,287,262,147,494,677,758,933,649,825,536,392,287,262,147,494,677,758,933,649,825,536,392,287,262,147,494,677,758,933,649,825,536,392,287,262,147]},"nodes":{"name":["Salary","Credit Card Reward","Dividends","Interest","Earned Income","Passive Income","Passive income","Income","Deduction","Core Expenses","Financial Independence","Disposable Income","Income Tax","Social Justice","Bill Expenses","Food","Personal Care","Transportation","Pension","Investment","Real Estate","Emergency Fund","Leisure"],"group":["Salary","Credit Card Reward","Dividends","Interest","Earned Income","Passive Income","Passive income","Income","Deduction","Core Expenses","Financial Independence","Disposable Income","Income Tax","Social Justice","Bill Expenses","Food","Personal Care","Transportation","Pension","Investment","Real Estate","Emergency Fund","Leisure"]},"options":{"NodeID":"name","NodeGroup":"name","LinkGroup":null,"colourScale":"d3.scaleOrdinal(d3.schemeCategory20);","fontSize":10,"fontFamily":null,"nodeWidth":30,"nodePadding":10,"units":"$","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":true}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Now, let’s highlight different types of receipts and payments</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a 'group' column to the nodes data frame:</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span>data<span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group=</span><span class="fu">case_when</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">grepl</span>(<span class="st">"Income"</span>, target) <span class="sc">~</span> <span class="st">"income"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">grepl</span>(<span class="st">"Expense"</span>, target) <span class="sc">~</span> <span class="st">"expense"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"others"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">sankeyNetwork</span>(<span class="at">Links =</span> data, </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                   <span class="at">Nodes =</span> nodes,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                   <span class="at">Source =</span> <span class="st">"IDsource"</span>, </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                   <span class="at">Target =</span> <span class="st">"IDtarget"</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                   <span class="at">Value =</span> <span class="st">"value"</span>, </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>                   <span class="at">NodeID =</span> <span class="st">"name"</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>                   <span class="at">units =</span> <span class="st">'$'</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>                   <span class="at">sinksRight=</span><span class="cn">TRUE</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">#                   LinkGroup="source"</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#,</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">#                   NodeGroup="group"</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>                   <span class="co">#fontSize = 10, nodeWidth = 30</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>                   </span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>                   )</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-2f5c9980a7c99584e792" style="width:100%;height:464px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2f5c9980a7c99584e792">{"x":{"links":{"source":[0,0,0,0,0,0,0,0,1,2,3,4,4,4,4,4,4,4,4,5,6,6,7,7,7,7,7,7,7,7,7,7,7,8,8,9,9,9,9,10,10,10,11,11],"target":[4,4,4,4,4,4,4,4,5,6,6,7,7,7,7,7,7,7,7,7,7,7,8,8,9,9,9,9,10,10,10,11,11,12,13,14,15,16,17,18,19,20,21,22],"value":[494,677,758,933,649,825,536,392,287,262,147,494,677,758,933,649,825,536,392,287,262,147,494,677,758,933,649,825,536,392,287,262,147,494,677,758,933,649,825,536,392,287,262,147]},"nodes":{"name":["Salary","Credit Card Reward","Dividends","Interest","Earned Income","Passive Income","Passive income","Income","Deduction","Core Expenses","Financial Independence","Disposable Income","Income Tax","Social Justice","Bill Expenses","Food","Personal Care","Transportation","Pension","Investment","Real Estate","Emergency Fund","Leisure"],"group":["Salary","Credit Card Reward","Dividends","Interest","Earned Income","Passive Income","Passive income","Income","Deduction","Core Expenses","Financial Independence","Disposable Income","Income Tax","Social Justice","Bill Expenses","Food","Personal Care","Transportation","Pension","Investment","Real Estate","Emergency Fund","Leisure"]},"options":{"NodeID":"name","NodeGroup":"name","LinkGroup":null,"colourScale":"d3.scaleOrdinal(d3.schemeCategory20);","fontSize":7,"fontFamily":null,"nodeWidth":15,"nodePadding":10,"units":"$","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":true}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Give a color for each group:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>my_color <span class="ot">&lt;-</span> <span class="st">'d3.scaleOrdinal() .domain(["a", "b"]) .range(["#69b3a2", "steelblue"])'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>URL &lt;- paste0(‘https://cdn.rawgit.com/christophergandrud/networkD3/’, ‘master/JSONdata/energy.json’) energy &lt;- jsonlite::fromJSON(URL)</p>
+<p>```</p>
 </section>
 
 </main>
