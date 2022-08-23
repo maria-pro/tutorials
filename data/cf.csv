@@ -1,0 +1,12 @@
+﻿income_source,income_type,income,spending_source,spending_type,amount
+Salary,Earned Income,Income,Deduction,Income Tax,494
+Salary,Earned Income,Income,Deduction,Social Justice,677
+Salary,Earned Income,Income,Core Expenses,Bill Expenses,758
+Salary,Earned Income,Income,Core Expenses,Food,933
+Salary,Earned Income,Income,Core Expenses,Personal Care,649
+Salary,Earned Income,Income,Core Expenses,Transportation,825
+Salary,Earned Income,Income,Financial Independence,Pension,536
+Salary,Earned Income,Income,Financial Independence,Investment,392
+Credit Card Reward,Passive Income,Income,Financial Independence,Real Estate,287
+Dividends,Passive income,Income,Disposable Income,Emergency Fund,262
+Interest,Passive income,Income,Disposable Income,Leisure,147

@@ -55,7 +55,7 @@ library(networkD3)
 You can view some awesome visualizations with this package [here](https://r-graph-gallery.com/sankey-diagram.html)
 
 ```{r}
-data<-read_csv("data/cf.csv")
+data<-read_csv("data/cf_up.csv")
 ```
 
 This type of diagram is based on visualising **flows** which are connections from one **node** to another. In our case the flows are distinct types of cash income that flows into the entity.
@@ -66,31 +66,52 @@ as well as incidence matrix, which is a square matrix mapping those nodes and co
 
 This example demonstrates some basic workings when a dataframe of nodes is used 
 
+The dataset shows the sources of income `income_source`, type of income `type_income`, type of cash flow  which is cash receipts, `income`. It also shows the use of the money - cash payments, `spending_source`, and type of spending, `spending_type`. 
+
+**Note**: 
+
+In this particular example, we use the dataset from the tutorial for Excel users. Some data transformations have already done there to suit "Excel-type" steps. For example, the amount of cash receipts were matched with a particular cash spending type. In real life, you would not expect this data matching as most likely your cash flow records just shows type of cash flow (cash receipt vs cash payment) and the amount. The matching to the type of cash receipt/cash payment is still required as to match this individual items with the *type of income* or *type of expense* 
+
+To create a cash flow we need two dataframes that we will use in `sankeyNetwork()` function from the ` networkD3` package:
+
+- *dataframe 1* is a nodes dataframe with list of receipts, types of receipts, types of spending and cash payments
+
+- *dataframe 2* is a links dataframe which itemized each flow using a source, target and value column. For example, we received 494US part of the salary was used to pay tax: salary is the earned income and payment of tax is a deduction. In this case the source is the `Salary` item, the target is `Earned income`  and the value is 494. `Earned income`is also a source node that has `Income` (i.e. a broader category) target. `Income` is then distributed to expenses, i.e target category `Deduction` which is the later becomes a source node for `Income tax` target.
+
+We start with setting up a list of nodes: in this case we have *sources* (the nodes that initiate the flow) and *targets* (the nodes that finish the flow). At this stage let's create just a list of all nodes which are all cash flow elements
+
+The *sources* are `income_source`, `income_type`, `income` and `spending_source`. Our *targets* are `income_type`, `income`, `spending_source` and `spending_type`
+
+As the original dataset is not a common way to represent cash flow items (i.e. receipts and payments), we transformed the original dataset to focus on building the chart and work with the updated dataset.
 
 ```{r}
-# A connection data frame is a list of flows with intensity for each flow
-links <- data.frame(
-  source=c("income_1","income_2", "income_3", "group_C", "group_C", "group_E"), 
-  target=c("group_C","group_D", "group_E", "group_F", "group_G", "group_H"), 
-  value=c(2,3, 2, 3, 1, 3)
-  )
- 
-# From these flows we need to create a node data frame: it lists every entities involved in the flow
 nodes <- data.frame(
-  name=c(as.character(links$source), 
-  as.character(links$target)) %>% unique()
+  name=c(as.character(data$source), 
+  as.character(data$target)) %>% unique()
 )
- 
-# With networkD3, connection must be provided using id, not using real name like in the links dataframe.. So we need to reformat it.
-links$IDsource <- match(links$source, nodes$name)-1 
-links$IDtarget <- match(links$target, nodes$name)-1
- 
-# Make the Network
-p <- sankeyNetwork(Links = links, Nodes = nodes,
-              Source = "IDsource", Target = "IDtarget",
-              Value = "value", NodeID = "name", 
-              sinksRight=FALSE)
+```
+
+We cannot use nodes names in the function and need to replace our connections with id, i.e. `IDsource` and `IDtarget`
+
+```{r}
+
+data$IDsource <- match(data$source, nodes$name)-1 
+data$IDtarget <- match(data$target, nodes$name)-1
+```
+
+
+```{r}
+p <- sankeyNetwork(Links = data, 
+                   Nodes = nodes,
+                   Source = "IDsource", 
+                   Target = "IDtarget",
+                   Value = "value", 
+                   NodeID = "name",
+                   sinksRight=TRUE)
 p
 
+
 ```
+
+
 
