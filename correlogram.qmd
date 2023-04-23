@@ -1,0 +1,21 @@
+---
+title: "correlogram"
+format: html
+editor: visual
+---
+
+## Correlogram
+
+```{r}
+library(corrplot)
+library(readxl)
+library(tidyverse)
+
+dataP<-read_excel("/Users/e5028514/Downloads/Equity group analysis.xlsx")%>%select(-1)
+corrplot(as.matrix(dataP), is.corr = FALSE, tl.pos='n', 
+         col = COL2('RdBu', 10),
+         type = 'upper',
+         cl.pos = 'n')
+
+```
+
