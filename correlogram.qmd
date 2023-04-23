@@ -12,10 +12,16 @@ library(readxl)
 library(tidyverse)
 
 dataP<-read_excel("/Users/e5028514/Downloads/Equity group analysis.xlsx")%>%select(-1)
-corrplot(as.matrix(dataP), is.corr = FALSE, tl.pos='n', 
+rownames(dataP)<-colnames(dataP)
+
+corrplot(as.matrix(dataP), is.corr = FALSE, 
+         tl.pos='lt', 
+        # order = 'AOE', 
          col = COL2('RdBu', 10),
-         type = 'upper',
-         cl.pos = 'n')
+         diag=TRUE,
+         type = 'full',
+        cl.pos = 'n',
+        tl.cex = 0.8)
 
 ```
 
