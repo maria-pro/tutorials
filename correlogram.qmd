@@ -20,10 +20,20 @@ dataP<-read_excel("/Users/e5028514/Downloads/Equity group analysis.xlsx")%>%sele
 rownames(dataP)<-colnames(dataP)
 
 corrplot(as.matrix(dataP), is.corr = FALSE, 
-         tl.pos='l', 
+         tl.pos='ld', 
          col = "navy",
          diag=TRUE,
          type = 'lower',
+        cl.pos = 'n',
+        tl.col="black",
+        tl.cex = 0.8)
+
+
+corrplot(as.matrix(dataP), is.corr = FALSE, 
+         tl.pos='lt', 
+         col = "navy",
+         diag=TRUE,
+         type = 'upper',
         cl.pos = 'n',
         tl.col="black",
         tl.cex = 0.8)
