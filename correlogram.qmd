@@ -1,7 +1,12 @@
 ---
 title: "correlogram"
 format: html
-editor: visual
+toc-depth: 3
+code-fold: false
+execute:
+  echo: false
+  warning: false
+  message: false
 ---
 
 ## Correlogram
@@ -15,13 +20,12 @@ dataP<-read_excel("/Users/e5028514/Downloads/Equity group analysis.xlsx")%>%sele
 rownames(dataP)<-colnames(dataP)
 
 corrplot(as.matrix(dataP), is.corr = FALSE, 
-         tl.pos='lt', 
-        # order = 'AOE', 
-         col = COL2('RdBu', 10),
+         tl.pos='l', 
+         col = "navy",
          diag=TRUE,
-         type = 'full',
+         type = 'lower',
         cl.pos = 'n',
+        tl.col="black",
         tl.cex = 0.8)
-
 ```
 
