@@ -1,0 +1,108 @@
+Body
+Date,Weight,BMI,Fat
+"26-06-2022","73","29.62","50"
+"27-06-2022","73","29.62","50"
+"28-06-2022","73","29.62","50"
+"29-06-2022","73","29.62","50"
+"30-06-2022","73","29.62","50"
+"01-07-2022","73","29.62","50"
+"02-07-2022","73","29.62","50"
+
+Foods
+Date,Calories In
+"26-06-2022","0"
+"27-06-2022","0"
+"28-06-2022","0"
+"29-06-2022","0"
+"30-06-2022","0"
+"01-07-2022","0"
+"02-07-2022","0"
+
+Activities
+Date,Calories Burned,Steps,Distance,Floors,Minutes Sedentary,Minutes Lightly Active,Minutes Fairly Active,Minutes Very Active,Activity Calories
+"26-06-2022","1,411","0","0","0","1,440","0","0","0","0"
+"27-06-2022","1,411","0","0","0","1,440","0","0","0","0"
+"28-06-2022","1,411","0","0","0","1,440","0","0","0","0"
+"29-06-2022","2,128","8,292","5.38","27","1,291","85","6","58","798"
+"30-06-2022","1,678","1,016","0.66","9","488","81","0","0","273"
+"01-07-2022","1,634","1,078","0.7","10","790","75","0","0","238"
+"02-07-2022","1,537","732","0.47","7","846","45","0","0","128"
+
+Sleep
+Start Time,End Time,Minutes Asleep,Minutes Awake,Number of Awakenings,Time in Bed,Minutes REM Sleep,Minutes Light Sleep,Minutes Deep Sleep
+"01-07-2022 8:26 pm","02-07-2022 5:35 am","473","76","33","549","50","318","105"
+"01-07-2022 6:53 am","01-07-2022 9:48 am","155","20","1","175","N/A","N/A","N/A"
+"30-06-2022 8:58 pm","01-07-2022 3:38 am","341","59","24","400","26","272","43"
+"30-06-2022 11:45 am","30-06-2022 4:00 pm","225","30","16","255","7","191","27"
+"29-06-2022 10:03 pm","30-06-2022 8:19 am","524","92","22","616","141","340","43"
+
+Food Log 20220626
+Daily Totals
+"","Calories","0"
+"","Fat","0 g"
+"","Fiber","0 g"
+"","Carbs","0 g"
+"","Sodium","0 mg"
+"","Protein","0 g"
+"","Water","0 ml"
+
+Food Log 20220627
+Daily Totals
+"","Calories","0"
+"","Fat","0 g"
+"","Fiber","0 g"
+"","Carbs","0 g"
+"","Sodium","0 mg"
+"","Protein","0 g"
+"","Water","0 ml"
+
+Food Log 20220628
+Daily Totals
+"","Calories","0"
+"","Fat","0 g"
+"","Fiber","0 g"
+"","Carbs","0 g"
+"","Sodium","0 mg"
+"","Protein","0 g"
+"","Water","0 ml"
+
+Food Log 20220629
+Daily Totals
+"","Calories","0"
+"","Fat","0 g"
+"","Fiber","0 g"
+"","Carbs","0 g"
+"","Sodium","0 mg"
+"","Protein","0 g"
+"","Water","0 ml"
+
+Food Log 20220630
+Daily Totals
+"","Calories","0"
+"","Fat","0 g"
+"","Fiber","0 g"
+"","Carbs","0 g"
+"","Sodium","0 mg"
+"","Protein","0 g"
+"","Water","0 ml"
+
+Food Log 20220701
+Daily Totals
+"","Calories","0"
+"","Fat","0 g"
+"","Fiber","0 g"
+"","Carbs","0 g"
+"","Sodium","0 mg"
+"","Protein","0 g"
+"","Water","0 ml"
+
+Food Log 20220702
+Daily Totals
+"","Calories","0"
+"","Fat","0 g"
+"","Fiber","0 g"
+"","Carbs","0 g"
+"","Sodium","0 mg"
+"","Protein","0 g"
+"","Water","0 ml"
+
