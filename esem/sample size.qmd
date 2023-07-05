@@ -1,0 +1,117 @@
+---
+title: "Sample size calculation for SDQ LSAC"
+format: html
+editor: visual
+---
+
+## Sample size
+
+Planning for the sample size is essential in ESEM. This is critical to avoid issues with convergence of the models. 
+
+With the ESEM, estimation of the sample size is suggested to be done considering traditional approaches for SEM, such as most popular estimation based on the following:
+
+- the non-centrality parameter (Satorra and Saris, 1984)
+
+- the model's potential to obtain an acceptable RMSEA value (MacCallum et al., 1996), or 
+
+- Monte Carlo simulations (Muthén and Muthé). The latter is more common due to its availability in Mplus. 
+
+Monte Carlo simulations estimation is available in R in the `simsem` package. While estimation via RMSEA can be done using `semPower` package.
+
+
+## Monte Carlo simulations estimation
+
+This estimation uses the previously develobed CFA model and factor structure of the initial instrument:
+
+```{r}
+library(esem)
+library(tidyverse)
+library(lavaan)
+library(semPlot)
+library(psych)
+
+
+esem_efa_results <- esem_efa(data=sdq_lsac, 
+                      nfactors =5,
+                      fm = 'ML',
+                      rotate="geominT", 
+                      scores="regression", 
+                      residuals=TRUE, 
+                      missing=TRUE)
+
+esem_model <- esem_syntax(esem_efa_results)
+
+writeLines(esem_model)
+```
+
+
+A Monte Carlo simulation can be implemented by the `sim` function:
+
+```{r}
+library(simsem)
+analyzeModel<-"
+ML1 =~ s6_1+s11_1R+s14_1R+s19_1+s23_1
+ML2 =~  s5_1+s7_1R+s12_1+s18_1+s22_1
+ML3 =~  s3_1+s8_1+s13_1+s16_1+s24_1
+ML4 =~  s2_1+s10_1+s15_1+s21_1R+s25_1R
+ML5 =~  s1_1+s4_1+s9_1+s17_1+s20_1
+"
+
+Output <- sim(1000, analyzeModel, n=3836, generate=esem_model, lavaanfun = "cfa")
+
+summary(Output)
+```
+
+## Estimation via RMSEA
+
+Obtain the df of a model provided as lavaan model string (this requires the lavaan package):
+
+```{r}
+library(semPower)
+
+semPower.getDf(esem_model)
+```
+
+
+Determine the achieved power with a sample size of N = 3836 to detect misspecifications of a model (involving df = 190 degrees of freedom) corresponding to RMSEA = .05 on an alpha error of .05:
+
+```{r}
+ph <- semPower.postHoc(effect = .05, effect.measure = 'RMSEA',
+                         alpha = .05, N = 3836, df = 190)
+summary(ph)
+```
+
+
+Determine the critical chi-square such that the associated alpha and beta errors are equal, assuming sample size of N = 1000, a model involving df = 100 degrees of freedom, and misspecifications corresponding to RMSEA = .05:
+
+```{r}
+cp <- semPower.compromise(effect = .05, effect.measure = 'RMSEA',
+                            abratio = 1, N = 3836, df = 190)
+summary(cp)
+```
+
+Plot power as function of the sample size to detect misspecifications corresponding to RMSEA = .05 (assuming df = 190) on alpha = .05:
+
+```{r}
+semPower.powerPlot.byN(effect = .05, effect.measure = 'RMSEA',
+                         alpha = .05, df = 190, power.min = .05, power.max = .99)
+```
+
+
+Plot power as function of the magnitude of effect (measured through the RMSEA assuming df = 100) at N = 500 on alpha = .05:
+
+```{r}
+semPower.powerPlot.byEffect(effect.measure = 'RMSEA', alpha = .05, N = 500,
+                              df = 190, effect.min = .001, effect.max = .10)
+
+```
+
+
+----------------------
+### References:
+
+MacCallum RC, Browne MW, Sugawara HM. Power analysis and determination of sample size for covariance structure modeling. Psychol Methods. (1996) 1:130–49. doi: 10.1037/1082-989X.1.2.130
+
+Muthén LK, Muthén BO. How to use a Monte Carlo study to decide on sample size and determine power. Struct Equ Model. (2002) 9:599–620. doi: 10.1207/S15328007SEM0904_8
+
+Satorra A, Saris WE. Power of the likelihood ratio test in covariance structure analysis. Psychometrika. (1985) 50:83–90. doi: 10.1007/BF02294150

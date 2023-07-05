@@ -1,0 +1,2018 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.121">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Sample size calculation for SDQ LSAC</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="sample size_files/libs/clipboard/clipboard.min.js"></script>
+<script src="sample size_files/libs/quarto-html/quarto.js"></script>
+<script src="sample size_files/libs/quarto-html/popper.min.js"></script>
+<script src="sample size_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="sample size_files/libs/quarto-html/anchor.min.js"></script>
+<link href="sample size_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="sample size_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="sample size_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="sample size_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="sample size_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Sample size calculation for SDQ LSAC</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="sample-size" class="level2">
+<h2 class="anchored" data-anchor-id="sample-size">Sample size</h2>
+<p>Planning for the sample size is essential in ESEM. This is critical to avoid issues with convergence of the models.</p>
+<p>With the ESEM, estimation of the sample size is suggested to be done considering traditional approaches for SEM, such as most popular estimation based on the following:</p>
+<ul>
+<li><p>the non-centrality parameter (Satorra and Saris, 1984)</p></li>
+<li><p>the model’s potential to obtain an acceptable RMSEA value (MacCallum et al., 1996), or</p></li>
+<li><p>Monte Carlo simulations (Muthén and Muthé). The latter is more common due to its availability in Mplus.</p></li>
+</ul>
+<p>Monte Carlo simulations estimation is available in R in the <code>simsem</code> package. While estimation via RMSEA can be done using <code>semPower</code> package.</p>
+</section>
+<section id="monte-carlo-simulations-estimation" class="level2">
+<h2 class="anchored" data-anchor-id="monte-carlo-simulations-estimation">Monte Carlo simulations estimation</h2>
+<p>This estimation uses the previously develobed CFA model and factor structure of the initial instrument:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(esem)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is lavaan 0.6-15
+lavaan is FREE software! Please report any bugs.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semPlot)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'psych'
+
+The following object is masked from 'package:lavaan':
+
+    cor2cov
+
+The following objects are masked from 'package:ggplot2':
+
+    %+%, alpha</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>esem_efa_results <span class="ot">&lt;-</span> <span class="fu">esem_efa</span>(<span class="at">data=</span>sdq_lsac, </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">nfactors =</span><span class="dv">5</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">fm =</span> <span class="st">'ML'</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">rotate=</span><span class="st">"geominT"</span>, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">scores=</span><span class="st">"regression"</span>, </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">residuals=</span><span class="cn">TRUE</span>, </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">missing=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required namespace: GPArotation</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>esem_model <span class="ot">&lt;-</span> <span class="fu">esem_syntax</span>(esem_efa_results)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(esem_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ML1=~start(-0.10173934463933)*s1_1+
+0.340756599488703*s2_1+
+start(0.475703832282272)*s3_1+
+start(0.0446929442023335)*s4_1+
+start(0.532213731646482)*s5_1+
+start(0.380692691195294)*s6_1+
+0.176280433646357*s7_1R+
+0.557668028841265*s8_1+
+0.0151749829720787*s9_1+
+start(0.445356821304483)*s10_1+
+start(0.148875656647626)*s11_1R+
+start(0.294535191908947)*s12_1+
+0.641995588240525*s13_1+
+start(0.286286945151388)*s14_1R+
+start(0.495415890614124)*s15_1+
+start(0.45597724416715)*s16_1+
+start(-0.0301767889741874)*s17_1+
+start(0.527645054324329)*s18_1+
+start(0.546285643907504)*s19_1+
+start(0.0644822139659472)*s20_1+
+start(0.166691302209252)*s21_1R+
+start(0.218302965518924)*s22_1+
+start(0.379034625183508)*s23_1+
+start(0.459313829939173)*s24_1+
+start(0.245078998593845)*s25_1R
+
+ML2=~start(-0.468600196676536)*s1_1+
+0.168795926740635*s2_1+
+start(0.0311093192393948)*s3_1+
+start(-0.190229159991145)*s4_1+
+start(0.209032646107499)*s5_1+
+start(-0.00773952998674864)*s6_1+
+0.556391841402646*s7_1R+
+-0.106383149193588*s8_1+
+-0.480940745360267*s9_1+
+start(0.109867345264454)*s10_1+
+start(0.125819967268261)*s11_1R+
+start(0.208882922738074)*s12_1+
+0.0366732245782158*s13_1+
+start(0.168952352356897)*s14_1R+
+start(0.342904257508592)*s15_1+
+start(0.0622770136307098)*s16_1+
+start(-0.393678228506436)*s17_1+
+start(0.249651265081103)*s18_1+
+start(-0.0438788465952646)*s19_1+
+start(-0.505092540276105)*s20_1+
+start(0.514952875671238)*s21_1R+
+start(0.149372909264571)*s22_1+
+start(-0.118630044416721)*s23_1+
+start(-0.080531323355048)*s24_1+
+start(0.551596464270367)*s25_1R
+
+ML3=~start(0.0322424816769413)*s1_1+
+0.630152952381443*s2_1+
+start(0.0569840587957745)*s3_1+
+start(0.0539101514387879)*s4_1+
+start(0.0643680288978444)*s5_1+
+start(0.00356559581064877)*s6_1+
+0.0292066225490679*s7_1R+
+0.0144050825842238*s8_1+
+0.0307894659843314*s9_1+
+start(0.621502956736062)*s10_1+
+start(-0.0789320461862157)*s11_1R+
+start(0.0204258917983236)*s12_1+
+-0.0925312315019607*s13_1+
+start(-0.0309333659159388)*s14_1R+
+start(0.313103507284891)*s15_1+
+start(0.0142296990395716)*s16_1+
+start(-0.0350898906273432)*s17_1+
+start(0.0234040700980235)*s18_1+
+start(-0.0645003178035255)*s19_1+
+start(-0.0526131984419026)*s20_1+
+start(0.126607096127209)*s21_1R+
+start(0.00497039945494141)*s22_1+
+start(-0.032052432703899)*s23_1+
+start(-0.00291448338437589)*s24_1+
+start(0.134109708704681)*s25_1R
+
+ML4=~start(0.117566293548376)*s1_1+
+0.00836822168284345*s2_1+
+start(0.0926725845674965)*s3_1+
+start(-0.0127993960146483)*s4_1+
+start(-0.0554829669679343)*s5_1+
+start(0.0239230312964366)*s6_1+
+-0.0956553200417395*s7_1R+
+0.369605189983934*s8_1+
+0.0112345401807335*s9_1+
+start(-0.00370508258982542)*s10_1+
+start(0.00549866839960212)*s11_1R+
+start(-0.158364697303698)*s12_1+
+0.0202983453775569*s13_1+
+start(0.0589329400027876)*s14_1R+
+start(0.0142242256915485)*s15_1+
+start(0.35971938924051)*s16_1+
+start(0.0231799912067649)*s17_1+
+start(-0.20692725562607)*s18_1+
+start(-0.139923287486244)*s19_1+
+start(-0.1542101678535)*s20_1+
+start(-0.00506346513179586)*s21_1R+
+start(-0.188699860679694)*s22_1+
+start(-0.0697383599241916)*s23_1+
+start(0.286207187098759)*s24_1+
+start(0.0594516175174157)*s25_1R
+
+ML5=~start(0.388718027204538)*s1_1+
+0.02085017266222*s2_1+
+start(-0.00360476105904002)*s3_1+
+start(0.328985324136066)*s4_1+
+start(-0.0256188420789782)*s5_1+
+start(-0.280447881743731)*s6_1+
+-0.0158598062856235*s7_1R+
+-0.022191652968657*s8_1+
+0.427528293423236*s9_1+
+start(0.0172418044741801)*s10_1+
+start(-0.321691340009617)*s11_1R+
+start(-0.0291478896700245)*s12_1+
+-0.0809385178546326*s13_1+
+start(-0.397613231055843)*s14_1R+
+start(0.11291058868388)*s15_1+
+start(0.0440496635920272)*s16_1+
+start(0.355125629928531)*s17_1+
+start(-0.0215216242432204)*s18_1+
+start(-0.163674623181326)*s19_1+
+start(0.168970550279249)*s20_1+
+start(-0.0475189241539409)*s21_1R+
+start(-0.0107159788630542)*s22_1+
+start(-0.215306649153061)*s23_1+
+start(0.0103255272110764)*s24_1+
+start(0.0295862835081832)*s25_1R</code></pre>
+</div>
+</div>
+<p>A Monte Carlo simulation can be implemented by the <code>sim</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(simsem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code> </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>#################################################################</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is simsem 0.5-16</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>simsem is BETA software! Please report any bugs.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>simsem was first developed at the University of Kansas Center for</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Research Methods and Data Analysis, under NSF Grant 1053160.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>#################################################################</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'simsem'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:psych':
+
+    sim</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:lavaan':
+
+    inspect</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>analyzeModel<span class="ot">&lt;-</span><span class="st">"</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="st">ML1 =~ s6_1+s11_1R+s14_1R+s19_1+s23_1</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="st">ML2 =~  s5_1+s7_1R+s12_1+s18_1+s22_1</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="st">ML3 =~  s3_1+s8_1+s13_1+s16_1+s24_1</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="st">ML4 =~  s2_1+s10_1+s15_1+s21_1R+s25_1R</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="st">ML5 =~  s1_1+s4_1+s9_1+s17_1+s20_1</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>Output <span class="ot">&lt;-</span> <span class="fu">sim</span>(<span class="dv">1000</span>, analyzeModel, <span class="at">n=</span><span class="dv">3836</span>, <span class="at">generate=</span>esem_model, <span class="at">lavaanfun =</span> <span class="st">"cfa"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Progress: 1 / 1000 
+Progress: 2 / 1000 
+Progress: 3 / 1000 
+Progress: 4 / 1000 
+Progress: 5 / 1000 
+Progress: 6 / 1000 
+Progress: 7 / 1000 
+Progress: 8 / 1000 
+Progress: 9 / 1000 
+Progress: 10 / 1000 
+Progress: 11 / 1000 
+Progress: 12 / 1000 
+Progress: 13 / 1000 
+Progress: 14 / 1000 
+Progress: 15 / 1000 
+Progress: 16 / 1000 
+Progress: 17 / 1000 
+Progress: 18 / 1000 
+Progress: 19 / 1000 
+Progress: 20 / 1000 
+Progress: 21 / 1000 
+Progress: 22 / 1000 
+Progress: 23 / 1000 
+Progress: 24 / 1000 
+Progress: 25 / 1000 
+Progress: 26 / 1000 
+Progress: 27 / 1000 
+Progress: 28 / 1000 
+Progress: 29 / 1000 
+Progress: 30 / 1000 
+Progress: 31 / 1000 
+Progress: 32 / 1000 
+Progress: 33 / 1000 
+Progress: 34 / 1000 
+Progress: 35 / 1000 
+Progress: 36 / 1000 
+Progress: 37 / 1000 
+Progress: 38 / 1000 
+Progress: 39 / 1000 
+Progress: 40 / 1000 
+Progress: 41 / 1000 
+Progress: 42 / 1000 
+Progress: 43 / 1000 
+Progress: 44 / 1000 
+Progress: 45 / 1000 
+Progress: 46 / 1000 
+Progress: 47 / 1000 
+Progress: 48 / 1000 
+Progress: 49 / 1000 
+Progress: 50 / 1000 
+Progress: 51 / 1000 
+Progress: 52 / 1000 
+Progress: 53 / 1000 
+Progress: 54 / 1000 
+Progress: 55 / 1000 
+Progress: 56 / 1000 
+Progress: 57 / 1000 
+Progress: 58 / 1000 
+Progress: 59 / 1000 
+Progress: 60 / 1000 
+Progress: 61 / 1000 
+Progress: 62 / 1000 
+Progress: 63 / 1000 
+Progress: 64 / 1000 
+Progress: 65 / 1000 
+Progress: 66 / 1000 
+Progress: 67 / 1000 
+Progress: 68 / 1000 
+Progress: 69 / 1000 
+Progress: 70 / 1000 
+Progress: 71 / 1000 
+Progress: 72 / 1000 
+Progress: 73 / 1000 
+Progress: 74 / 1000 
+Progress: 75 / 1000 
+Progress: 76 / 1000 
+Progress: 77 / 1000 
+Progress: 78 / 1000 
+Progress: 79 / 1000 
+Progress: 80 / 1000 
+Progress: 81 / 1000 
+Progress: 82 / 1000 
+Progress: 83 / 1000 
+Progress: 84 / 1000 
+Progress: 85 / 1000 
+Progress: 86 / 1000 
+Progress: 87 / 1000 
+Progress: 88 / 1000 
+Progress: 89 / 1000 
+Progress: 90 / 1000 
+Progress: 91 / 1000 
+Progress: 92 / 1000 
+Progress: 93 / 1000 
+Progress: 94 / 1000 
+Progress: 95 / 1000 
+Progress: 96 / 1000 
+Progress: 97 / 1000 
+Progress: 98 / 1000 
+Progress: 99 / 1000 
+Progress: 100 / 1000 
+Progress: 101 / 1000 
+Progress: 102 / 1000 
+Progress: 103 / 1000 
+Progress: 104 / 1000 
+Progress: 105 / 1000 
+Progress: 106 / 1000 
+Progress: 107 / 1000 
+Progress: 108 / 1000 
+Progress: 109 / 1000 
+Progress: 110 / 1000 
+Progress: 111 / 1000 
+Progress: 112 / 1000 
+Progress: 113 / 1000 
+Progress: 114 / 1000 
+Progress: 115 / 1000 
+Progress: 116 / 1000 
+Progress: 117 / 1000 
+Progress: 118 / 1000 
+Progress: 119 / 1000 
+Progress: 120 / 1000 
+Progress: 121 / 1000 
+Progress: 122 / 1000 
+Progress: 123 / 1000 
+Progress: 124 / 1000 
+Progress: 125 / 1000 
+Progress: 126 / 1000 
+Progress: 127 / 1000 
+Progress: 128 / 1000 
+Progress: 129 / 1000 
+Progress: 130 / 1000 
+Progress: 131 / 1000 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in lav_object_post_check(object): lavaan WARNING: covariance matrix of latent variables
+                is not positive definite;
+                use lavInspect(fit, "cov.lv") to investigate.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Progress: 132 / 1000 
+Progress: 133 / 1000 
+Progress: 134 / 1000 
+Progress: 135 / 1000 
+Progress: 136 / 1000 
+Progress: 137 / 1000 
+Progress: 138 / 1000 
+Progress: 139 / 1000 
+Progress: 140 / 1000 
+Progress: 141 / 1000 
+Progress: 142 / 1000 
+Progress: 143 / 1000 
+Progress: 144 / 1000 
+Progress: 145 / 1000 
+Progress: 146 / 1000 
+Progress: 147 / 1000 
+Progress: 148 / 1000 
+Progress: 149 / 1000 
+Progress: 150 / 1000 
+Progress: 151 / 1000 
+Progress: 152 / 1000 
+Progress: 153 / 1000 
+Progress: 154 / 1000 
+Progress: 155 / 1000 
+Progress: 156 / 1000 
+Progress: 157 / 1000 
+Progress: 158 / 1000 
+Progress: 159 / 1000 
+Progress: 160 / 1000 
+Progress: 161 / 1000 
+Progress: 162 / 1000 
+Progress: 163 / 1000 
+Progress: 164 / 1000 
+Progress: 165 / 1000 
+Progress: 166 / 1000 
+Progress: 167 / 1000 
+Progress: 168 / 1000 
+Progress: 169 / 1000 
+Progress: 170 / 1000 
+Progress: 171 / 1000 
+Progress: 172 / 1000 
+Progress: 173 / 1000 
+Progress: 174 / 1000 
+Progress: 175 / 1000 
+Progress: 176 / 1000 
+Progress: 177 / 1000 
+Progress: 178 / 1000 
+Progress: 179 / 1000 
+Progress: 180 / 1000 
+Progress: 181 / 1000 
+Progress: 182 / 1000 
+Progress: 183 / 1000 
+Progress: 184 / 1000 
+Progress: 185 / 1000 
+Progress: 186 / 1000 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in lav_object_post_check(object): lavaan WARNING: covariance matrix of latent variables
+                is not positive definite;
+                use lavInspect(fit, "cov.lv") to investigate.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Progress: 187 / 1000 
+Progress: 188 / 1000 
+Progress: 189 / 1000 
+Progress: 190 / 1000 
+Progress: 191 / 1000 
+Progress: 192 / 1000 
+Progress: 193 / 1000 
+Progress: 194 / 1000 
+Progress: 195 / 1000 
+Progress: 196 / 1000 
+Progress: 197 / 1000 
+Progress: 198 / 1000 
+Progress: 199 / 1000 
+Progress: 200 / 1000 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in lav_object_post_check(object): lavaan WARNING: covariance matrix of latent variables
+                is not positive definite;
+                use lavInspect(fit, "cov.lv") to investigate.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Progress: 201 / 1000 
+Progress: 202 / 1000 
+Progress: 203 / 1000 
+Progress: 204 / 1000 
+Progress: 205 / 1000 
+Progress: 206 / 1000 
+Progress: 207 / 1000 
+Progress: 208 / 1000 
+Progress: 209 / 1000 
+Progress: 210 / 1000 
+Progress: 211 / 1000 
+Progress: 212 / 1000 
+Progress: 213 / 1000 
+Progress: 214 / 1000 
+Progress: 215 / 1000 
+Progress: 216 / 1000 
+Progress: 217 / 1000 
+Progress: 218 / 1000 
+Progress: 219 / 1000 
+Progress: 220 / 1000 
+Progress: 221 / 1000 
+Progress: 222 / 1000 
+Progress: 223 / 1000 
+Progress: 224 / 1000 
+Progress: 225 / 1000 
+Progress: 226 / 1000 
+Progress: 227 / 1000 
+Progress: 228 / 1000 
+Progress: 229 / 1000 
+Progress: 230 / 1000 
+Progress: 231 / 1000 
+Progress: 232 / 1000 
+Progress: 233 / 1000 
+Progress: 234 / 1000 
+Progress: 235 / 1000 
+Progress: 236 / 1000 
+Progress: 237 / 1000 
+Progress: 238 / 1000 
+Progress: 239 / 1000 
+Progress: 240 / 1000 
+Progress: 241 / 1000 
+Progress: 242 / 1000 
+Progress: 243 / 1000 
+Progress: 244 / 1000 
+Progress: 245 / 1000 
+Progress: 246 / 1000 
+Progress: 247 / 1000 
+Progress: 248 / 1000 
+Progress: 249 / 1000 
+Progress: 250 / 1000 
+Progress: 251 / 1000 
+Progress: 252 / 1000 
+Progress: 253 / 1000 
+Progress: 254 / 1000 
+Progress: 255 / 1000 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in lav_object_post_check(object): lavaan WARNING: covariance matrix of latent variables
+                is not positive definite;
+                use lavInspect(fit, "cov.lv") to investigate.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Progress: 256 / 1000 
+Progress: 257 / 1000 
+Progress: 258 / 1000 
+Progress: 259 / 1000 
+Progress: 260 / 1000 
+Progress: 261 / 1000 
+Progress: 262 / 1000 
+Progress: 263 / 1000 
+Progress: 264 / 1000 
+Progress: 265 / 1000 
+Progress: 266 / 1000 
+Progress: 267 / 1000 
+Progress: 268 / 1000 
+Progress: 269 / 1000 
+Progress: 270 / 1000 
+Progress: 271 / 1000 
+Progress: 272 / 1000 
+Progress: 273 / 1000 
+Progress: 274 / 1000 
+Progress: 275 / 1000 
+Progress: 276 / 1000 
+Progress: 277 / 1000 
+Progress: 278 / 1000 
+Progress: 279 / 1000 
+Progress: 280 / 1000 
+Progress: 281 / 1000 
+Progress: 282 / 1000 
+Progress: 283 / 1000 
+Progress: 284 / 1000 
+Progress: 285 / 1000 
+Progress: 286 / 1000 
+Progress: 287 / 1000 
+Progress: 288 / 1000 
+Progress: 289 / 1000 
+Progress: 290 / 1000 
+Progress: 291 / 1000 
+Progress: 292 / 1000 
+Progress: 293 / 1000 
+Progress: 294 / 1000 
+Progress: 295 / 1000 
+Progress: 296 / 1000 
+Progress: 297 / 1000 
+Progress: 298 / 1000 
+Progress: 299 / 1000 
+Progress: 300 / 1000 
+Progress: 301 / 1000 
+Progress: 302 / 1000 
+Progress: 303 / 1000 
+Progress: 304 / 1000 
+Progress: 305 / 1000 
+Progress: 306 / 1000 
+Progress: 307 / 1000 
+Progress: 308 / 1000 
+Progress: 309 / 1000 
+Progress: 310 / 1000 
+Progress: 311 / 1000 
+Progress: 312 / 1000 
+Progress: 313 / 1000 
+Progress: 314 / 1000 
+Progress: 315 / 1000 
+Progress: 316 / 1000 
+Progress: 317 / 1000 
+Progress: 318 / 1000 
+Progress: 319 / 1000 
+Progress: 320 / 1000 
+Progress: 321 / 1000 
+Progress: 322 / 1000 
+Progress: 323 / 1000 
+Progress: 324 / 1000 
+Progress: 325 / 1000 
+Progress: 326 / 1000 
+Progress: 327 / 1000 
+Progress: 328 / 1000 
+Progress: 329 / 1000 
+Progress: 330 / 1000 
+Progress: 331 / 1000 
+Progress: 332 / 1000 
+Progress: 333 / 1000 
+Progress: 334 / 1000 
+Progress: 335 / 1000 
+Progress: 336 / 1000 
+Progress: 337 / 1000 
+Progress: 338 / 1000 
+Progress: 339 / 1000 
+Progress: 340 / 1000 
+Progress: 341 / 1000 
+Progress: 342 / 1000 
+Progress: 343 / 1000 
+Progress: 344 / 1000 
+Progress: 345 / 1000 
+Progress: 346 / 1000 
+Progress: 347 / 1000 
+Progress: 348 / 1000 
+Progress: 349 / 1000 
+Progress: 350 / 1000 
+Progress: 351 / 1000 
+Progress: 352 / 1000 
+Progress: 353 / 1000 
+Progress: 354 / 1000 
+Progress: 355 / 1000 
+Progress: 356 / 1000 
+Progress: 357 / 1000 
+Progress: 358 / 1000 
+Progress: 359 / 1000 
+Progress: 360 / 1000 
+Progress: 361 / 1000 
+Progress: 362 / 1000 
+Progress: 363 / 1000 
+Progress: 364 / 1000 
+Progress: 365 / 1000 
+Progress: 366 / 1000 
+Progress: 367 / 1000 
+Progress: 368 / 1000 
+Progress: 369 / 1000 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in lav_object_post_check(object): lavaan WARNING: covariance matrix of latent variables
+                is not positive definite;
+                use lavInspect(fit, "cov.lv") to investigate.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Progress: 370 / 1000 
+Progress: 371 / 1000 
+Progress: 372 / 1000 
+Progress: 373 / 1000 
+Progress: 374 / 1000 
+Progress: 375 / 1000 
+Progress: 376 / 1000 
+Progress: 377 / 1000 
+Progress: 378 / 1000 
+Progress: 379 / 1000 
+Progress: 380 / 1000 
+Progress: 381 / 1000 
+Progress: 382 / 1000 
+Progress: 383 / 1000 
+Progress: 384 / 1000 
+Progress: 385 / 1000 
+Progress: 386 / 1000 
+Progress: 387 / 1000 
+Progress: 388 / 1000 
+Progress: 389 / 1000 
+Progress: 390 / 1000 
+Progress: 391 / 1000 
+Progress: 392 / 1000 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in lav_object_post_check(object): lavaan WARNING: covariance matrix of latent variables
+                is not positive definite;
+                use lavInspect(fit, "cov.lv") to investigate.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Progress: 393 / 1000 
+Progress: 394 / 1000 
+Progress: 395 / 1000 
+Progress: 396 / 1000 
+Progress: 397 / 1000 
+Progress: 398 / 1000 
+Progress: 399 / 1000 
+Progress: 400 / 1000 
+Progress: 401 / 1000 
+Progress: 402 / 1000 
+Progress: 403 / 1000 
+Progress: 404 / 1000 
+Progress: 405 / 1000 
+Progress: 406 / 1000 
+Progress: 407 / 1000 
+Progress: 408 / 1000 
+Progress: 409 / 1000 
+Progress: 410 / 1000 
+Progress: 411 / 1000 
+Progress: 412 / 1000 
+Progress: 413 / 1000 
+Progress: 414 / 1000 
+Progress: 415 / 1000 
+Progress: 416 / 1000 
+Progress: 417 / 1000 
+Progress: 418 / 1000 
+Progress: 419 / 1000 
+Progress: 420 / 1000 
+Progress: 421 / 1000 
+Progress: 422 / 1000 
+Progress: 423 / 1000 
+Progress: 424 / 1000 
+Progress: 425 / 1000 
+Progress: 426 / 1000 
+Progress: 427 / 1000 
+Progress: 428 / 1000 
+Progress: 429 / 1000 
+Progress: 430 / 1000 
+Progress: 431 / 1000 
+Progress: 432 / 1000 
+Progress: 433 / 1000 
+Progress: 434 / 1000 
+Progress: 435 / 1000 
+Progress: 436 / 1000 
+Progress: 437 / 1000 
+Progress: 438 / 1000 
+Progress: 439 / 1000 
+Progress: 440 / 1000 
+Progress: 441 / 1000 
+Progress: 442 / 1000 
+Progress: 443 / 1000 
+Progress: 444 / 1000 
+Progress: 445 / 1000 
+Progress: 446 / 1000 
+Progress: 447 / 1000 
+Progress: 448 / 1000 
+Progress: 449 / 1000 
+Progress: 450 / 1000 
+Progress: 451 / 1000 
+Progress: 452 / 1000 
+Progress: 453 / 1000 
+Progress: 454 / 1000 
+Progress: 455 / 1000 
+Progress: 456 / 1000 
+Progress: 457 / 1000 
+Progress: 458 / 1000 
+Progress: 459 / 1000 
+Progress: 460 / 1000 
+Progress: 461 / 1000 
+Progress: 462 / 1000 
+Progress: 463 / 1000 
+Progress: 464 / 1000 
+Progress: 465 / 1000 
+Progress: 466 / 1000 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in lav_object_post_check(object): lavaan WARNING: covariance matrix of latent variables
+                is not positive definite;
+                use lavInspect(fit, "cov.lv") to investigate.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Progress: 467 / 1000 
+Progress: 468 / 1000 
+Progress: 469 / 1000 
+Progress: 470 / 1000 
+Progress: 471 / 1000 
+Progress: 472 / 1000 
+Progress: 473 / 1000 
+Progress: 474 / 1000 
+Progress: 475 / 1000 
+Progress: 476 / 1000 
+Progress: 477 / 1000 
+Progress: 478 / 1000 
+Progress: 479 / 1000 
+Progress: 480 / 1000 
+Progress: 481 / 1000 
+Progress: 482 / 1000 
+Progress: 483 / 1000 
+Progress: 484 / 1000 
+Progress: 485 / 1000 
+Progress: 486 / 1000 
+Progress: 487 / 1000 
+Progress: 488 / 1000 
+Progress: 489 / 1000 
+Progress: 490 / 1000 
+Progress: 491 / 1000 
+Progress: 492 / 1000 
+Progress: 493 / 1000 
+Progress: 494 / 1000 
+Progress: 495 / 1000 
+Progress: 496 / 1000 
+Progress: 497 / 1000 
+Progress: 498 / 1000 
+Progress: 499 / 1000 
+Progress: 500 / 1000 
+Progress: 501 / 1000 
+Progress: 502 / 1000 
+Progress: 503 / 1000 
+Progress: 504 / 1000 
+Progress: 505 / 1000 
+Progress: 506 / 1000 
+Progress: 507 / 1000 
+Progress: 508 / 1000 
+Progress: 509 / 1000 
+Progress: 510 / 1000 
+Progress: 511 / 1000 
+Progress: 512 / 1000 
+Progress: 513 / 1000 
+Progress: 514 / 1000 
+Progress: 515 / 1000 
+Progress: 516 / 1000 
+Progress: 517 / 1000 
+Progress: 518 / 1000 
+Progress: 519 / 1000 
+Progress: 520 / 1000 
+Progress: 521 / 1000 
+Progress: 522 / 1000 
+Progress: 523 / 1000 
+Progress: 524 / 1000 
+Progress: 525 / 1000 
+Progress: 526 / 1000 
+Progress: 527 / 1000 
+Progress: 528 / 1000 
+Progress: 529 / 1000 
+Progress: 530 / 1000 
+Progress: 531 / 1000 
+Progress: 532 / 1000 
+Progress: 533 / 1000 
+Progress: 534 / 1000 
+Progress: 535 / 1000 
+Progress: 536 / 1000 
+Progress: 537 / 1000 
+Progress: 538 / 1000 
+Progress: 539 / 1000 
+Progress: 540 / 1000 
+Progress: 541 / 1000 
+Progress: 542 / 1000 
+Progress: 543 / 1000 
+Progress: 544 / 1000 
+Progress: 545 / 1000 
+Progress: 546 / 1000 
+Progress: 547 / 1000 
+Progress: 548 / 1000 
+Progress: 549 / 1000 
+Progress: 550 / 1000 
+Progress: 551 / 1000 
+Progress: 552 / 1000 
+Progress: 553 / 1000 
+Progress: 554 / 1000 
+Progress: 555 / 1000 
+Progress: 556 / 1000 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in lav_object_post_check(object): lavaan WARNING: covariance matrix of latent variables
+                is not positive definite;
+                use lavInspect(fit, "cov.lv") to investigate.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Progress: 557 / 1000 
+Progress: 558 / 1000 
+Progress: 559 / 1000 
+Progress: 560 / 1000 
+Progress: 561 / 1000 
+Progress: 562 / 1000 
+Progress: 563 / 1000 
+Progress: 564 / 1000 
+Progress: 565 / 1000 
+Progress: 566 / 1000 
+Progress: 567 / 1000 
+Progress: 568 / 1000 
+Progress: 569 / 1000 
+Progress: 570 / 1000 
+Progress: 571 / 1000 
+Progress: 572 / 1000 
+Progress: 573 / 1000 
+Progress: 574 / 1000 
+Progress: 575 / 1000 
+Progress: 576 / 1000 
+Progress: 577 / 1000 
+Progress: 578 / 1000 
+Progress: 579 / 1000 
+Progress: 580 / 1000 
+Progress: 581 / 1000 
+Progress: 582 / 1000 
+Progress: 583 / 1000 
+Progress: 584 / 1000 
+Progress: 585 / 1000 
+Progress: 586 / 1000 
+Progress: 587 / 1000 
+Progress: 588 / 1000 
+Progress: 589 / 1000 
+Progress: 590 / 1000 
+Progress: 591 / 1000 
+Progress: 592 / 1000 
+Progress: 593 / 1000 
+Progress: 594 / 1000 
+Progress: 595 / 1000 
+Progress: 596 / 1000 
+Progress: 597 / 1000 
+Progress: 598 / 1000 
+Progress: 599 / 1000 
+Progress: 600 / 1000 
+Progress: 601 / 1000 
+Progress: 602 / 1000 
+Progress: 603 / 1000 
+Progress: 604 / 1000 
+Progress: 605 / 1000 
+Progress: 606 / 1000 
+Progress: 607 / 1000 
+Progress: 608 / 1000 
+Progress: 609 / 1000 
+Progress: 610 / 1000 
+Progress: 611 / 1000 
+Progress: 612 / 1000 
+Progress: 613 / 1000 
+Progress: 614 / 1000 
+Progress: 615 / 1000 
+Progress: 616 / 1000 
+Progress: 617 / 1000 
+Progress: 618 / 1000 
+Progress: 619 / 1000 
+Progress: 620 / 1000 
+Progress: 621 / 1000 
+Progress: 622 / 1000 
+Progress: 623 / 1000 
+Progress: 624 / 1000 
+Progress: 625 / 1000 
+Progress: 626 / 1000 
+Progress: 627 / 1000 
+Progress: 628 / 1000 
+Progress: 629 / 1000 
+Progress: 630 / 1000 
+Progress: 631 / 1000 
+Progress: 632 / 1000 
+Progress: 633 / 1000 
+Progress: 634 / 1000 
+Progress: 635 / 1000 
+Progress: 636 / 1000 
+Progress: 637 / 1000 
+Progress: 638 / 1000 
+Progress: 639 / 1000 
+Progress: 640 / 1000 
+Progress: 641 / 1000 
+Progress: 642 / 1000 
+Progress: 643 / 1000 
+Progress: 644 / 1000 
+Progress: 645 / 1000 
+Progress: 646 / 1000 
+Progress: 647 / 1000 
+Progress: 648 / 1000 
+Progress: 649 / 1000 
+Progress: 650 / 1000 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in lav_object_post_check(object): lavaan WARNING: covariance matrix of latent variables
+                is not positive definite;
+                use lavInspect(fit, "cov.lv") to investigate.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Progress: 651 / 1000 
+Progress: 652 / 1000 
+Progress: 653 / 1000 
+Progress: 654 / 1000 
+Progress: 655 / 1000 
+Progress: 656 / 1000 
+Progress: 657 / 1000 
+Progress: 658 / 1000 
+Progress: 659 / 1000 
+Progress: 660 / 1000 
+Progress: 661 / 1000 
+Progress: 662 / 1000 
+Progress: 663 / 1000 
+Progress: 664 / 1000 
+Progress: 665 / 1000 
+Progress: 666 / 1000 
+Progress: 667 / 1000 
+Progress: 668 / 1000 
+Progress: 669 / 1000 
+Progress: 670 / 1000 
+Progress: 671 / 1000 
+Progress: 672 / 1000 
+Progress: 673 / 1000 
+Progress: 674 / 1000 
+Progress: 675 / 1000 
+Progress: 676 / 1000 
+Progress: 677 / 1000 
+Progress: 678 / 1000 
+Progress: 679 / 1000 
+Progress: 680 / 1000 
+Progress: 681 / 1000 
+Progress: 682 / 1000 
+Progress: 683 / 1000 
+Progress: 684 / 1000 
+Progress: 685 / 1000 
+Progress: 686 / 1000 
+Progress: 687 / 1000 
+Progress: 688 / 1000 
+Progress: 689 / 1000 
+Progress: 690 / 1000 
+Progress: 691 / 1000 
+Progress: 692 / 1000 
+Progress: 693 / 1000 
+Progress: 694 / 1000 
+Progress: 695 / 1000 
+Progress: 696 / 1000 
+Progress: 697 / 1000 
+Progress: 698 / 1000 
+Progress: 699 / 1000 
+Progress: 700 / 1000 
+Progress: 701 / 1000 
+Progress: 702 / 1000 
+Progress: 703 / 1000 
+Progress: 704 / 1000 
+Progress: 705 / 1000 
+Progress: 706 / 1000 
+Progress: 707 / 1000 
+Progress: 708 / 1000 
+Progress: 709 / 1000 
+Progress: 710 / 1000 
+Progress: 711 / 1000 
+Progress: 712 / 1000 
+Progress: 713 / 1000 
+Progress: 714 / 1000 
+Progress: 715 / 1000 
+Progress: 716 / 1000 
+Progress: 717 / 1000 
+Progress: 718 / 1000 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in lav_object_post_check(object): lavaan WARNING: covariance matrix of latent variables
+                is not positive definite;
+                use lavInspect(fit, "cov.lv") to investigate.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Progress: 719 / 1000 
+Progress: 720 / 1000 
+Progress: 721 / 1000 
+Progress: 722 / 1000 
+Progress: 723 / 1000 
+Progress: 724 / 1000 
+Progress: 725 / 1000 
+Progress: 726 / 1000 
+Progress: 727 / 1000 
+Progress: 728 / 1000 
+Progress: 729 / 1000 
+Progress: 730 / 1000 
+Progress: 731 / 1000 
+Progress: 732 / 1000 
+Progress: 733 / 1000 
+Progress: 734 / 1000 
+Progress: 735 / 1000 
+Progress: 736 / 1000 
+Progress: 737 / 1000 
+Progress: 738 / 1000 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in lav_object_post_check(object): lavaan WARNING: covariance matrix of latent variables
+                is not positive definite;
+                use lavInspect(fit, "cov.lv") to investigate.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Progress: 739 / 1000 
+Progress: 740 / 1000 
+Progress: 741 / 1000 
+Progress: 742 / 1000 
+Progress: 743 / 1000 
+Progress: 744 / 1000 
+Progress: 745 / 1000 
+Progress: 746 / 1000 
+Progress: 747 / 1000 
+Progress: 748 / 1000 
+Progress: 749 / 1000 
+Progress: 750 / 1000 
+Progress: 751 / 1000 
+Progress: 752 / 1000 
+Progress: 753 / 1000 
+Progress: 754 / 1000 
+Progress: 755 / 1000 
+Progress: 756 / 1000 
+Progress: 757 / 1000 
+Progress: 758 / 1000 
+Progress: 759 / 1000 
+Progress: 760 / 1000 
+Progress: 761 / 1000 
+Progress: 762 / 1000 
+Progress: 763 / 1000 
+Progress: 764 / 1000 
+Progress: 765 / 1000 
+Progress: 766 / 1000 
+Progress: 767 / 1000 
+Progress: 768 / 1000 
+Progress: 769 / 1000 
+Progress: 770 / 1000 
+Progress: 771 / 1000 
+Progress: 772 / 1000 
+Progress: 773 / 1000 
+Progress: 774 / 1000 
+Progress: 775 / 1000 
+Progress: 776 / 1000 
+Progress: 777 / 1000 
+Progress: 778 / 1000 
+Progress: 779 / 1000 
+Progress: 780 / 1000 
+Progress: 781 / 1000 
+Progress: 782 / 1000 
+Progress: 783 / 1000 
+Progress: 784 / 1000 
+Progress: 785 / 1000 
+Progress: 786 / 1000 
+Progress: 787 / 1000 
+Progress: 788 / 1000 
+Progress: 789 / 1000 
+Progress: 790 / 1000 
+Progress: 791 / 1000 
+Progress: 792 / 1000 
+Progress: 793 / 1000 
+Progress: 794 / 1000 
+Progress: 795 / 1000 
+Progress: 796 / 1000 
+Progress: 797 / 1000 
+Progress: 798 / 1000 
+Progress: 799 / 1000 
+Progress: 800 / 1000 
+Progress: 801 / 1000 
+Progress: 802 / 1000 
+Progress: 803 / 1000 
+Progress: 804 / 1000 
+Progress: 805 / 1000 
+Progress: 806 / 1000 
+Progress: 807 / 1000 
+Progress: 808 / 1000 
+Progress: 809 / 1000 
+Progress: 810 / 1000 
+Progress: 811 / 1000 
+Progress: 812 / 1000 
+Progress: 813 / 1000 
+Progress: 814 / 1000 
+Progress: 815 / 1000 
+Progress: 816 / 1000 
+Progress: 817 / 1000 
+Progress: 818 / 1000 
+Progress: 819 / 1000 
+Progress: 820 / 1000 
+Progress: 821 / 1000 
+Progress: 822 / 1000 
+Progress: 823 / 1000 
+Progress: 824 / 1000 
+Progress: 825 / 1000 
+Progress: 826 / 1000 
+Progress: 827 / 1000 
+Progress: 828 / 1000 
+Progress: 829 / 1000 
+Progress: 830 / 1000 
+Progress: 831 / 1000 
+Progress: 832 / 1000 
+Progress: 833 / 1000 
+Progress: 834 / 1000 
+Progress: 835 / 1000 
+Progress: 836 / 1000 
+Progress: 837 / 1000 
+Progress: 838 / 1000 
+Progress: 839 / 1000 
+Progress: 840 / 1000 
+Progress: 841 / 1000 
+Progress: 842 / 1000 
+Progress: 843 / 1000 
+Progress: 844 / 1000 
+Progress: 845 / 1000 
+Progress: 846 / 1000 
+Progress: 847 / 1000 
+Progress: 848 / 1000 
+Progress: 849 / 1000 
+Progress: 850 / 1000 
+Progress: 851 / 1000 
+Progress: 852 / 1000 
+Progress: 853 / 1000 
+Progress: 854 / 1000 
+Progress: 855 / 1000 
+Progress: 856 / 1000 
+Progress: 857 / 1000 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in lav_object_post_check(object): lavaan WARNING: covariance matrix of latent variables
+                is not positive definite;
+                use lavInspect(fit, "cov.lv") to investigate.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Progress: 858 / 1000 
+Progress: 859 / 1000 
+Progress: 860 / 1000 
+Progress: 861 / 1000 
+Progress: 862 / 1000 
+Progress: 863 / 1000 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in lav_object_post_check(object): lavaan WARNING: covariance matrix of latent variables
+                is not positive definite;
+                use lavInspect(fit, "cov.lv") to investigate.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Progress: 864 / 1000 
+Progress: 865 / 1000 
+Progress: 866 / 1000 
+Progress: 867 / 1000 
+Progress: 868 / 1000 
+Progress: 869 / 1000 
+Progress: 870 / 1000 
+Progress: 871 / 1000 
+Progress: 872 / 1000 
+Progress: 873 / 1000 
+Progress: 874 / 1000 
+Progress: 875 / 1000 
+Progress: 876 / 1000 
+Progress: 877 / 1000 
+Progress: 878 / 1000 
+Progress: 879 / 1000 
+Progress: 880 / 1000 
+Progress: 881 / 1000 
+Progress: 882 / 1000 
+Progress: 883 / 1000 
+Progress: 884 / 1000 
+Progress: 885 / 1000 
+Progress: 886 / 1000 
+Progress: 887 / 1000 
+Progress: 888 / 1000 
+Progress: 889 / 1000 
+Progress: 890 / 1000 
+Progress: 891 / 1000 
+Progress: 892 / 1000 
+Progress: 893 / 1000 
+Progress: 894 / 1000 
+Progress: 895 / 1000 
+Progress: 896 / 1000 
+Progress: 897 / 1000 
+Progress: 898 / 1000 
+Progress: 899 / 1000 
+Progress: 900 / 1000 
+Progress: 901 / 1000 
+Progress: 902 / 1000 
+Progress: 903 / 1000 
+Progress: 904 / 1000 
+Progress: 905 / 1000 
+Progress: 906 / 1000 
+Progress: 907 / 1000 
+Progress: 908 / 1000 
+Progress: 909 / 1000 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in lav_object_post_check(object): lavaan WARNING: covariance matrix of latent variables
+                is not positive definite;
+                use lavInspect(fit, "cov.lv") to investigate.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Progress: 910 / 1000 
+Progress: 911 / 1000 
+Progress: 912 / 1000 
+Progress: 913 / 1000 
+Progress: 914 / 1000 
+Progress: 915 / 1000 
+Progress: 916 / 1000 
+Progress: 917 / 1000 
+Progress: 918 / 1000 
+Progress: 919 / 1000 
+Progress: 920 / 1000 
+Progress: 921 / 1000 
+Progress: 922 / 1000 
+Progress: 923 / 1000 
+Progress: 924 / 1000 
+Progress: 925 / 1000 
+Progress: 926 / 1000 
+Progress: 927 / 1000 
+Progress: 928 / 1000 
+Progress: 929 / 1000 
+Progress: 930 / 1000 
+Progress: 931 / 1000 
+Progress: 932 / 1000 
+Progress: 933 / 1000 
+Progress: 934 / 1000 
+Progress: 935 / 1000 
+Progress: 936 / 1000 
+Progress: 937 / 1000 
+Progress: 938 / 1000 
+Progress: 939 / 1000 
+Progress: 940 / 1000 
+Progress: 941 / 1000 
+Progress: 942 / 1000 
+Progress: 943 / 1000 
+Progress: 944 / 1000 
+Progress: 945 / 1000 
+Progress: 946 / 1000 
+Progress: 947 / 1000 
+Progress: 948 / 1000 
+Progress: 949 / 1000 
+Progress: 950 / 1000 
+Progress: 951 / 1000 
+Progress: 952 / 1000 
+Progress: 953 / 1000 
+Progress: 954 / 1000 
+Progress: 955 / 1000 
+Progress: 956 / 1000 
+Progress: 957 / 1000 
+Progress: 958 / 1000 
+Progress: 959 / 1000 
+Progress: 960 / 1000 
+Progress: 961 / 1000 
+Progress: 962 / 1000 
+Progress: 963 / 1000 
+Progress: 964 / 1000 
+Progress: 965 / 1000 
+Progress: 966 / 1000 
+Progress: 967 / 1000 
+Progress: 968 / 1000 
+Progress: 969 / 1000 
+Progress: 970 / 1000 
+Progress: 971 / 1000 
+Progress: 972 / 1000 
+Progress: 973 / 1000 
+Progress: 974 / 1000 
+Progress: 975 / 1000 
+Progress: 976 / 1000 
+Progress: 977 / 1000 
+Progress: 978 / 1000 
+Progress: 979 / 1000 
+Progress: 980 / 1000 
+Progress: 981 / 1000 
+Progress: 982 / 1000 
+Progress: 983 / 1000 
+Progress: 984 / 1000 
+Progress: 985 / 1000 
+Progress: 986 / 1000 
+Progress: 987 / 1000 
+Progress: 988 / 1000 
+Progress: 989 / 1000 
+Progress: 990 / 1000 
+Progress: 991 / 1000 
+Progress: 992 / 1000 
+Progress: 993 / 1000 
+Progress: 994 / 1000 
+Progress: 995 / 1000 
+Progress: 996 / 1000 
+Progress: 997 / 1000 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in lav_object_post_check(object): lavaan WARNING: covariance matrix of latent variables
+                is not positive definite;
+                use lavInspect(fit, "cov.lv") to investigate.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Progress: 998 / 1000 
+Progress: 999 / 1000 
+Progress: 1000 / 1000 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Output)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>RESULT OBJECT
+Model Type
+[1] "lavaan"
+========= Fit Indices Cutoffs ============
+           Alpha
+Fit Indices        0.1       0.05       0.01      0.001       Mean      SD
+      chisq   1963.472   1996.371   2056.987   2114.726   1852.290  88.202
+      aic   290479.837 290631.292 290869.653 291210.663 289912.656 437.059
+      bic   290854.968 291006.423 291244.784 291585.794 290287.787 437.059
+      rmsea      0.041      0.041      0.042      0.043      0.040   0.001
+      cfi        0.841      0.837      0.831      0.826      0.850   0.008
+      tli        0.820      0.816      0.808      0.803      0.831   0.009
+      srmr       0.045      0.046      0.047      0.048      0.044   0.001
+========= Parameter Estimates and Standard Errors ============
+               Estimate Average Estimate SD Average SE Power (Not equal 0)
+ML1=~s11_1R               0.661       0.058      0.053               1.000
+ML1=~s14_1R               1.027       0.070      0.065               1.000
+ML1=~s19_1                1.150       0.070      0.069               1.000
+ML1=~s23_1                0.848       0.057      0.059               1.000
+ML2=~s7_1R                0.761       0.054      0.044               1.000
+ML2=~s12_1                0.646       0.041      0.040               1.000
+ML2=~s18_1                1.015       0.049      0.049               1.000
+ML2=~s22_1                0.469       0.037      0.037               1.000
+ML3=~s8_1                 1.205       0.066      0.064               1.000
+ML3=~s13_1                1.269       0.069      0.065               1.000
+ML3=~s16_1                1.022       0.061      0.058               1.000
+ML3=~s24_1                0.996       0.060      0.057               1.000
+ML4=~s10_1                1.062       0.047      0.057               1.000
+ML4=~s15_1                1.236       0.059      0.060               1.000
+ML4=~s21_1R               0.822       0.061      0.048               1.000
+ML4=~s25_1R               0.958       0.067      0.052               1.000
+ML5=~s4_1                 0.509       0.039      0.038               1.000
+ML5=~s9_1                 0.981       0.054      0.051               1.000
+ML5=~s17_1                0.840       0.048      0.046               1.000
+ML5=~s20_1                0.702       0.047      0.043               1.000
+s6_1~~s6_1                1.006       0.026      0.026               1.000
+s11_1R~~s11_1R            1.052       0.025      0.025               1.000
+s14_1R~~s14_1R            1.045       0.028      0.027               1.000
+s19_1~~s19_1              1.064       0.029      0.029               1.000
+s23_1~~s23_1              1.054       0.026      0.026               1.000
+s5_1~~s5_1                0.993       0.027      0.027               1.000
+s7_1R~~s7_1R              1.153       0.029      0.028               1.000
+s12_1~~s12_1              1.014       0.025      0.025               1.000
+s18_1~~s18_1              1.033       0.030      0.028               1.000
+s22_1~~s22_1              1.029       0.024      0.024               1.000
+s3_1~~s3_1                0.981       0.026      0.025               1.000
+s8_1~~s8_1                1.087       0.029      0.029               1.000
+s13_1~~s13_1              1.017       0.029      0.028               1.000
+s16_1~~s16_1              1.074       0.027      0.028               1.000
+s24_1~~s24_1              1.044       0.027      0.027               1.000
+s2_1~~s2_1                1.211       0.034      0.031               1.000
+s10_1~~s10_1              1.224       0.035      0.032               1.000
+s15_1~~s15_1              0.972       0.030      0.029               1.000
+s21_1R~~s21_1R            1.092       0.030      0.027               1.000
+s25_1R~~s25_1R            1.086       0.029      0.028               1.000
+s1_1~~s1_1                0.980       0.030      0.030               1.000
+s4_1~~s4_1                1.040       0.025      0.025               1.000
+s9_1~~s9_1                1.017       0.031      0.030               1.000
+s17_1~~s17_1              0.991       0.027      0.027               1.000
+s20_1~~s20_1              1.110       0.028      0.028               1.000
+ML1~~ML1                  0.217       0.020      0.020               1.000
+ML2~~ML2                  0.343       0.026      0.025               1.000
+ML3~~ML3                  0.257       0.021      0.021               1.000
+ML4~~ML4                  0.330       0.029      0.026               1.000
+ML5~~ML5                  0.417       0.031      0.030               1.000
+ML1~~ML2                  0.194       0.013      0.013               1.000
+ML1~~ML3                  0.178       0.013      0.012               1.000
+ML1~~ML4                  0.113       0.011      0.010               1.000
+ML1~~ML5                 -0.133       0.014      0.011               1.000
+ML2~~ML3                  0.186       0.015      0.012               1.000
+ML2~~ML4                  0.276       0.016      0.016               1.000
+ML2~~ML5                 -0.184       0.015      0.014               1.000
+ML3~~ML4                  0.160       0.013      0.011               1.000
+ML3~~ML5                 -0.005       0.009      0.009               0.089
+ML4~~ML5                 -0.150       0.013      0.012               1.000
+               Std Est Std Est SD Std Ave SE Average Param Average Bias
+ML1=~s11_1R      0.287      0.021      0.019         0.149        0.512
+ML1=~s14_1R      0.423      0.019      0.018         0.286        0.741
+ML1=~s19_1       0.460      0.019      0.017         0.546        0.603
+ML1=~s23_1       0.358      0.020      0.018         0.379        0.469
+ML2=~s7_1R       0.382      0.020      0.017         0.556        0.205
+ML2=~s12_1       0.351      0.018      0.017         0.209        0.437
+ML2=~s18_1       0.504      0.017      0.016         0.250        0.765
+ML2=~s22_1       0.261      0.018      0.018         0.149        0.319
+ML3=~s8_1        0.505      0.017      0.016         0.014        1.190
+ML3=~s13_1       0.537      0.016      0.016        -0.093        1.361
+ML3=~s16_1       0.446      0.018      0.017         0.014        1.008
+ML3=~s24_1       0.442      0.017      0.017        -0.003        0.999
+ML4=~s10_1       0.482      0.019      0.016        -0.004        1.066
+ML4=~s15_1       0.583      0.016      0.015         0.014        1.221
+ML4=~s21_1R      0.411      0.020      0.017        -0.005        0.827
+ML4=~s25_1R      0.466      0.019      0.016         0.059        0.898
+ML5=~s4_1        0.306      0.020      0.019         0.329        0.180
+ML5=~s9_1        0.531      0.018      0.017         0.428        0.553
+ML5=~s17_1       0.477      0.018      0.018         0.355        0.484
+ML5=~s20_1       0.394      0.020      0.018         0.169        0.533
+s6_1~~s6_1       0.823      0.015      0.015         1.000        0.006
+s11_1R~~s11_1R   0.917      0.012      0.011         1.000        0.052
+s14_1R~~s14_1R   0.821      0.016      0.015         1.000        0.045
+s19_1~~s19_1     0.788      0.017      0.016         1.000        0.064
+s23_1~~s23_1     0.871      0.014      0.013         1.000        0.054
+s5_1~~s5_1       0.744      0.017      0.016         1.000       -0.007
+s7_1R~~s7_1R     0.853      0.015      0.013         1.000        0.153
+s12_1~~s12_1     0.877      0.012      0.012         1.000        0.014
+s18_1~~s18_1     0.746      0.017      0.016         1.000        0.033
+s22_1~~s22_1     0.932      0.009      0.009         1.000        0.029
+s3_1~~s3_1       0.792      0.015      0.015         1.000       -0.019
+s8_1~~s8_1       0.745      0.017      0.016         1.000        0.087
+s13_1~~s13_1     0.712      0.018      0.017         1.000        0.017
+s16_1~~s16_1     0.800      0.016      0.015         1.000        0.074
+s24_1~~s24_1     0.804      0.015      0.015         1.000        0.044
+s2_1~~s2_1       0.786      0.017      0.015         1.000        0.211
+s10_1~~s10_1     0.767      0.018      0.016         1.000        0.224
+s15_1~~s15_1     0.659      0.019      0.018         1.000       -0.028
+s21_1R~~s21_1R   0.831      0.016      0.014         1.000        0.092
+s25_1R~~s25_1R   0.783      0.017      0.015         1.000        0.086
+s1_1~~s1_1       0.702      0.019      0.019         1.000       -0.020
+s4_1~~s4_1       0.906      0.012      0.012         1.000        0.040
+s9_1~~s9_1       0.718      0.019      0.018         1.000        0.017
+s17_1~~s17_1     0.772      0.017      0.017         1.000       -0.009
+s20_1~~s20_1     0.844      0.015      0.015         1.000        0.110
+ML1~~ML1         1.000      0.000      0.000         1.000       -0.783
+ML2~~ML2         1.000      0.000      0.000         1.000       -0.657
+ML3~~ML3         1.000      0.000      0.000         1.000       -0.743
+ML4~~ML4         1.000      0.000      0.000         1.000       -0.670
+ML5~~ML5         1.000      0.000      0.000         1.000       -0.583
+ML1~~ML2         0.714      0.028      0.027         0.000        0.194
+ML1~~ML3         0.756      0.025      0.024         0.000        0.178
+ML1~~ML4         0.424      0.028      0.028         0.000        0.113
+ML1~~ML5        -0.442      0.036      0.028         0.000       -0.133
+ML2~~ML3         0.627      0.027      0.025         0.000        0.186
+ML2~~ML4         0.822      0.023      0.022         0.000        0.276
+ML2~~ML5        -0.487      0.031      0.027         0.000       -0.184
+ML3~~ML4         0.550      0.023      0.023         0.000        0.160
+ML3~~ML5        -0.015      0.028      0.027         0.000       -0.005
+ML4~~ML5        -0.406      0.032      0.025         0.000       -0.150
+               Coverage
+ML1=~s11_1R       0.000
+ML1=~s14_1R       0.000
+ML1=~s19_1        0.000
+ML1=~s23_1        0.000
+ML2=~s7_1R        0.007
+ML2=~s12_1        0.000
+ML2=~s18_1        0.000
+ML2=~s22_1        0.000
+ML3=~s8_1         0.000
+ML3=~s13_1        0.000
+ML3=~s16_1        0.000
+ML3=~s24_1        0.000
+ML4=~s10_1        0.000
+ML4=~s15_1        0.000
+ML4=~s21_1R       0.000
+ML4=~s25_1R       0.000
+ML5=~s4_1         0.003
+ML5=~s9_1         0.000
+ML5=~s17_1        0.000
+ML5=~s20_1        0.000
+s6_1~~s6_1        0.949
+s11_1R~~s11_1R    0.453
+s14_1R~~s14_1R    0.633
+s19_1~~s19_1      0.372
+s23_1~~s23_1      0.463
+s5_1~~s5_1        0.939
+s7_1R~~s7_1R      0.000
+s12_1~~s12_1      0.922
+s18_1~~s18_1      0.771
+s22_1~~s22_1      0.786
+s3_1~~s3_1        0.878
+s8_1~~s8_1        0.132
+s13_1~~s13_1      0.910
+s16_1~~s16_1      0.220
+s24_1~~s24_1      0.630
+s2_1~~s2_1        0.000
+s10_1~~s10_1      0.000
+s15_1~~s15_1      0.821
+s21_1R~~s21_1R    0.083
+s25_1R~~s25_1R    0.144
+s1_1~~s1_1        0.897
+s4_1~~s4_1        0.660
+s9_1~~s9_1        0.928
+s17_1~~s17_1      0.936
+s20_1~~s20_1      0.023
+ML1~~ML1          0.000
+ML2~~ML2          0.000
+ML3~~ML3          0.000
+ML4~~ML4          0.000
+ML5~~ML5          0.000
+ML1~~ML2          0.000
+ML1~~ML3          0.000
+ML1~~ML4          0.000
+ML1~~ML5          0.000
+ML2~~ML3          0.000
+ML2~~ML4          0.000
+ML2~~ML5          0.000
+ML3~~ML4          0.000
+ML3~~ML5          0.911
+ML4~~ML5          0.000
+========= Correlation between Fit Indices ============
+       chisq    aic    bic  rmsea    cfi    tli   srmr
+chisq  1.000  0.223  0.223  1.000 -0.879 -0.879  0.929
+aic    0.223  1.000  1.000  0.223 -0.193 -0.193  0.218
+bic    0.223  1.000  1.000  0.223 -0.193 -0.193  0.218
+rmsea  1.000  0.223  0.223  1.000 -0.879 -0.879  0.930
+cfi   -0.879 -0.193 -0.193 -0.879  1.000  1.000 -0.839
+tli   -0.879 -0.193 -0.193 -0.879  1.000  1.000 -0.839
+srmr   0.929  0.218  0.218  0.930 -0.839 -0.839  1.000
+================== Replications =====================
+Number of replications = 1000 
+Number of converged replications = 985 
+Number of nonconverged replications: 
+   1. Nonconvergent Results = 0 
+   2. Nonconvergent results from multiple imputation = 0 
+   3. At least one SE were negative or NA = 0 
+   4. Nonpositive-definite latent or observed (residual) covariance matrix 
+      (e.g., Heywood case or linear dependency) = 15 </code></pre>
+</div>
+</div>
+</section>
+<section id="estimation-via-rmsea" class="level2">
+<h2 class="anchored" data-anchor-id="estimation-via-rmsea">Estimation via RMSEA</h2>
+<p>Obtain the df of a model provided as lavaan model string (this requires the lavaan package):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(semPower)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+### Welcome to semPower 2.0.1 ###
+
+See https://github.com/moshagen/semPower for quick examples.
+See https://moshagen.github.io/semPower/ for a detailed manual.
+
+Please cite as:
+Moshagen, M., &amp; Erdfelder, E. (2016). A new strategy for testing structural equation models.
+Structural Equation Modeling, 23, 54-60. doi: 10.1080/10705511.2014.950896</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">semPower.getDf</span>(esem_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 190</code></pre>
+</div>
+</div>
+<p>Determine the achieved power with a sample size of N = 3836 to detect misspecifications of a model (involving df = 190 degrees of freedom) corresponding to RMSEA = .05 on an alpha error of .05:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>ph <span class="ot">&lt;-</span> <span class="fu">semPower.postHoc</span>(<span class="at">effect =</span> .<span class="dv">05</span>, <span class="at">effect.measure =</span> <span class="st">'RMSEA'</span>,</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">alpha =</span> .<span class="dv">05</span>, <span class="at">N =</span> <span class="dv">3836</span>, <span class="at">df =</span> <span class="dv">190</span>)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ semPower: Post hoc power analysis
+                                       
+ F0                       0.475000     
+ RMSEA                    0.050000     
+ Mc                       0.788597     
+                                       
+ df                       190          
+ Num Observations         3836         
+ NCP                      1821.625     
+                                       
+ Critical Chi-Square      223.1602     
+ Alpha                    0.050000     
+ Beta                     7.104010e-216
+ Power (1 - Beta)         &gt; 0.9999     
+ Implied Alpha/Beta Ratio 7.038279e+213</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="sample-size_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Determine the critical chi-square such that the associated alpha and beta errors are equal, assuming sample size of N = 1000, a model involving df = 100 degrees of freedom, and misspecifications corresponding to RMSEA = .05:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>cp <span class="ot">&lt;-</span> <span class="fu">semPower.compromise</span>(<span class="at">effect =</span> .<span class="dv">05</span>, <span class="at">effect.measure =</span> <span class="st">'RMSEA'</span>,</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">abratio =</span> <span class="dv">1</span>, <span class="at">N =</span> <span class="dv">3836</span>, <span class="at">df =</span> <span class="dv">190</span>)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ semPower: Compromise power analysis
+                                      
+ F0                       0.475000    
+ RMSEA                    0.050000    
+ Mc                       0.788597    
+                                      
+ df                       190         
+ Num Observations         3836        
+ Desired Alpha/Beta Ratio 1.000000    
+                                      
+ Critical Chi-Square      767.6910    
+ Implied Alpha            1.967231e-70
+ Implied Beta             1.967231e-70
+ Implied Power (1 - Beta) &gt; 0.9999    
+ Actual Alpha/Beta Ratio  1.000000    </code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="sample-size_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Plot power as function of the sample size to detect misspecifications corresponding to RMSEA = .05 (assuming df = 190) on alpha = .05:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">semPower.powerPlot.byN</span>(<span class="at">effect =</span> .<span class="dv">05</span>, <span class="at">effect.measure =</span> <span class="st">'RMSEA'</span>,</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">alpha =</span> .<span class="dv">05</span>, <span class="at">df =</span> <span class="dv">190</span>, <span class="at">power.min =</span> .<span class="dv">05</span>, <span class="at">power.max =</span> .<span class="dv">99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="sample-size_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Plot power as function of the magnitude of effect (measured through the RMSEA assuming df = 100) at N = 500 on alpha = .05:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">semPower.powerPlot.byEffect</span>(<span class="at">effect.measure =</span> <span class="st">'RMSEA'</span>, <span class="at">alpha =</span> .<span class="dv">05</span>, <span class="at">N =</span> <span class="dv">500</span>,</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">df =</span> <span class="dv">190</span>, <span class="at">effect.min =</span> .<span class="dv">001</span>, <span class="at">effect.max =</span> .<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="sample-size_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<hr>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References:</h3>
+<p>MacCallum RC, Browne MW, Sugawara HM. Power analysis and determination of sample size for covariance structure modeling. Psychol Methods. (1996) 1:130–49. doi: 10.1037/1082-989X.1.2.130</p>
+<p>Muthén LK, Muthén BO. How to use a Monte Carlo study to decide on sample size and determine power. Struct Equ Model. (2002) 9:599–620. doi: 10.1207/S15328007SEM0904_8</p>
+<p>Satorra A, Saris WE. Power of the likelihood ratio test in covariance structure analysis. Psychometrika. (1985) 50:83–90. doi: 10.1007/BF02294150</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
